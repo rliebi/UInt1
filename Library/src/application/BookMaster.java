@@ -17,6 +17,8 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JList;
 
+import domain.Library;
+
 public class BookMaster {
 
 	private static final String label_NUMBER_OF_TITELS = "Number of Titels: ";
@@ -24,7 +26,6 @@ public class BookMaster {
 	private static final String TabLabel_LENDING = "Lending";
 	private static final String bookTabLabel = "Books";
 	private JFrame frame;
-
 	/**
 	 * Launch the application.
 	 */
@@ -100,7 +101,7 @@ public class BookMaster {
 		gbc_lblNumberOfBooks.gridy = 0;
 		panelInventoryStatistik.add(lblNumberOfTitles, gbc_lblNumberOfBooks);
 		
-		JLabel lblvarNumberOfTitles = new JLabel("Number");
+		JLabel lblvarNumberOfTitles = new JLabel("NumberText");
 		GridBagConstraints gbc_lblNumber_2 = new GridBagConstraints();
 		gbc_lblNumber_2.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNumber_2.gridx = 1;
