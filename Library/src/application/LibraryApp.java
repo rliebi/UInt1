@@ -25,6 +25,7 @@ public class LibraryApp {
 	public static void main(String[] args) throws Exception {
 		Library library = new Library();
 		initLibrary(library);
+		@SuppressWarnings("unused")
 		BookMaster bookmaster = new BookMaster(library);
 	}
 

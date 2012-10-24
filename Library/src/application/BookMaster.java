@@ -1,21 +1,15 @@
 package application;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
-import javax.swing.JList;
 
 import domain.Library;
 import javax.swing.JTable;
