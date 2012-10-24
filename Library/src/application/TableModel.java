@@ -14,7 +14,7 @@ class TableModel extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Book> wordsList;
-	String headerList[] = new String[] { "Col1", "Col2", "Col3", "Col4", "Col5" };
+	String headerList[] = new String[] { "Name", "Author", "Publisher", "Regal"};
 
 	public TableModel(List<Book> list) {
 		wordsList = list;
@@ -22,7 +22,7 @@ class TableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 5;
+		return 4;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ class TableModel extends AbstractTableModel {
 		switch (column) {
 
 		case 0:
-			return entity.getAuthor();
+			return entity.getName();
 		case 1:
 			return entity.getName();
 		case 2:
