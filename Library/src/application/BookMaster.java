@@ -43,7 +43,6 @@ public class BookMaster {
 		this.library = library;
 		initialize();
 		frame.setVisible(true);	
-		
 	}
 
 	public void listBooks(){
