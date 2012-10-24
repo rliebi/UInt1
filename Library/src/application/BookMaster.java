@@ -18,37 +18,44 @@ import javax.swing.JButton;
 import javax.swing.JList;
 
 import domain.Library;
+import javax.swing.JTable;
 
 public class BookMaster {
-
+	private Library library;
 	private static final String label_NUMBER_OF_TITELS = "Number of Titels: ";
 	private static final String borderLabel_INVENTORY_STATISTICS = "Inventory Statistics";
 	private static final String TabLabel_LENDING = "Lending";
 	private static final String bookTabLabel = "Books";
 	private JFrame frame;
+	private JTable table;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BookMaster window = new BookMaster();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					BookMaster window = new BookMaster();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
-	/**
-	 * Create the application.
-	 */
-	public BookMaster() {
+
+	public BookMaster(Library library) {
+		this.library = library;
 		initialize();
+		frame.setVisible(true);	
+		
 	}
 
+	public void listBooks(){
+		
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -101,21 +108,21 @@ public class BookMaster {
 		gbc_lblNumberOfBooks.gridy = 0;
 		panelInventoryStatistik.add(lblNumberOfTitles, gbc_lblNumberOfBooks);
 		
-		JLabel lblvarNumberOfTitles = new JLabel("NumberText");
+		JLabel lblvarNumberOfTitles = new JLabel(library.getBooks().size() + "");
 		GridBagConstraints gbc_lblNumber_2 = new GridBagConstraints();
 		gbc_lblNumber_2.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNumber_2.gridx = 1;
 		gbc_lblNumber_2.gridy = 0;
 		panelInventoryStatistik.add(lblvarNumberOfTitles, gbc_lblNumber_2);
 		
-		JLabel lblNumberOfBooks_1 = new JLabel("Number of Books: ");
+		JLabel lblNumberOfBooks_1 = new JLabel("Number of Books");
 		GridBagConstraints gbc_lblNumberOfBooks_1 = new GridBagConstraints();
 		gbc_lblNumberOfBooks_1.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNumberOfBooks_1.gridx = 3;
 		gbc_lblNumberOfBooks_1.gridy = 0;
 		panelInventoryStatistik.add(lblNumberOfBooks_1, gbc_lblNumberOfBooks_1);
 		
-		JLabel lblNumber_1 = new JLabel("number");
+		JLabel lblNumber_1 = new JLabel(library.getCopies().size() + "");
 		GridBagConstraints gbc_lblNumber_1 = new GridBagConstraints();
 		gbc_lblNumber_1.gridx = 4;
 		gbc_lblNumber_1.gridy = 0;
@@ -131,18 +138,18 @@ public class BookMaster {
 		GridBagLayout gbl_panelBookInventory = new GridBagLayout();
 		gbl_panelBookInventory.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panelBookInventory.rowHeights = new int[]{0, 0, 0};
-		gbl_panelBookInventory.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBookInventory.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panelBookInventory.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panelBookInventory.setLayout(gbl_panelBookInventory);
 		
-		JList list = new JList();
-		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.gridwidth = 5;
-		gbc_list.insets = new Insets(0, 0, 5, 5);
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.gridx = 0;
-		gbc_list.gridy = 0;
-		panelBookInventory.add(list, gbc_list);
+		table = new JTable();
+		GridBagConstraints gbc_table = new GridBagConstraints();
+		gbc_table.gridwidth = 5;
+		gbc_table.insets = new Insets(0, 0, 5, 5);
+		gbc_table.fill = GridBagConstraints.BOTH;
+		gbc_table.gridx = 0;
+		gbc_table.gridy = 0;
+		panelBookInventory.add(table, gbc_table);
 		
 		JLabel lblSelected = new JLabel("Selected: ");
 		GridBagConstraints gbc_lblSelected = new GridBagConstraints();
