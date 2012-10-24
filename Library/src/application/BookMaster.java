@@ -13,6 +13,7 @@ import javax.swing.JButton;
 
 import domain.Library;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class BookMaster {
 	private Library library;
@@ -25,6 +26,7 @@ public class BookMaster {
 	/**
 	 * Launch the application.
 	 */
+	
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
@@ -42,8 +44,7 @@ public class BookMaster {
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
-		frame.setVisible(true);	
-		
+		frame.setVisible(true);
 		
 	}
 
@@ -131,20 +132,23 @@ public class BookMaster {
 		gbc_panel2.gridy = 1;
 		bookTab.add(panelBookInventory, gbc_panel2);
 		GridBagLayout gbl_panelBookInventory = new GridBagLayout();
-		gbl_panelBookInventory.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panelBookInventory.columnWidths = new int[]{0, 0, 0, 0, 0};
 		gbl_panelBookInventory.rowHeights = new int[]{0, 0, 0};
-		gbl_panelBookInventory.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBookInventory.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panelBookInventory.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panelBookInventory.setLayout(gbl_panelBookInventory);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 0;
+		panelBookInventory.add(scrollPane, gbc_scrollPane);
+		
 		table = new JTable();
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.gridwidth = 5;
-		gbc_table.insets = new Insets(0, 0, 5, 5);
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 0;
-		gbc_table.gridy = 0;
-		panelBookInventory.add(table, gbc_table);
+		scrollPane.setViewportView(table);
 		
 		JLabel lblSelected = new JLabel("Selected: ");
 		GridBagConstraints gbc_lblSelected = new GridBagConstraints();
@@ -166,13 +170,13 @@ public class BookMaster {
 		GridBagConstraints gbc_btnDisplaySelected = new GridBagConstraints();
 		gbc_btnDisplaySelected.anchor = GridBagConstraints.EAST;
 		gbc_btnDisplaySelected.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDisplaySelected.gridx = 3;
+		gbc_btnDisplaySelected.gridx = 2;
 		gbc_btnDisplaySelected.gridy = 1;
 		panelBookInventory.add(btnDisplaySelected, gbc_btnDisplaySelected);
 		
 		JButton btnAddNewBook = new JButton("Add new Book");
 		GridBagConstraints gbc_btnAddNewBook = new GridBagConstraints();
-		gbc_btnAddNewBook.gridx = 4;
+		gbc_btnAddNewBook.gridx = 3;
 		gbc_btnAddNewBook.gridy = 1;
 		panelBookInventory.add(btnAddNewBook, gbc_btnAddNewBook);
 		
