@@ -138,7 +138,7 @@ public class BookMaster {
 		GridBagLayout gbl_panelBookInventory = new GridBagLayout();
 		gbl_panelBookInventory.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panelBookInventory.rowHeights = new int[]{0, 0, 0};
-		gbl_panelBookInventory.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBookInventory.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panelBookInventory.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panelBookInventory.setLayout(gbl_panelBookInventory);
 		
