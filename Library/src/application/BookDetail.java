@@ -200,7 +200,7 @@ public class BookDetail implements Observer{
 		gbl_panel_2.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
 		
-		JLabel label = new JLabel("Anzahl 8");
+		JLabel label = new JLabel(bookCountLabel +" 8");
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.anchor = GridBagConstraints.WEST;
 		gbc_label.insets = new Insets(0, 0, 0, 5);
