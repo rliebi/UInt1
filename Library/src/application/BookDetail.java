@@ -18,13 +18,7 @@ import java.util.Observer;
 import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
-import java.awt.GridLayout;
 import javax.swing.JList;
-
-import domain.Book;
 
 public class BookDetail implements Observer{
 	private String bookTitleLabelText = "Titel+";
