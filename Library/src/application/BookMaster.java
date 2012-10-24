@@ -15,7 +15,6 @@ import domain.Library;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
-public class BookMaster {
 	private Library library;
 	private static final String label_NUMBER_OF_TITELS = "Number of Titels: ";
 	private static final String borderLabel_INVENTORY_STATISTICS = "Inventory Statistics";
