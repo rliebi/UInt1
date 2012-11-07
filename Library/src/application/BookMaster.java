@@ -12,6 +12,8 @@ import java.awt.Insets;
 import javax.swing.JButton;
 
 import domain.Library;
+import domain.TableModel;
+
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
