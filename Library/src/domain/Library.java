@@ -37,12 +37,16 @@ public class Library extends Observable{
 	public Book createAndAddBook(String name) {
 		Book b = new Book(name);
 		books.add(b);
+		setChanged();
+		notifyObservers();
 		return b;
 	}
 
 	public Copy createAndAddCopy(Book title) {
 		Copy c = new Copy(title);
 		copies.add(c);
+		setChanged();
+		notifyObservers();
 		return c;
 	}
 
