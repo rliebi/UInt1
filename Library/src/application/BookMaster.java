@@ -90,12 +90,12 @@ class BookMaster implements Observer{
 		JPanel panelInventoryStatistik = new JPanel();
 		panelInventoryStatistik.setBackground(background_Color);
 		panelInventoryStatistik.setBorder(new TitledBorder(null, borderLabel_INVENTORY_STATISTICS, TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		bookTab.add(panelInventoryStatistik, gbc_panel);
+		GridBagConstraints gbc_panelLendingStatistik = new GridBagConstraints();
+		gbc_panelLendingStatistik.insets = new Insets(0, 0, 5, 0);
+		gbc_panelLendingStatistik.fill = GridBagConstraints.BOTH;
+		gbc_panelLendingStatistik.gridx = 0;
+		gbc_panelLendingStatistik.gridy = 0;
+		bookTab.add(panelInventoryStatistik, gbc_panelLendingStatistik);
 		GridBagLayout gbl_panelInventoryStatistik = new GridBagLayout();
 		gbl_panelInventoryStatistik.columnWidths = new int[]{0, 0, 50, 0, 0, 0};
 		gbl_panelInventoryStatistik.rowHeights = new int[]{0, 0};
@@ -255,19 +255,15 @@ class BookMaster implements Observer{
 		//------------Button Add new Book--------
 		
 		JPanel lendingTab = new JPanel();
+		lendingTab.setBackground(background_Color);
 		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
 		GridBagLayout gbl_lendingTab = new GridBagLayout();
-		gbl_lendingTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_lendingTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_lendingTab.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_lendingTab.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_lendingTab.columnWidths = new int[]{0, 0};
+		gbl_lendingTab.rowHeights = new int[]{48, 0, 0};
+		gbl_lendingTab.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_lendingTab.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		lendingTab.setLayout(gbl_lendingTab);
 		
-		JLabel lblTetst = new JLabel("tetst");
-		GridBagConstraints gbc_lblTetst = new GridBagConstraints();
-		gbc_lblTetst.gridx = 10;
-		gbc_lblTetst.gridy = 6;
-		lendingTab.add(lblTetst, gbc_lblTetst);
 	}
 
 	private void reset_search() {
