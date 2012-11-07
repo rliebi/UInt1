@@ -14,8 +14,7 @@ import javax.swing.JButton;
 import domain.Library;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-
-public class BookMaster {
+class BookMaster{
 	private Library library;
 	private static final String label_NUMBER_OF_TITELS = "Number of Titels: ";
 	private static final String borderLabel_INVENTORY_STATISTICS = "Inventory Statistics";
@@ -149,7 +148,7 @@ public class BookMaster {
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
+		table.setModel(new TableModel(library.getBooks()));
 		JLabel lblSelected = new JLabel("Selected: ");
 		GridBagConstraints gbc_lblSelected = new GridBagConstraints();
 		gbc_lblSelected.anchor = GridBagConstraints.WEST;
