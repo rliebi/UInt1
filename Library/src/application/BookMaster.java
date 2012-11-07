@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import domain.Library;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.Dimension;
 class BookMaster{
 	private Library library;
 	private static final String label_NUMBER_OF_TITELS = "Number of Titels: ";
@@ -56,6 +57,7 @@ class BookMaster{
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setMinimumSize(new Dimension(500, 600));
 		frame.setBounds(100, 100, 567, 610);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
