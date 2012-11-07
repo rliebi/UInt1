@@ -25,7 +25,7 @@ public class TableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return headerList.length;
 	}
 
 	@Override
