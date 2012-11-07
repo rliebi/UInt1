@@ -16,6 +16,8 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 class BookMaster{
+	private static final int minimum_window_height = 600;
+	private static final int minimum_window_witdh = 500;
 	private Library library;
 	private static final String label_NUMBER_OF_TITELS = "Number of Titels: ";
 	private static final String borderLabel_INVENTORY_STATISTICS = "Inventory Statistics";
@@ -57,7 +59,7 @@ class BookMaster{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setMinimumSize(new Dimension(500, 600));
+		frame.setMinimumSize(new Dimension(minimum_window_witdh, minimum_window_height));
 		frame.setBounds(100, 100, 567, 610);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
