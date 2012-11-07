@@ -1,20 +1,23 @@
-package application;
+package domain;
 
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
 
-import domain.Book;
 
-class TableModel extends AbstractTableModel {
+public class TableModel extends AbstractTableModel {
 
+	private static final String REGAL = "Regal";
+	private static final String PUBLISHER = "Publisher";
+	private static final String AUTHOR = "Author";
+	private static final String NAME = "Name";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Book> wordsList;
-	String headerList[] = new String[] { "Name", "Author", "Publisher", "Regal"};
+	String headerList[] = new String[] { NAME, AUTHOR, PUBLISHER, REGAL};
 
 	public TableModel(List<Book> list) {
 		wordsList = list;
