@@ -20,6 +20,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JList;
 
+import domain.Book;
+
 public class BookDetail implements Observer{
 	private String bookTitleLabelText = "Titel+";
 	private String bookAuthorLabel = "Author+";
@@ -36,28 +38,18 @@ public class BookDetail implements Observer{
 	private JTextField txtFieldBookAuthor;
 	private JTextField txtFieldBookPublisher;
 	private JTextField txtFieldShelfNumber;
+	private Book theBook;
 //	static private Book book = new Book();
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BookDetail window = new BookDetail();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the application.
 	 */
 	public BookDetail() {
+		
+		
 		initialize();
+		
 	}
 
 	/**
@@ -66,9 +58,10 @@ public class BookDetail implements Observer{
 	private void initialize() {
 		
 		frame = new JFrame(windowTitle);
+		
 		frame.setMinimumSize(new Dimension(460, 290));
 		frame.setBounds(100, 100, 650, 511);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{225,0};
 		gridBagLayout.rowHeights = new int[]{0,50};
@@ -225,11 +218,18 @@ public class BookDetail implements Observer{
 		gbc_list.gridy = 1;
 		panel_1.add(list, gbc_list);
 	}
-
+	public void setVisible(){
+		frame.setVisible(true);
+	}
 	@Override
 	public void update(Observable o, Object arg) {
 //		txtFieldBookTitle.setText(book.getISBN());
 //		txtFieldBookAuthor.setText(book.getAuthor());
+		txtFieldBookAuthor.setText(theBook.getAuthor());
+		txtFieldBookPublisher.setText(theBook.getPublisher());
+		txtFieldBookTitle.setText(theBook.getName());
 	}
-
+	public void setBook(Book book){
+		this.theBook = book;
+	}
 }

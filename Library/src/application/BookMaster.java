@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
@@ -16,10 +18,14 @@ import domain.TableModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
+
 import java.util.Observable;
 import java.util.Observer;
-
-class BookMaster implements Observer{
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+class BookMaster{
 	private static final int minimum_window_height = 600;
 	private static final int minimum_window_witdh = 500;
 	private Library library;
@@ -29,17 +35,20 @@ class BookMaster implements Observer{
 	private static final String bookTabLabel = "Books";
 	private JFrame frame;
 	private JTable table;
+
 	private JLabel Display_number_of_titles;
 	private JLabel Display_number_of_books;
+
+	JLabel lblSelectednumber = new JLabel("selectedNumber");
+	private BookDetail detailwindow = new BookDetail();
 	/**
-	 * Launch the application.
+	 * Launch the application
 	 */
 
 
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
-		library.addObserver(this);
 		frame.setVisible(true);
 	}
 	
@@ -140,6 +149,16 @@ class BookMaster implements Observer{
 		panelBookInventory.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+		    public void valueChanged(ListSelectionEvent lse) {
+		        if (!lse.getValueIsAdjusting()) {
+		        		lblSelectednumber.setText(table.getSelectedRows().length+"");
+		        }
+		    }
+		});
+		
+
 		scrollPane.setViewportView(table);
 		table.setModel(new TableModel(library.getBooks()));
 		JLabel lblSelected = new JLabel("Selected: ");
@@ -150,7 +169,7 @@ class BookMaster implements Observer{
 		gbc_lblSelected.gridy = 1;
 		panelBookInventory.add(lblSelected, gbc_lblSelected);
 		
-		JLabel lblSelectednumber = new JLabel("selectedNumber");
+		
 		GridBagConstraints gbc_lblSelectednumber = new GridBagConstraints();
 		gbc_lblSelectednumber.anchor = GridBagConstraints.WEST;
 		gbc_lblSelectednumber.insets = new Insets(0, 0, 0, 5);
@@ -160,6 +179,12 @@ class BookMaster implements Observer{
 		
 		JButton btnDisplaySelected = new JButton("Display Selected");
 
+		btnDisplaySelected.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				detailwindow.setVisible();
+				System.out.println(table.getSelectedRow());
+			}
+		});
 		GridBagConstraints gbc_btnDisplaySelected = new GridBagConstraints();
 		gbc_btnDisplaySelected.anchor = GridBagConstraints.EAST;
 		gbc_btnDisplaySelected.insets = new Insets(0, 0, 0, 5);
@@ -176,11 +201,4 @@ class BookMaster implements Observer{
 		JPanel lendingTab = new JPanel();
 		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		Display_number_of_titles.setText(library.getBooks().size() + "");
-		Display_number_of_books.setText(library.getCopies().size() + "");
-	}
-
 }
