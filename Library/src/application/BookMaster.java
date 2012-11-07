@@ -18,14 +18,16 @@ import domain.TableModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
-
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+
 class BookMaster{
+
+
 	private static final int minimum_window_height = 600;
 	private static final int minimum_window_witdh = 500;
 	private Library library;
@@ -35,15 +37,10 @@ class BookMaster{
 	private static final String bookTabLabel = "Books";
 	private JFrame frame;
 	private JTable table;
-
 	private JLabel Display_number_of_titles;
 	private JLabel Display_number_of_books;
-
 	JLabel lblSelectednumber = new JLabel("selectedNumber");
 	private BookDetail detailwindow = new BookDetail();
-	/**
-	 * Launch the application
-	 */
 
 
 	public BookMaster(Library library) {
