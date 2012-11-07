@@ -37,6 +37,7 @@ import java.awt.event.KeyEvent;
 class BookMaster implements Observer{
 
 
+	private static final Color background_Color = new Color(226, 226, 226);
 	private static final int minimum_window_height = 700;
 	private static final int minimum_window_witdh = 600;
 	private static final String label_NUMBER_OF_TITELS = "Number of Titels: ";
@@ -45,8 +46,8 @@ class BookMaster implements Observer{
 	private static final String bookTabLabel = "Books";
 	private JFrame frame;
 	private JTable table;
-	private JLabel Display_number_of_titles;
-	private JLabel Display_number_of_books;
+	private JLabel display_number_of_titles;
+	private JLabel display_number_of_books;
 	JLabel lblSelectednumber = new JLabel("0");
 	private Library library;
 	private BookDetail detailwindow = new BookDetail();
@@ -87,6 +88,7 @@ class BookMaster implements Observer{
 		bookTab.setLayout(gbl_bookTab);
 		
 		JPanel panelInventoryStatistik = new JPanel();
+		panelInventoryStatistik.setBackground(background_Color);
 		panelInventoryStatistik.setBorder(new TitledBorder(null, borderLabel_INVENTORY_STATISTICS, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 5, 0);
@@ -108,12 +110,12 @@ class BookMaster implements Observer{
 		gbc_lblNumberOfBooks.gridy = 0;
 		panelInventoryStatistik.add(lblNumberOfTitles, gbc_lblNumberOfBooks);
 		
-		Display_number_of_titles = new JLabel(library.getBooks().size() + "");
+		display_number_of_titles = new JLabel(library.getBooks().size() + "");
 		GridBagConstraints gbc_lblNumber_2 = new GridBagConstraints();
 		gbc_lblNumber_2.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNumber_2.gridx = 1;
 		gbc_lblNumber_2.gridy = 0;
-		panelInventoryStatistik.add(Display_number_of_titles, gbc_lblNumber_2);
+		panelInventoryStatistik.add(display_number_of_titles, gbc_lblNumber_2);
 		
 		JLabel lblNumberOfBooks_1 = new JLabel("Number of Books");
 		GridBagConstraints gbc_lblNumberOfBooks_1 = new GridBagConstraints();
@@ -122,13 +124,14 @@ class BookMaster implements Observer{
 		gbc_lblNumberOfBooks_1.gridy = 0;
 		panelInventoryStatistik.add(lblNumberOfBooks_1, gbc_lblNumberOfBooks_1);
 		
-		Display_number_of_books = new JLabel(library.getCopies().size() + "");
+		display_number_of_books = new JLabel(library.getCopies().size() + "");
 		GridBagConstraints gbc_lblNumber_1 = new GridBagConstraints();
 		gbc_lblNumber_1.gridx = 4;
 		gbc_lblNumber_1.gridy = 0;
-		panelInventoryStatistik.add(Display_number_of_books, gbc_lblNumber_1);
+		panelInventoryStatistik.add(display_number_of_books, gbc_lblNumber_1);
 		
 		JPanel panelBookInventory = new JPanel();
+		panelBookInventory.setBackground(background_Color);
 		panelBookInventory.setBorder(new TitledBorder(null, "Book Inventory", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel2 = new GridBagConstraints();
 		gbc_panel2.fill = GridBagConstraints.BOTH;
@@ -171,7 +174,6 @@ class BookMaster implements Observer{
 		gbc_lblSelected.gridx = 0;
 		gbc_lblSelected.gridy = 1;
 		panelBookInventory.add(lblSelected, gbc_lblSelected);
-		
 		final TableRowSorter<TableModel> sorter = new TableRowSorter(table.getModel()); 
 		table.setRowSorter(sorter);
 		//---------JTable---------------------
@@ -254,6 +256,18 @@ class BookMaster implements Observer{
 		
 		JPanel lendingTab = new JPanel();
 		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
+		GridBagLayout gbl_lendingTab = new GridBagLayout();
+		gbl_lendingTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_lendingTab.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_lendingTab.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_lendingTab.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		lendingTab.setLayout(gbl_lendingTab);
+		
+		JLabel lblTetst = new JLabel("tetst");
+		GridBagConstraints gbc_lblTetst = new GridBagConstraints();
+		gbc_lblTetst.gridx = 10;
+		gbc_lblTetst.gridy = 6;
+		lendingTab.add(lblTetst, gbc_lblTetst);
 	}
 
 	private void reset_search() {
@@ -264,7 +278,7 @@ class BookMaster implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		Display_number_of_titles.setText(library.getBooks().size() + "");
-		Display_number_of_books.setText(library.getCopies().size() + "");		
+		display_number_of_titles.setText(library.getBooks().size() + "");
+		display_number_of_books.setText(library.getCopies().size() + "");		
 	}
 }
