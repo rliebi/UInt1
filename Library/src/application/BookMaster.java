@@ -18,14 +18,12 @@ import domain.TableModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
-import java.util.Observable;
-import java.util.Observer;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import java.util.Observable;
+import java.util.Observer;
 
-class BookMaster{
+class BookMaster implements Observer{
 
 
 	private static final int minimum_window_height = 600;
@@ -46,6 +44,7 @@ class BookMaster{
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
+		library.addObserver(this);
 		frame.setVisible(true);
 	}
 	
@@ -194,5 +193,11 @@ class BookMaster{
 		
 		JPanel lendingTab = new JPanel();
 		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		Display_number_of_titles.setText(library.getBooks().size() + "");
+		Display_number_of_books.setText(library.getCopies().size() + "");		
 	}
 }
