@@ -10,12 +10,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
-
 import domain.Library;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
-class BookMaster{
+import java.util.Observable;
+import java.util.Observer;
+
+class BookMaster implements Observer{
 	private static final int minimum_window_height = 600;
 	private static final int minimum_window_witdh = 500;
 	private Library library;
@@ -25,33 +27,18 @@ class BookMaster{
 	private static final String bookTabLabel = "Books";
 	private JFrame frame;
 	private JTable table;
+	private JLabel Display_number_of_titles;
+	private JLabel Display_number_of_books;
 	/**
 	 * Launch the application.
 	 */
-	
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					BookMaster window = new BookMaster();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
+		library.addObserver(this);
 		frame.setVisible(true);
-		
-	}
-
-	public void listBooks(){
-		
 	}
 	
 	/**
@@ -107,12 +94,12 @@ class BookMaster{
 		gbc_lblNumberOfBooks.gridy = 0;
 		panelInventoryStatistik.add(lblNumberOfTitles, gbc_lblNumberOfBooks);
 		
-		JLabel lblvarNumberOfTitles = new JLabel(library.getBooks().size() + "");
+		Display_number_of_titles = new JLabel(library.getBooks().size() + "");
 		GridBagConstraints gbc_lblNumber_2 = new GridBagConstraints();
 		gbc_lblNumber_2.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNumber_2.gridx = 1;
 		gbc_lblNumber_2.gridy = 0;
-		panelInventoryStatistik.add(lblvarNumberOfTitles, gbc_lblNumber_2);
+		panelInventoryStatistik.add(Display_number_of_titles, gbc_lblNumber_2);
 		
 		JLabel lblNumberOfBooks_1 = new JLabel("Number of Books");
 		GridBagConstraints gbc_lblNumberOfBooks_1 = new GridBagConstraints();
@@ -121,11 +108,11 @@ class BookMaster{
 		gbc_lblNumberOfBooks_1.gridy = 0;
 		panelInventoryStatistik.add(lblNumberOfBooks_1, gbc_lblNumberOfBooks_1);
 		
-		JLabel lblNumber_1 = new JLabel(library.getCopies().size() + "");
+		Display_number_of_books = new JLabel(library.getCopies().size() + "");
 		GridBagConstraints gbc_lblNumber_1 = new GridBagConstraints();
 		gbc_lblNumber_1.gridx = 4;
 		gbc_lblNumber_1.gridy = 0;
-		panelInventoryStatistik.add(lblNumber_1, gbc_lblNumber_1);
+		panelInventoryStatistik.add(Display_number_of_books, gbc_lblNumber_1);
 		
 		JPanel panelBookInventory = new JPanel();
 		panelBookInventory.setBorder(new TitledBorder(null, "Book Inventory", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -170,6 +157,7 @@ class BookMaster{
 		panelBookInventory.add(lblSelectednumber, gbc_lblSelectednumber);
 		
 		JButton btnDisplaySelected = new JButton("Display Selected");
+
 		GridBagConstraints gbc_btnDisplaySelected = new GridBagConstraints();
 		gbc_btnDisplaySelected.anchor = GridBagConstraints.EAST;
 		gbc_btnDisplaySelected.insets = new Insets(0, 0, 0, 5);
@@ -185,6 +173,12 @@ class BookMaster{
 		
 		JPanel lendingTab = new JPanel();
 		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		Display_number_of_titles.setText(library.getBooks().size() + "");
+		Display_number_of_books.setText(library.getCopies().size() + "");
 	}
 
 }
