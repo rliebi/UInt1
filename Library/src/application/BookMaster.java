@@ -49,9 +49,6 @@ class BookMaster{
 		frame.setVisible(true);
 	}
 	
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setMinimumSize(new Dimension(minimum_window_witdh, minimum_window_height));
