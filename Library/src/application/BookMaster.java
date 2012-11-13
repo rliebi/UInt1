@@ -52,6 +52,7 @@ class BookMaster implements Observer{
 	private Library library;
 	private BookDetail detailwindow = new BookDetail();
 	private JTextField txtSearch;
+	private JTable table_1;
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
@@ -261,8 +262,90 @@ class BookMaster implements Observer{
 		gbl_lendingTab.columnWidths = new int[]{0, 0};
 		gbl_lendingTab.rowHeights = new int[]{48, 0, 0};
 		gbl_lendingTab.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_lendingTab.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_lendingTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		lendingTab.setLayout(gbl_lendingTab);
+		
+		JPanel panelrentstatistics = new JPanel();
+		panelrentstatistics.setBorder(new TitledBorder(null, "Rent Statistics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panelrentstatistics = new GridBagConstraints();
+		gbc_panelrentstatistics.insets = new Insets(0, 0, 5, 0);
+		gbc_panelrentstatistics.fill = GridBagConstraints.BOTH;
+		gbc_panelrentstatistics.gridx = 0;
+		gbc_panelrentstatistics.gridy = 0;
+		lendingTab.add(panelrentstatistics, gbc_panelrentstatistics);
+		GridBagLayout gbl_panelrentstatistics = new GridBagLayout();
+		gbl_panelrentstatistics.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelrentstatistics.rowHeights = new int[]{0, 0};
+		gbl_panelrentstatistics.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelrentstatistics.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panelrentstatistics.setLayout(gbl_panelrentstatistics);
+		
+		JLabel lblNumber_of_Rents = new JLabel("Books rented: ");
+		GridBagConstraints gbc_lblNumber_of_Rents = new GridBagConstraints();
+		gbc_lblNumber_of_Rents.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNumber_of_Rents.anchor = GridBagConstraints.EAST;
+		gbc_lblNumber_of_Rents.gridx = 0;
+		gbc_lblNumber_of_Rents.gridy = 0;
+		panelrentstatistics.add(lblNumber_of_Rents, gbc_lblNumber_of_Rents);
+		
+		JLabel display_number_of_rents = new JLabel("%nr");
+		GridBagConstraints gbc_display_number_of_rents = new GridBagConstraints();
+		gbc_display_number_of_rents.insets = new Insets(0, 0, 0, 5);
+		gbc_display_number_of_rents.anchor = GridBagConstraints.WEST;
+		gbc_display_number_of_rents.gridx = 1;
+		gbc_display_number_of_rents.gridy = 0;
+		panelrentstatistics.add(display_number_of_rents, gbc_display_number_of_rents);
+		
+		JLabel lbl_number_of_lendings = new JLabel("Nr. of Lendings");
+		GridBagConstraints gbc_lbl_number_of_lendings = new GridBagConstraints();
+		gbc_lbl_number_of_lendings.insets = new Insets(0, 0, 0, 5);
+		gbc_lbl_number_of_lendings.gridx = 3;
+		gbc_lbl_number_of_lendings.gridy = 0;
+		panelrentstatistics.add(lbl_number_of_lendings, gbc_lbl_number_of_lendings);
+		
+		JLabel display_number_of_lendings = new JLabel("%nr");
+		GridBagConstraints gbc_display_number_of_lendings = new GridBagConstraints();
+		gbc_display_number_of_lendings.insets = new Insets(0, 0, 0, 5);
+		gbc_display_number_of_lendings.gridx = 4;
+		gbc_display_number_of_lendings.gridy = 0;
+		panelrentstatistics.add(display_number_of_lendings, gbc_display_number_of_lendings);
+		
+		JLabel lblOverdue = new JLabel("Overdue: ");
+		GridBagConstraints gbc_lblOverdue = new GridBagConstraints();
+		gbc_lblOverdue.insets = new Insets(0, 0, 0, 5);
+		gbc_lblOverdue.gridx = 6;
+		gbc_lblOverdue.gridy = 0;
+		panelrentstatistics.add(lblOverdue, gbc_lblOverdue);
+		
+		JLabel display_overdue = new JLabel("%nr");
+		GridBagConstraints gbc_display_overdue = new GridBagConstraints();
+		gbc_display_overdue.gridx = 7;
+		gbc_display_overdue.gridy = 0;
+		panelrentstatistics.add(display_overdue, gbc_display_overdue);
+		
+		JPanel panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 1;
+		lendingTab.add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{579, 0};
+		gbl_panel.rowHeights = new int[]{561, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 0;
+		gbc_scrollPane_1.gridy = 0;
+		panel.add(scrollPane_1, gbc_scrollPane_1);
+		
+		table_1 = new JTable();
+		scrollPane_1.setColumnHeaderView(table_1);
 		
 	}
 
