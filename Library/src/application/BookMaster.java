@@ -33,6 +33,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JCheckBox;
 
 class BookMaster implements Observer{
 
@@ -52,7 +53,10 @@ class BookMaster implements Observer{
 	private Library library;
 	private BookDetail detailwindow = new BookDetail();
 	private JTextField txtSearch;
+	private JTextField txtSearchfield;
 	private JTable table_1;
+	private JTextField txtSearchfield_1;
+	private JTable table_2;
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
@@ -133,7 +137,6 @@ class BookMaster implements Observer{
 		
 		JPanel panelBookInventory = new JPanel();
 		panelBookInventory.setBackground(background_Color);
-		panelBookInventory.setBorder(new TitledBorder(null, "Book Inventory", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel2 = new GridBagConstraints();
 		gbc_panel2.fill = GridBagConstraints.BOTH;
 		gbc_panel2.gridx = 0;
@@ -330,22 +333,196 @@ class BookMaster implements Observer{
 		gbc_panel.gridy = 1;
 		lendingTab.add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{579, 0};
-		gbl_panel.rowHeights = new int[]{561, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+		gbc_scrollPane_2.gridwidth = 6;
+		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_2.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_2.gridx = 0;
+		gbc_scrollPane_2.gridy = 0;
+		panel.add(scrollPane_2, gbc_scrollPane_2);
+		
+		table_1 = new JTable();
+		scrollPane_2.setViewportView(table_1);
+		
+		JLabel lblSelected_1 = new JLabel("Selected: ");
+		GridBagConstraints gbc_lblSelected_1 = new GridBagConstraints();
+		gbc_lblSelected_1.insets = new Insets(0, 0, 0, 5);
+		gbc_lblSelected_1.gridx = 0;
+		gbc_lblSelected_1.gridy = 1;
+		panel.add(lblSelected_1, gbc_lblSelected_1);
+		
+		JLabel DisplaySelected = new JLabel("%nr");
+		GridBagConstraints gbc_DisplaySelected = new GridBagConstraints();
+		gbc_DisplaySelected.insets = new Insets(0, 0, 0, 5);
+		gbc_DisplaySelected.anchor = GridBagConstraints.EAST;
+		gbc_DisplaySelected.gridx = 1;
+		gbc_DisplaySelected.gridy = 1;
+		panel.add(DisplaySelected, gbc_DisplaySelected);
+		
+		txtSearchfield = new JTextField();
+		txtSearchfield.setText("Search_field");
+		GridBagConstraints gbc_txtSearchfield = new GridBagConstraints();
+		gbc_txtSearchfield.insets = new Insets(0, 0, 0, 5);
+		gbc_txtSearchfield.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSearchfield.gridx = 2;
+		gbc_txtSearchfield.gridy = 1;
+		panel.add(txtSearchfield, gbc_txtSearchfield);
+		txtSearchfield.setColumns(10);
+		
+		JCheckBox chckbxOverdue = new JCheckBox("Only Overdue");
+		GridBagConstraints gbc_chckbxOverdue = new GridBagConstraints();
+		gbc_chckbxOverdue.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxOverdue.gridx = 3;
+		gbc_chckbxOverdue.gridy = 1;
+		panel.add(chckbxOverdue, gbc_chckbxOverdue);
+		
+		JButton btnDisplay_selected = new JButton("Display Selected");
+		GridBagConstraints gbc_btnDisplay_selected = new GridBagConstraints();
+		gbc_btnDisplay_selected.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDisplay_selected.gridx = 4;
+		gbc_btnDisplay_selected.gridy = 1;
+		panel.add(btnDisplay_selected, gbc_btnDisplay_selected);
+		
+		JButton btnNew_rent = new JButton("New Rent");
+		btnNew_rent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		GridBagConstraints gbc_btnNew_rent = new GridBagConstraints();
+		gbc_btnNew_rent.gridx = 5;
+		gbc_btnNew_rent.gridy = 1;
+		panel.add(btnNew_rent, gbc_btnNew_rent);
+		
+		JPanel customerTab = new JPanel();
+		tabbedPane.addTab("Customers", null, customerTab, null);
+		GridBagLayout gbl_customerTab = new GridBagLayout();
+		gbl_customerTab.columnWidths = new int[]{0, 0};
+		gbl_customerTab.rowHeights = new int[]{48, 0, 0};
+		gbl_customerTab.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_customerTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		customerTab.setLayout(gbl_customerTab);
+		
+		JPanel panelCustomerStats = new JPanel();
+		panelCustomerStats.setBorder(new TitledBorder(null, "Customer Statistics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panelCustomerStats = new GridBagConstraints();
+		gbc_panelCustomerStats.insets = new Insets(0, 0, 5, 0);
+		gbc_panelCustomerStats.fill = GridBagConstraints.BOTH;
+		gbc_panelCustomerStats.gridx = 0;
+		gbc_panelCustomerStats.gridy = 0;
+		customerTab.add(panelCustomerStats, gbc_panelCustomerStats);
+		GridBagLayout gbl_panelCustomerStats = new GridBagLayout();
+		gbl_panelCustomerStats.columnWidths = new int[]{76, 91, 0, 0, 0};
+		gbl_panelCustomerStats.rowHeights = new int[]{16, 0};
+		gbl_panelCustomerStats.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelCustomerStats.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panelCustomerStats.setLayout(gbl_panelCustomerStats);
+		
+		JLabel lblNrCustomers = new JLabel("Nr. Customers");
+		GridBagConstraints gbc_lblNrCustomers = new GridBagConstraints();
+		gbc_lblNrCustomers.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNrCustomers.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblNrCustomers.gridx = 0;
+		gbc_lblNrCustomers.gridy = 0;
+		panelCustomerStats.add(lblNrCustomers, gbc_lblNrCustomers);
+		
+		JLabel displayNrCustomer = new JLabel("%nr");
+		GridBagConstraints gbc_displayNrCustomer = new GridBagConstraints();
+		gbc_displayNrCustomer.insets = new Insets(0, 0, 0, 5);
+		gbc_displayNrCustomer.anchor = GridBagConstraints.WEST;
+		gbc_displayNrCustomer.gridx = 1;
+		gbc_displayNrCustomer.gridy = 0;
+		panelCustomerStats.add(displayNrCustomer, gbc_displayNrCustomer);
+		
+		JLabel lblCustomOverdue = new JLabel("Custom. Overdue");
+		GridBagConstraints gbc_lblCustomOverdue = new GridBagConstraints();
+		gbc_lblCustomOverdue.insets = new Insets(0, 0, 0, 5);
+		gbc_lblCustomOverdue.gridx = 2;
+		gbc_lblCustomOverdue.gridy = 0;
+		panelCustomerStats.add(lblCustomOverdue, gbc_lblCustomOverdue);
+		
+		JLabel displayCustomerOverdue = new JLabel("%nr");
+		GridBagConstraints gbc_displayCustomerOverdue = new GridBagConstraints();
+		gbc_displayCustomerOverdue.gridx = 3;
+		gbc_displayCustomerOverdue.gridy = 0;
+		panelCustomerStats.add(displayCustomerOverdue, gbc_displayCustomerOverdue);
+		
+		JPanel panel_1 = new JPanel();
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridy = 1;
+		customerTab.add(panel_1, gbc_panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_1.gridwidth = 6;
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane_1.gridx = 0;
 		gbc_scrollPane_1.gridy = 0;
-		panel.add(scrollPane_1, gbc_scrollPane_1);
+		panel_1.add(scrollPane_1, gbc_scrollPane_1);
 		
-		table_1 = new JTable();
-		scrollPane_1.setColumnHeaderView(table_1);
+		table_2 = new JTable();
+		scrollPane_1.setViewportView(table_2);
+		
+		JLabel lblSelected_2 = new JLabel("Selected: ");
+		GridBagConstraints gbc_lblSelected_2 = new GridBagConstraints();
+		gbc_lblSelected_2.insets = new Insets(0, 0, 0, 5);
+		gbc_lblSelected_2.anchor = GridBagConstraints.EAST;
+		gbc_lblSelected_2.gridx = 0;
+		gbc_lblSelected_2.gridy = 1;
+		panel_1.add(lblSelected_2, gbc_lblSelected_2);
+		
+		JLabel displaySelected = new JLabel("%nr");
+		GridBagConstraints gbc_displaySelected = new GridBagConstraints();
+		gbc_displaySelected.insets = new Insets(0, 0, 0, 5);
+		gbc_displaySelected.anchor = GridBagConstraints.EAST;
+		gbc_displaySelected.gridx = 1;
+		gbc_displaySelected.gridy = 1;
+		panel_1.add(displaySelected, gbc_displaySelected);
+		
+		txtSearchfield_1 = new JTextField();
+		txtSearchfield_1.setText("search_field");
+		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
+		gbc_txtSearchfield_1.insets = new Insets(0, 0, 0, 5);
+		gbc_txtSearchfield_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSearchfield_1.gridx = 2;
+		gbc_txtSearchfield_1.gridy = 1;
+		panel_1.add(txtSearchfield_1, gbc_txtSearchfield_1);
+		txtSearchfield_1.setColumns(10);
+		
+		JCheckBox chckbxOnlyOverdue = new JCheckBox("Only Overdue");
+		GridBagConstraints gbc_chckbxOnlyOverdue = new GridBagConstraints();
+		gbc_chckbxOnlyOverdue.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxOnlyOverdue.gridx = 3;
+		gbc_chckbxOnlyOverdue.gridy = 1;
+		panel_1.add(chckbxOnlyOverdue, gbc_chckbxOnlyOverdue);
+		
+		JButton btnDisplaySelected_1 = new JButton("Display Selected");
+		GridBagConstraints gbc_btnDisplaySelected_1 = new GridBagConstraints();
+		gbc_btnDisplaySelected_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDisplaySelected_1.gridx = 4;
+		gbc_btnDisplaySelected_1.gridy = 1;
+		panel_1.add(btnDisplaySelected_1, gbc_btnDisplaySelected_1);
+		
+		JButton btnNewCustomer = new JButton("New Customer");
+		GridBagConstraints gbc_btnNewCustomer = new GridBagConstraints();
+		gbc_btnNewCustomer.gridx = 5;
+		gbc_btnNewCustomer.gridy = 1;
+		panel_1.add(btnNewCustomer, gbc_btnNewCustomer);
 		
 	}
 
