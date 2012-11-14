@@ -191,7 +191,7 @@ class BookMaster implements Observer{
 		btnDisplaySelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				detailwindow.setVisible();
-				System.out.println(table.getSelectedRow());
+				detailwindow.setBook(library.getBooks().get(table.convertRowIndexToModel(table.getSelectedRow())));
 			}
 		});
 		//------------Search Field --------------

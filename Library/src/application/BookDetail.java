@@ -21,10 +21,10 @@ import javax.swing.JList;
 import domain.Book;
 
 public class BookDetail implements Observer{
-	private String bookTitleLabelText = "Titel+";
-	private String bookAuthorLabel = "Author+";
-	private String bookPublisherLabel = "Verlag+";
-	private String bookShelfLabelText = "Regal+";
+	private String bookTitleLabelText = "Titel";
+	private String bookAuthorLabel = "Author";
+	private String bookPublisherLabel = "Verlag";
+	private String bookShelfLabelText = "Regal";
 	private String windowTitle = "Buch Detailansicht";
 	private String bookInformationLabelText = "Buch Informationen";
 	private String booksInformationLabelText = "Exemplare";
@@ -44,10 +44,7 @@ public class BookDetail implements Observer{
 	 * Create the application.
 	 */
 	public BookDetail() {
-		
-		
 		initialize();
-		
 	}
 
 	/**
@@ -223,11 +220,19 @@ public class BookDetail implements Observer{
 	public void update(Observable o, Object arg) {
 //		txtFieldBookTitle.setText(book.getISBN());
 //		txtFieldBookAuthor.setText(book.getAuthor());
+		updateFields();
+		
+	}
+
+	private void updateFields() {
 		txtFieldBookAuthor.setText(theBook.getAuthor());
 		txtFieldBookPublisher.setText(theBook.getPublisher());
 		txtFieldBookTitle.setText(theBook.getName());
 	}
 	public void setBook(Book book){
 		this.theBook = book;
+		updateFields();
+		
+		
 	}
 }
