@@ -34,6 +34,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JCheckBox;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 class BookMaster implements Observer{
 
@@ -52,6 +54,7 @@ class BookMaster implements Observer{
 	JLabel lblSelectednumber = new JLabel("0");
 	private Library library;
 	private BookDetail detailwindow = new BookDetail();
+	private NewCustomer newCustomerWindow = new NewCustomer();
 	private JTextField txtSearch;
 	private JTextField txtSearchfield;
 	private JTable table_1;
@@ -519,6 +522,11 @@ class BookMaster implements Observer{
 		panel_1.add(btnDisplaySelected_1, gbc_btnDisplaySelected_1);
 		
 		JButton btnNewCustomer = new JButton("New Customer");
+		btnNewCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newCustomerWindow.setVisible();
+			}
+		});
 		GridBagConstraints gbc_btnNewCustomer = new GridBagConstraints();
 		gbc_btnNewCustomer.gridx = 5;
 		gbc_btnNewCustomer.gridy = 1;

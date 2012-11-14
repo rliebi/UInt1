@@ -45,6 +45,9 @@ public class NewCustomer {
 	public NewCustomer() {
 		initialize();
 	}
+	public void setVisible(){
+		frame.setVisible(true);
+	}
 
 	/**
 	 * Initialize the contents of the frame.
