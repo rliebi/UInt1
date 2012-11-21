@@ -1,4 +1,4 @@
-package application;
+package views;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;

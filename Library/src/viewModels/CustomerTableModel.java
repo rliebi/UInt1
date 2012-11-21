@@ -1,8 +1,10 @@
-package domain;
+package viewModels;
 
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import domain.Customer;
 
 public class CustomerTableModel  extends AbstractTableModel{
 	private static final String Name = "Name";

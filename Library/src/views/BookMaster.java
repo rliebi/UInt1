@@ -1,4 +1,4 @@
-package application;
+package views;
 
 
 import javax.swing.JFrame;
@@ -17,9 +17,7 @@ import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
 
-import domain.CustomerTableModel;
 import domain.Library;
-import domain.TableModel;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -35,9 +33,15 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JCheckBox;
 
-class BookMaster implements Observer{
+import viewModels.CustomerTableModel;
+import viewModels.TableModel;
+
+public class BookMaster implements Observer{
 
 
 	private static final Color background_Color = new Color(226, 226, 226);
@@ -53,7 +57,7 @@ class BookMaster implements Observer{
 	private JLabel display_number_of_books;
 	JLabel lblSelectednumber = new JLabel("0");
 	private Library library;
-	private BookDetail detailwindow = new BookDetail();
+	private BookDetail detailwindow;
 	private NewCustomer newCustomerWindow = new NewCustomer();
 	private EditCustomer editCustomer;
 	private JTextField txtSearch;
@@ -164,6 +168,14 @@ class BookMaster implements Observer{
 		
 		//---------BookJTable---------------------
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					openDetailWindow();
+				}
+			}
+		});
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 		    public void valueChanged(ListSelectionEvent lse) {
@@ -198,8 +210,7 @@ class BookMaster implements Observer{
 
 		btnDisplaySelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				detailwindow.setVisible();
-				detailwindow.setBook(library.getBooks().get(table.convertRowIndexToModel(table.getSelectedRow())));
+				openDetailWindow();
 			}
 		});
 		//------------Search Field --------------
@@ -562,7 +573,14 @@ class BookMaster implements Observer{
 		txtSearch.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
 		txtSearch.setText("Search");
 	}
-
+	private void openDetailWindow() {
+		if (detailwindow == null)
+			detailwindow = new BookDetail(library, library.getBooks().get(
+					table.convertRowIndexToModel(table.getSelectedRow())));
+		detailwindow.setVisible();
+		detailwindow.setBook(library.getBooks().get(
+				table.convertRowIndexToModel(table.getSelectedRow())));
+	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		display_number_of_titles.setText(library.getBooks().size() + "");
