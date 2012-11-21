@@ -9,6 +9,11 @@ public class Customer {
 		this.name = name;
 		this.surname = surname;
 	}
+	public Customer(String surname, String name, String street, String city) {
+		this.name = name;
+		this.surname = surname;
+	}
+	
 	
 	public void setAdress(String street, int zip, String city) {
 		this.street = street;

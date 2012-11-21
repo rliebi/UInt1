@@ -16,6 +16,8 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
+
+import domain.CustomerTableModel;
 import domain.Library;
 import domain.TableModel;
 
@@ -34,8 +36,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JCheckBox;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 class BookMaster implements Observer{
 
@@ -55,11 +55,12 @@ class BookMaster implements Observer{
 	private Library library;
 	private BookDetail detailwindow = new BookDetail();
 	private NewCustomer newCustomerWindow = new NewCustomer();
+	private EditCustomer editCustomer;
 	private JTextField txtSearch;
 	private JTextField txtSearchfield;
 	private JTable table_1;
 	private JTextField txtSearchfield_1;
-	private JTable table_2;
+	private JTable customer_jtable;
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
@@ -161,7 +162,7 @@ class BookMaster implements Observer{
 		gbc_scrollPane.gridy = 0;
 		panelBookInventory.add(scrollPane, gbc_scrollPane);
 		
-		//---------JTable---------------------
+		//---------BookJTable---------------------
 		table = new JTable();
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -181,6 +182,7 @@ class BookMaster implements Observer{
 		gbc_lblSelected.gridx = 0;
 		gbc_lblSelected.gridy = 1;
 		panelBookInventory.add(lblSelected, gbc_lblSelected);
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final TableRowSorter<TableModel> sorter = new TableRowSorter(table.getModel()); 
 		table.setRowSorter(sorter);
 		//---------JTable---------------------
@@ -478,8 +480,22 @@ class BookMaster implements Observer{
 		gbc_scrollPane_1.gridy = 0;
 		panel_1.add(scrollPane_1, gbc_scrollPane_1);
 		
-		table_2 = new JTable();
-		scrollPane_1.setViewportView(table_2);
+		//----------Customer jtable ----------
+		customer_jtable = new JTable();
+		customer_jtable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent lse) {
+				if (!lse.getValueIsAdjusting()) {
+					lblSelectednumber.setText(table.getSelectedRows().length+"");
+				}
+			}
+		});
+		scrollPane_1.setViewportView(customer_jtable);
+		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
+		customer_jtable.setModel(customerTableModel);
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_jtable.getModel()); 
+		customer_jtable.setRowSorter(customerSorter);
+		//-----------------------------
 		
 		JLabel lblSelected_2 = new JLabel("Selected: ");
 		GridBagConstraints gbc_lblSelected_2 = new GridBagConstraints();
@@ -515,6 +531,13 @@ class BookMaster implements Observer{
 		panel_1.add(chckbxOnlyOverdue, gbc_chckbxOnlyOverdue);
 		
 		JButton btnDisplaySelected_1 = new JButton("Display Selected");
+		btnDisplaySelected_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				editCustomer = new EditCustomer();
+				editCustomer.setVisible();
+				editCustomer.setCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
+			}
+		});
 		GridBagConstraints gbc_btnDisplaySelected_1 = new GridBagConstraints();
 		gbc_btnDisplaySelected_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnDisplaySelected_1.gridx = 4;
