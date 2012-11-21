@@ -1,2 +1,17 @@
 bin
 .metadata 
+Library/src/.DS_Store
+
+Library/src/control/.DS_Store
+
+*.class
+
+*.class
+
+*.class
+
+Library/bin/domain/Copy.class
+
+Library/bin/domain/Loan.class
+
+Library/bin/test/LoanTest.class
