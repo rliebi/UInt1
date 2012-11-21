@@ -416,6 +416,8 @@ public class BookMaster implements Observer{
 		gbc_btnNew_rent.gridy = 1;
 		panel.add(btnNew_rent, gbc_btnNew_rent);
 		
+//-------------------------Customer Tab ---------------------------------------------------		
+		
 		JPanel customerTab = new JPanel();
 		tabbedPane.addTab("Customers", null, customerTab, null);
 		GridBagLayout gbl_customerTab = new GridBagLayout();
@@ -565,6 +567,7 @@ public class BookMaster implements Observer{
 		gbc_btnNewCustomer.gridx = 5;
 		gbc_btnNewCustomer.gridy = 1;
 		panel_1.add(btnNewCustomer, gbc_btnNewCustomer);
+//---------------------------------CustomerTab-----------------------------------
 		
 	}
 
