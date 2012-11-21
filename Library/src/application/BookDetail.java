@@ -1,8 +1,10 @@
 package application;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
 import javax.swing.JLabel;
 import java.awt.Component;
 import java.awt.GridBagLayout;
@@ -16,9 +18,17 @@ import java.util.Observer;
 import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.JList;
+
 
 import domain.Book;
+import domain.Copy;
+import domain.Library;
+
+
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+
+import viewModels.CopiesTableModel;
 
 public class BookDetail implements Observer{
 	private String bookTitleLabelText = "Titel";
@@ -37,13 +47,18 @@ public class BookDetail implements Observer{
 	private JTextField txtFieldBookPublisher;
 	private JTextField txtFieldShelfNumber;
 	private Book theBook;
+	private JTable table;
+	private Library library;
+	private  JPanel panel_1;
 //	static private Book book = new Book();
 
 
 	/**
 	 * Create the application.
 	 */
-	public BookDetail() {
+	public BookDetail(Library library, Book book) {
+		this.library = library;
+		theBook = book;
 		initialize();
 	}
 
@@ -154,7 +169,7 @@ public class BookDetail implements Observer{
 		panel.add(txtFieldShelfNumber, gbc_textField_3);
 		txtFieldShelfNumber.setColumns(10);
 		
-		JPanel panel_1 = new JPanel();
+		 panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, booksInformationLabelText, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
@@ -167,7 +182,6 @@ public class BookDetail implements Observer{
 		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
-		
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
@@ -184,11 +198,21 @@ public class BookDetail implements Observer{
 		
 		JLabel label = new JLabel(bookCountLabel +" 8");
 		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.anchor = GridBagConstraints.WEST;
+		gbc_label.anchor = GridBagConstraints.EAST;
 		gbc_label.insets = new Insets(0, 0, 0, 5);
 		gbc_label.gridx = 1;
 		gbc_label.gridy = 0;
 		panel_2.add(label, gbc_label);
+		
+		JComboBox comboBox = createConditionComboBox();
+		
+
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridy = 0;
+		panel_2.add(comboBox, gbc_comboBox);
 		
 		JButton button = new JButton(bookRemoveButton);
 		GridBagConstraints gbc_button = new GridBagConstraints();
@@ -206,33 +230,50 @@ public class BookDetail implements Observer{
 		gbc_button_1.gridy = 0;
 		panel_2.add(button_1, gbc_button_1);
 		
-		JList list = new JList();
-		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.gridx = 0;
-		gbc_list.gridy = 1;
-		panel_1.add(list, gbc_list);
+
+		
+		createBookTable(createtableScrollPane(panel_1));
+
+	}
+
+	private JScrollPane createtableScrollPane(JPanel panel_1) {
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		panel_1.add(scrollPane, gbc_scrollPane);
+		return scrollPane;
+	}
+
+	private void createBookTable(JScrollPane scrollPane) {
+		table = new JTable(new CopiesTableModel(library, theBook));
+		scrollPane.setViewportView(table);
+	}
+
+	private JComboBox createConditionComboBox() {
+		JComboBox comboBox = new JComboBox(Copy.Condition.values());
+		comboBox.setEnabled(false);
+		//TODO Observer Pattern with selected in List
+		return comboBox;
 	}
 	public void setVisible(){
 		frame.setVisible(true);
 	}
 	@Override
 	public void update(Observable o, Object arg) {
-//		txtFieldBookTitle.setText(book.getISBN());
-//		txtFieldBookAuthor.setText(book.getAuthor());
-		updateFields();
-		
+		updateFields();	
 	}
-
+	
 	private void updateFields() {
 		txtFieldBookAuthor.setText(theBook.getAuthor());
 		txtFieldBookPublisher.setText(theBook.getPublisher());
 		txtFieldBookTitle.setText(theBook.getName());
+		table.setModel(new CopiesTableModel(library, theBook));
 	}
+
 	public void setBook(Book book){
 		this.theBook = book;
 		updateFields();
-		
-		
 	}
 }
