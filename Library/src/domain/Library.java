@@ -22,8 +22,12 @@ public class Library extends Observable{
 		if (!isCopyLent(copy)) {
 			Loan l = new Loan(customer, copy);
 			loans.add(l);
+			setChanged();
+			notifyObservers();
 			return l;
 		} else {
+			setChanged();
+			notifyObservers();
 			return null;
 		}
 	}
@@ -31,6 +35,8 @@ public class Library extends Observable{
 	public Customer createAndAddCustomer(String name, String surname) {
 		Customer c = new Customer(name, surname);
 		customers.add(c);
+		setChanged();
+		notifyObservers();
 		return c;
 	}
 

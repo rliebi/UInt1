@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,17 +20,20 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
 
+import components.MySearchField;
+
 import viewModels.CustomerTableModel;
 import domain.Library;
 
-public class CustomerTab extends JPanel{
+public class CustomerTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
 	private Library library;
 	private NewCustomer newCustomerWindow = new NewCustomer();
 	private EditCustomer editCustomer;
-	private JTextField txtSearchfield_1;
+	private JTextField txtSearchfield;
 	private JTable customer_jtable;
 	private JLabel displaySelected;
+	private JLabel displayNrCustomer;
 	
 	public CustomerTab(){
 		super();
@@ -39,6 +44,7 @@ public class CustomerTab extends JPanel{
 	public CustomerTab(Library library){
 		super();
 		this.library = library;
+		library.addObserver(this);
 		initialize();
 		
 	}
@@ -74,7 +80,7 @@ public class CustomerTab extends JPanel{
 		gbc_lblNrCustomers.gridy = 0;
 		panelCustomerStats.add(lblNrCustomers, gbc_lblNrCustomers);
 		
-		JLabel displayNrCustomer = new JLabel("%nr");
+		displayNrCustomer = new JLabel(library.getCustomers().size()+"");
 		GridBagConstraints gbc_displayNrCustomer = new GridBagConstraints();
 		gbc_displayNrCustomer.insets = new Insets(0, 0, 0, 5);
 		gbc_displayNrCustomer.anchor = GridBagConstraints.WEST;
@@ -150,15 +156,14 @@ public class CustomerTab extends JPanel{
 		gbc_displaySelected.gridy = 1;
 		panel_1.add(displaySelected, gbc_displaySelected);
 		
-		txtSearchfield_1 = new JTextField();
-		txtSearchfield_1.setText("search_field");
+		txtSearchfield = new MySearchField(customer_jtable);
 		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
 		gbc_txtSearchfield_1.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearchfield_1.gridx = 2;
 		gbc_txtSearchfield_1.gridy = 1;
-		panel_1.add(txtSearchfield_1, gbc_txtSearchfield_1);
-		txtSearchfield_1.setColumns(10);
+		panel_1.add(txtSearchfield, gbc_txtSearchfield_1);
+		txtSearchfield.setColumns(10);
 		
 		JCheckBox chckbxOnlyOverdue = new JCheckBox("Only Overdue");
 		GridBagConstraints gbc_chckbxOnlyOverdue = new GridBagConstraints();
@@ -191,6 +196,16 @@ public class CustomerTab extends JPanel{
 		gbc_btnNewCustomer.gridx = 5;
 		gbc_btnNewCustomer.gridy = 1;
 		panel_1.add(btnNewCustomer, gbc_btnNewCustomer);
+		
+	}
+	
+	public void updateFields(){
+		displayNrCustomer.setText(library.getCustomers().size()+"");
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		updateFields();
 		
 	}
 
