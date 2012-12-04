@@ -4,7 +4,6 @@ package views;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
-import javax.swing.RowFilter;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -12,7 +11,6 @@ import java.awt.GridBagConstraints;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableRowSorter;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
@@ -27,19 +25,11 @@ import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JTextField;
-import java.awt.Font;
 import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JCheckBox;
-
 import components.MySearchField;
-
 import viewModels.TableModel;
 
 public class BookMaster implements Observer{
