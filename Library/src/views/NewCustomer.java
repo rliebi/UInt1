@@ -120,7 +120,7 @@ public class NewCustomer {
 
 	private void initialize() {	
 		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Remove me later
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Remove me later
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 416, 262);
 		GridBagLayout gridBagLayout = new GridBagLayout();
