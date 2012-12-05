@@ -12,7 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
-import components.MyJTextFieldwithMemory;
+import components.MyJTextField;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,18 +20,21 @@ import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 
 
 public class EditCustomer implements Observer{
 	
 
+	private static final Color myBlackColor = new Color(0, 0, 0);
+	private static final Color myBadColor = new Color(255, 99, 71);
 	protected JFrame frame;
 	protected JLabel lblCustomerWindow;
-	private MyJTextFieldwithMemory txtFirstName;
-	private MyJTextFieldwithMemory txtStreetName;
-	private MyJTextFieldwithMemory txtCityName;
-	private MyJTextFieldwithMemory txtPLZ;
-	private MyJTextFieldwithMemory txtLastName;
+	private MyJTextField txtFirstName;
+	private MyJTextField txtStreetName;
+	private MyJTextField txtCityName;
+	private MyJTextField txtPLZ;
+	private MyJTextField txtLastName;
 	protected Customer realCustomer;
 	private JButton btnSave;
 	private JButton btnReload;
@@ -39,14 +42,18 @@ public class EditCustomer implements Observer{
 	
 	public EditCustomer(Customer customer) {
 		setCustomer(customer);
+		customer.addObserver(this);
 		initialize();
 		lblCustomerWindow.setText("Edit Customer");
+		frame.getRootPane().setDefaultButton(btnSave);
 	}
 
 
 	public static void main(String[] args) {
 		Customer testCustomer = new Customer("Senbony", "Tony");
 		testCustomer.setAdress("Adamstreet", 8000, "ZŸrich");
+		EditCustomer editcustomer_window2 = new EditCustomer(testCustomer);
+		editcustomer_window2.setVisible();
 		EditCustomer editcustomer_window = new EditCustomer(testCustomer);
 		editcustomer_window.setVisible();
 		editcustomer_window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,8 +66,10 @@ public class EditCustomer implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		btnSave.setEnabled(false);
+		btnReload.setEnabled(true);
+		btnReload.setForeground(myBadColor);
 	}
-	public void update(MyJTextFieldwithMemory field, Object arg1){
+	public void update(MyJTextField field, Object arg1){
 	}
 
 
@@ -175,7 +184,7 @@ public class EditCustomer implements Observer{
 		gbc_lblName.gridy = 2;
 		panel.add(lblName, gbc_lblName);
 		
-		txtFirstName = new MyJTextFieldwithMemory("First",realCustomer.getSurname());
+		txtFirstName = new MyJTextField("First",realCustomer.getSurname());
 		GridBagConstraints gbc_txtFirstName = new GridBagConstraints();
 		gbc_txtFirstName.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFirstName.fill = GridBagConstraints.HORIZONTAL;
@@ -184,7 +193,7 @@ public class EditCustomer implements Observer{
 		panel.add(txtFirstName, gbc_txtFirstName);
 		txtFirstName.setColumns(10);
 		
-		txtLastName = new MyJTextFieldwithMemory("Last",realCustomer.getName());
+		txtLastName = new MyJTextField("Last",realCustomer.getName());
 		GridBagConstraints gbc_txtLastName = new GridBagConstraints();
 		gbc_txtLastName.gridwidth = 2;
 		gbc_txtLastName.insets = new Insets(0, 0, 5, 5);
@@ -202,7 +211,7 @@ public class EditCustomer implements Observer{
 		gbc_lblStreet.gridy = 3;
 		panel.add(lblStreet, gbc_lblStreet);
 		
-		txtStreetName = new MyJTextFieldwithMemory("Street",realCustomer.getStreet());
+		txtStreetName = new MyJTextField("Street",realCustomer.getStreet());
 		GridBagConstraints gbc_txtStreetName = new GridBagConstraints();
 		gbc_txtStreetName.insets = new Insets(0, 0, 5, 5);
 		gbc_txtStreetName.fill = GridBagConstraints.HORIZONTAL;
@@ -219,7 +228,7 @@ public class EditCustomer implements Observer{
 		gbc_lblCity.gridy = 4;
 		panel.add(lblCity, gbc_lblCity);
 		
-		txtCityName = new MyJTextFieldwithMemory("City",realCustomer.getCity());
+		txtCityName = new MyJTextField("City",realCustomer.getCity());
 		GridBagConstraints gbc_txtCityName = new GridBagConstraints();
 		gbc_txtCityName.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCityName.fill = GridBagConstraints.HORIZONTAL;
@@ -228,7 +237,7 @@ public class EditCustomer implements Observer{
 		panel.add(txtCityName, gbc_txtCityName);
 		txtCityName.setColumns(10);
 		
-		txtPLZ = new MyJTextFieldwithMemory("Plz",realCustomer.getZip()+"");
+		txtPLZ = new MyJTextField("Plz",realCustomer.getZip()+"");
 		txtPLZ.setMaximumSize(new Dimension(60, 2147483647));
 		txtPLZ.setMinimumSize(new Dimension(60, 28));
 		txtPLZ.setPreferredSize(new Dimension(60, 28));
@@ -241,8 +250,8 @@ public class EditCustomer implements Observer{
 		txtPLZ.setColumns(10);
 		
 		for(Component f : panel.getComponents()){
-			if(f instanceof MyJTextFieldwithMemory){
-				final MyJTextFieldwithMemory mytextfieldwithMemory = (MyJTextFieldwithMemory) f;
+			if(f instanceof MyJTextField){
+				final MyJTextField mytextfieldwithMemory = (MyJTextField) f;
 				mytextfieldwithMemory.addKeyListener(new KeyAdapter() {
 					@Override
 					public void keyReleased(KeyEvent e) {
@@ -258,12 +267,12 @@ public class EditCustomer implements Observer{
 				});;
 			}
 		}
-		
 		btnReload = new JButton("Reload");
 		btnReload.setEnabled(false);
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				btnSave.setEnabled(false);
+				btnReload.setForeground(myBlackColor);
 				updateFields();		
 			}
 		});
@@ -279,6 +288,9 @@ public class EditCustomer implements Observer{
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				updateCustomer();
+				btnSave.setEnabled(false);
+				btnReload.setEnabled(false);
+				btnReload.setForeground(myBlackColor);
 			}
 		});
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
