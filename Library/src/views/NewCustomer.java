@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -15,6 +16,8 @@ import components.MyJTextField;
 import domain.Customer;
 
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class NewCustomer {
@@ -101,6 +104,7 @@ public class NewCustomer {
 				try {
 					NewCustomer window = new NewCustomer();
 					window.frame.setVisible(true);
+					window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -118,9 +122,8 @@ public class NewCustomer {
 		frame.setVisible(true);
 	}
 
-	private void initialize() {	
+	private void initialize() {
 		frame = new JFrame();
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Remove me later
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 416, 262);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -130,7 +133,7 @@ public class NewCustomer {
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		panel.setMinimumSize(new Dimension(60, 30));
 		panel.setBorder(UIManager.getBorder("InsetBorder.aquaVariant"));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -237,7 +240,16 @@ public class NewCustomer {
 		panel.add(txtPLZ, gbc_txtPLZ);
 		txtPLZ.setColumns(10);
 		
-		JButton btnReset = new JButton("Reset");
+		final JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(Component f : panel.getComponents()){
+					if(f instanceof MyJTextField){
+						((MyJTextField) f).reset_to_placeholder();
+					}
+				}
+			}
+		});
 		GridBagConstraints gbc_btnReset = new GridBagConstraints();
 		gbc_btnReset.anchor = GridBagConstraints.EAST;
 		gbc_btnReset.insets = new Insets(0, 0, 0, 5);

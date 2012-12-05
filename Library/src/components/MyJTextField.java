@@ -3,6 +3,7 @@ package components;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -16,7 +17,7 @@ public class MyJTextField extends JTextField {
 		reset_to_placeholder();
 		this.addFocusListener(new MyTextField_FocusAdapter(this));
 	}
-	private JTextField reset_to_placeholder(){
+	public JTextField reset_to_placeholder(){
 		this.setForeground(Color.LIGHT_GRAY);
 		this.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
 		this.setText(default_text);
