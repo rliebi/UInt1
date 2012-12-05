@@ -254,7 +254,6 @@ public class BookDetail implements Observer{
 	private JComboBox createConditionComboBox() {
 		JComboBox comboBox = new JComboBox(Copy.Condition.values());
 		comboBox.setEnabled(false);
-		//TODO Observer Pattern with selected in List
 		return comboBox;
 	}
 	public void setVisible(){
