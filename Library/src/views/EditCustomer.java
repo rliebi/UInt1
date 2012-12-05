@@ -12,19 +12,34 @@ import javax.swing.UIManager;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
-import components.MyJTextField;
+import components.MyJTextFieldwithMemory;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Observable;
+import java.util.Observer;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
-public class EditCustomer{
+public class EditCustomer implements Observer{
+	
+
+	protected JFrame frame;
+	protected JLabel lblCustomerWindow;
+	private MyJTextFieldwithMemory txtFirstName;
+	private MyJTextFieldwithMemory txtStreetName;
+	private MyJTextFieldwithMemory txtCityName;
+	private MyJTextFieldwithMemory txtPLZ;
+	private MyJTextFieldwithMemory txtLastName;
+	protected Customer realCustomer;
+	private JButton btnSave;
+	private JButton btnReload;
 	
 	
 	public EditCustomer(Customer customer) {
-		initialize();
 		setCustomer(customer);
-		txtStreetNr.setVisible(false);
+		initialize();
 		lblCustomerWindow.setText("Edit Customer");
 	}
 
@@ -32,46 +47,42 @@ public class EditCustomer{
 	public static void main(String[] args) {
 		Customer testCustomer = new Customer("Senbony", "Tony");
 		testCustomer.setAdress("Adamstreet", 8000, "ZŸrich");
-		EditCustomer window = new EditCustomer(testCustomer);
-		window.setVisible();
-		window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setCustomer(testCustomer);
-		window.updateFields();
+		EditCustomer editcustomer_window = new EditCustomer(testCustomer);
+		editcustomer_window.setVisible();
+		editcustomer_window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	public void setCustomer(Customer customer){
 		realCustomer = customer;
-		updateFields();
+	}
+
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		btnSave.setEnabled(false);
+	}
+	public void update(MyJTextFieldwithMemory field, Object arg1){
+	}
+
+
+	public void setVisible(){
+		frame.setVisible(true);
 	}
 
 
 	private void updateFields() {
-		setTxtFirstName(realCustomer.getName());
-		setTxtLastName(realCustomer.getSurname());
+		setTxtFirstName(realCustomer.getSurname());
+		setTxtLastName(realCustomer.getName());
 		setTxtStreetName(realCustomer.getStreet());
 		setTxtCityName(realCustomer.getCity());
 		setTxtPLZ(realCustomer.getZip()+"");
 		
 	}
-	
-
 
 	private void updateCustomer() {
 		realCustomer.setName(getTxtLastName());
 		realCustomer.setSurname(getTxtFirstName());
 		realCustomer.setAdress(getTxtStreetName(), Integer.parseInt(getTxtPLZ()), getTxtCityName());
 	}
-
-
-
-	protected JFrame frame;
-	protected JLabel lblCustomerWindow;
-	private MyJTextField txtFirstName;
-	private MyJTextField txtStreetName;
-	protected MyJTextField txtStreetNr;
-	private MyJTextField txtCityName;
-	private MyJTextField txtPLZ;
-	private MyJTextField txtLastName;
-	protected Customer realCustomer;
 
 	protected String getLblCustomerWindow() {
 		return lblCustomerWindow.getText();
@@ -86,8 +97,7 @@ public class EditCustomer{
 	}
 
 	protected void setTxtFirstName(String input) {
-		txtFirstName.setWrittingSettings();
-		this.txtFirstName.setText(input);
+		this.txtFirstName.setTextReload(input);
 	}
 
 	protected String getTxtStreetName() {
@@ -95,17 +105,7 @@ public class EditCustomer{
 	}
 
 	protected void setTxtStreetName(String input) {
-		txtStreetName.setWrittingSettings();
-		this.txtStreetName.setText(input);
-	}
-
-	protected String getTxtStreetNr() {
-		return txtStreetNr.getText();
-	}
-
-	protected void setTxtStreetNr(String input) {
-		txtStreetNr.setWrittingSettings();
-		this.txtStreetNr.setText(input);
+		this.txtStreetName.setTextReload(input);
 	}
 
 	protected String getTxtCityName() {
@@ -113,17 +113,15 @@ public class EditCustomer{
 	}
 
 	protected void setTxtCityName(String input) {
-		txtCityName.setWrittingSettings();
-		this.txtCityName.setText(input);
+		this.txtCityName.setTextReload(input);
 	}
 
 	protected String getTxtPLZ() {
 		return txtPLZ.getText();
 	}
 
-	protected void setTxtPLZ(String input) {
-		txtPLZ.setWrittingSettings();
-		this.txtPLZ.setText(input);
+	protected void setTxtPLZ(String input) {;
+		this.txtPLZ.setTextReload(input);
 	}
 
 	protected String getTxtLastName() {
@@ -132,11 +130,7 @@ public class EditCustomer{
 
 	protected void setTxtLastName(String input) {
 		txtLastName.setWrittingSettings();
-		this.txtLastName.setText(input);
-	}
-
-	public void setVisible(){
-		frame.setVisible(true);
+		this.txtLastName.setTextReload(input);
 	}
 
 	private void initialize() {
@@ -181,7 +175,7 @@ public class EditCustomer{
 		gbc_lblName.gridy = 2;
 		panel.add(lblName, gbc_lblName);
 		
-		txtFirstName = new MyJTextField("First");
+		txtFirstName = new MyJTextFieldwithMemory("First",realCustomer.getSurname());
 		GridBagConstraints gbc_txtFirstName = new GridBagConstraints();
 		gbc_txtFirstName.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFirstName.fill = GridBagConstraints.HORIZONTAL;
@@ -190,7 +184,7 @@ public class EditCustomer{
 		panel.add(txtFirstName, gbc_txtFirstName);
 		txtFirstName.setColumns(10);
 		
-		txtLastName = new MyJTextField("Last");
+		txtLastName = new MyJTextFieldwithMemory("Last",realCustomer.getName());
 		GridBagConstraints gbc_txtLastName = new GridBagConstraints();
 		gbc_txtLastName.gridwidth = 2;
 		gbc_txtLastName.insets = new Insets(0, 0, 5, 5);
@@ -208,7 +202,7 @@ public class EditCustomer{
 		gbc_lblStreet.gridy = 3;
 		panel.add(lblStreet, gbc_lblStreet);
 		
-		txtStreetName = new MyJTextField("Street");
+		txtStreetName = new MyJTextFieldwithMemory("Street",realCustomer.getStreet());
 		GridBagConstraints gbc_txtStreetName = new GridBagConstraints();
 		gbc_txtStreetName.insets = new Insets(0, 0, 5, 5);
 		gbc_txtStreetName.fill = GridBagConstraints.HORIZONTAL;
@@ -216,17 +210,6 @@ public class EditCustomer{
 		gbc_txtStreetName.gridy = 3;
 		panel.add(txtStreetName, gbc_txtStreetName);
 		txtStreetName.setColumns(10);
-		
-		txtStreetNr = new MyJTextField("Nr.");
-		txtStreetNr.setMaximumSize(new Dimension(40, 2147483647));
-		txtStreetNr.setMinimumSize(new Dimension(40, 28));
-		GridBagConstraints gbc_txtStreeNr = new GridBagConstraints();
-		gbc_txtStreeNr.anchor = GridBagConstraints.WEST;
-		gbc_txtStreeNr.insets = new Insets(0, 0, 5, 5);
-		gbc_txtStreeNr.gridx = 2;
-		gbc_txtStreeNr.gridy = 3;
-		panel.add(txtStreetNr, gbc_txtStreeNr);
-		txtStreetNr.setColumns(10);
 		
 		JLabel lblCity = new JLabel("City");
 		GridBagConstraints gbc_lblCity = new GridBagConstraints();
@@ -236,7 +219,7 @@ public class EditCustomer{
 		gbc_lblCity.gridy = 4;
 		panel.add(lblCity, gbc_lblCity);
 		
-		txtCityName = new MyJTextField("City");
+		txtCityName = new MyJTextFieldwithMemory("City",realCustomer.getCity());
 		GridBagConstraints gbc_txtCityName = new GridBagConstraints();
 		gbc_txtCityName.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCityName.fill = GridBagConstraints.HORIZONTAL;
@@ -245,7 +228,7 @@ public class EditCustomer{
 		panel.add(txtCityName, gbc_txtCityName);
 		txtCityName.setColumns(10);
 		
-		txtPLZ = new MyJTextField("Plz");
+		txtPLZ = new MyJTextFieldwithMemory("Plz",realCustomer.getZip()+"");
 		txtPLZ.setMaximumSize(new Dimension(60, 2147483647));
 		txtPLZ.setMinimumSize(new Dimension(60, 28));
 		txtPLZ.setPreferredSize(new Dimension(60, 28));
@@ -257,25 +240,42 @@ public class EditCustomer{
 		panel.add(txtPLZ, gbc_txtPLZ);
 		txtPLZ.setColumns(10);
 		
-		// TODO Change to reload when editing customer changes
-		final JButton btnReset = new JButton("Reset");
-		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				for(Component f : panel.getComponents()){
-					if(f instanceof MyJTextField){
-						((MyJTextField) f).reset_to_placeholder();
+		for(Component f : panel.getComponents()){
+			if(f instanceof MyJTextFieldwithMemory){
+				final MyJTextFieldwithMemory mytextfieldwithMemory = (MyJTextFieldwithMemory) f;
+				mytextfieldwithMemory.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+						super.keyReleased(e);
+						if(mytextfieldwithMemory.changed()){
+							btnSave.setEnabled(true);
+							btnReload.setEnabled(true);
+						} else {
+							btnSave.setEnabled(false);							
+						}
 					}
-				}
+					
+				});;
+			}
+		}
+		
+		btnReload = new JButton("Reload");
+		btnReload.setEnabled(false);
+		btnReload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnSave.setEnabled(false);
+				updateFields();		
 			}
 		});
-		GridBagConstraints gbc_btnReset = new GridBagConstraints();
-		gbc_btnReset.anchor = GridBagConstraints.EAST;
-		gbc_btnReset.insets = new Insets(0, 0, 0, 5);
-		gbc_btnReset.gridx = 1;
-		gbc_btnReset.gridy = 6;
-		panel.add(btnReset, gbc_btnReset);
+		GridBagConstraints gbc_btnRload = new GridBagConstraints();
+		gbc_btnRload.anchor = GridBagConstraints.EAST;
+		gbc_btnRload.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRload.gridx = 1;
+		gbc_btnRload.gridy = 6;
+		panel.add(btnReload, gbc_btnRload);
 		
-		JButton btnSave = new JButton("Save");
+		btnSave = new JButton("Save");
+		btnSave.setEnabled(false);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				updateCustomer();
