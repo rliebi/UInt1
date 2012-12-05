@@ -55,6 +55,14 @@ public class EditCustomer{
 	
 
 
+	private void updateCustomer() {
+		realCustomer.setName(getTxtLastName());
+		realCustomer.setSurname(getTxtFirstName());
+		realCustomer.setAdress(getTxtStreetName(), Integer.parseInt(getTxtPLZ()), getTxtCityName());
+	}
+
+
+
 	protected JFrame frame;
 	protected JLabel lblCustomerWindow;
 	private MyJTextField txtFirstName;
@@ -270,6 +278,7 @@ public class EditCustomer{
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				updateCustomer();
 			}
 		});
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
