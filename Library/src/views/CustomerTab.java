@@ -23,6 +23,7 @@ import javax.swing.table.TableRowSorter;
 import components.MySearchField;
 
 import viewModels.CustomerTableModel;
+import domain.Customer;
 import domain.Library;
 
 public class CustomerTab extends JPanel implements Observer{
@@ -188,7 +189,7 @@ public class CustomerTab extends JPanel implements Observer{
 		JButton btnNewCustomer = new JButton("New Customer");
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				newCustomerWindow = new NewCustomer();
+				newCustomerWindow = new NewCustomer(new Customer("Last", "First"));
 				newCustomerWindow.setVisible();
 			}
 		});

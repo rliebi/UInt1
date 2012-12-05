@@ -102,7 +102,8 @@ public class NewCustomer {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NewCustomer window = new NewCustomer();
+					Customer customer = new Customer("Last", "First");
+					NewCustomer window = new NewCustomer(customer);
 					window.frame.setVisible(true);
 					window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				} catch (Exception e) {
@@ -115,9 +116,11 @@ public class NewCustomer {
 	/**
 	 * Create the application.
 	 */
-	public NewCustomer() {
+	public NewCustomer(Customer customer) {
+		realCustomer=customer;
 		initialize();
 	}
+
 	public void setVisible(){
 		frame.setVisible(true);
 	}
