@@ -32,6 +32,9 @@ public class MyJTextField extends JTextField {
 		setWrittingSettings();
 		setText(s);
 	}
+	public void setTextReload(){
+		setTextReload(getText());
+	}
 	public JTextField reset_to_placeholder(){
 		this.setForeground(Color.LIGHT_GRAY);
 		this.setFont(new Font("Lucida Grande", Font.ITALIC, 13));

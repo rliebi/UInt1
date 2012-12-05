@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
+
 import components.MyJTextField;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -52,8 +53,8 @@ public class EditCustomer implements Observer{
 	public static void main(String[] args) {
 		Customer testCustomer = new Customer("Senbony", "Tony");
 		testCustomer.setAdress("Adamstreet", 8000, "ZŸrich");
-		EditCustomer editcustomer_window2 = new EditCustomer(testCustomer);
-		editcustomer_window2.setVisible();
+//		EditCustomer editcustomer_window2 = new EditCustomer(testCustomer);
+//		editcustomer_window2.setVisible();
 		EditCustomer editcustomer_window = new EditCustomer(testCustomer);
 		editcustomer_window.setVisible();
 		editcustomer_window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,8 +90,11 @@ public class EditCustomer implements Observer{
 
 	private void updateCustomer() {
 		realCustomer.setName(getTxtLastName());
+		txtLastName.setTextReload();
 		realCustomer.setSurname(getTxtFirstName());
+		txtFirstName.setTextReload();
 		realCustomer.setAdress(getTxtStreetName(), Integer.parseInt(getTxtPLZ()), getTxtCityName());
+		txtStreetName.setTextReload();
 	}
 
 	protected String getLblCustomerWindow() {
