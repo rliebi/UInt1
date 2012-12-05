@@ -1,19 +1,27 @@
 package views;
 
+import javax.swing.JFrame;
+
 import domain.Customer;
 
 
 public class EditCustomer extends NewCustomer{
 	public EditCustomer(){
-		super();
-		txtStreetNr.setVisible(false);
-		lblCustomerWindow.setText("Edit Customer");
 	}
 	
 	
+	public EditCustomer(Customer customer) {
+		super();
+		setCustomer(customer);
+		txtStreetNr.setVisible(false);
+		lblCustomerWindow.setText("Edit Customer");
+	}
+
+
 	public static void main(String[] args) {
 		EditCustomer window = new EditCustomer();
 		window.setVisible();
+		window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Customer testCustomer = new Customer("Senbony", "Tony");
 		testCustomer.setAdress("Adamstreet", 8000, "ZŸrich");
 		window.setCustomer(testCustomer);

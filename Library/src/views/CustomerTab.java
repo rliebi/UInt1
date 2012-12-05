@@ -28,7 +28,7 @@ import domain.Library;
 public class CustomerTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
 	private Library library;
-	private NewCustomer newCustomerWindow = new NewCustomer();
+	private NewCustomer newCustomerWindow;
 	private EditCustomer editCustomer;
 	private JTextField txtSearchfield;
 	private JTable customer_jtable;
@@ -175,9 +175,8 @@ public class CustomerTab extends JPanel implements Observer{
 		JButton btnDisplaySelected_1 = new JButton("Display Selected");
 		btnDisplaySelected_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				editCustomer = new EditCustomer();
+				editCustomer = new EditCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
 				editCustomer.setVisible();
-				editCustomer.setCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
 			}
 		});
 		GridBagConstraints gbc_btnDisplaySelected_1 = new GridBagConstraints();
@@ -189,6 +188,7 @@ public class CustomerTab extends JPanel implements Observer{
 		JButton btnNewCustomer = new JButton("New Customer");
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				newCustomerWindow = new NewCustomer();
 				newCustomerWindow.setVisible();
 			}
 		});

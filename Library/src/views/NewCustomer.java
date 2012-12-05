@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 public class NewCustomer {
 
 
-	private JFrame frame;
+	protected JFrame frame;
 	protected JLabel lblCustomerWindow;
 	private MyJTextField txtFirstName;
 	private MyJTextField txtStreetName;
@@ -258,6 +258,10 @@ public class NewCustomer {
 		panel.add(btnReset, gbc_btnReset);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
 		gbc_btnSave.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSave.gridwidth = 2;
