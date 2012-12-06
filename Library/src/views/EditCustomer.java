@@ -255,12 +255,12 @@ public class EditCustomer implements Observer{
 		
 		for(Component f : panel.getComponents()){
 			if(f instanceof MyJTextField){
-				final MyJTextField mytextfieldwithMemory = (MyJTextField) f;
-				mytextfieldwithMemory.addKeyListener(new KeyAdapter() {
+				final MyJTextField mytextfield = (MyJTextField) f;
+				mytextfield.addKeyListener(new KeyAdapter() {
 					@Override
 					public void keyReleased(KeyEvent e) {
 						super.keyReleased(e);
-						if(mytextfieldwithMemory.changed()){
+						if(mytextfield.changed()){
 							btnSave.setEnabled(true);
 							btnReload.setEnabled(true);
 						} else {
