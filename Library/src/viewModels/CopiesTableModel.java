@@ -2,10 +2,10 @@ package viewModels;
 
 import java.util.List;
 
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
+//import javax.swing.DefaultListCellRenderer;
+//import javax.swing.JComboBox;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.table.DefaultTableModel;
 
 import domain.Book;
 import domain.Copy;

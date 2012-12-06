@@ -4,7 +4,6 @@ package views;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
-import javax.swing.RowFilter;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -12,7 +11,6 @@ import java.awt.GridBagConstraints;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableRowSorter;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
@@ -27,16 +25,11 @@ import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JTextField;
-import java.awt.Font;
 import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JCheckBox;
+import components.MySearchField;
 import viewModels.TableModel;
 
 public class BookMaster implements Observer{
@@ -53,7 +46,7 @@ public class BookMaster implements Observer{
 	private JTable table;
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
-	JLabel lblSelectednumber = new JLabel("0");
+	private JLabel lblSelectednumber = new JLabel("0");
 	private Library library;
 	private BookDetail detailwindow;
 	private JTextField txtSearch;
@@ -188,9 +181,6 @@ public class BookMaster implements Observer{
 		gbc_lblSelected.gridx = 0;
 		gbc_lblSelected.gridy = 1;
 		panelBookInventory.add(lblSelected, gbc_lblSelected);
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		final TableRowSorter<TableModel> sorter = new TableRowSorter(table.getModel()); 
-		table.setRowSorter(sorter);
 		//---------JTable---------------------
 				
 		GridBagConstraints gbc_lblSelectednumber = new GridBagConstraints();
@@ -208,44 +198,8 @@ public class BookMaster implements Observer{
 			}
 		});
 		//------------Search Field --------------
-		txtSearch = new JTextField();
-		txtSearch.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				//newFilter();
-			}
+		txtSearch = new MySearchField(table);
 
-			@Override
-			public void keyReleased(KeyEvent e) {
-				newFilter();
-			}
-			
-			private void newFilter() {
-				RowFilter<TableModel, Object> rf = null;
-				//If current expression doesn't parse, don't update.
-				try {
-					rf = RowFilter.regexFilter(txtSearch.getText(), 0);
-				} catch (java.util.regex.PatternSyntaxException e) {
-					return;
-				}
-				sorter.setRowFilter(rf);
-			}
-		});
-		txtSearch.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				txtSearch.setText("");
-				txtSearch.setForeground(Color.black);
-				txtSearch.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				if(txtSearch.getText().isEmpty()){
-					reset_search();
-				}
-			}
-		});
-		reset_search();
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearch.gridx = 2;
@@ -418,12 +372,7 @@ public class BookMaster implements Observer{
 //---------------------------------CustomerTab-----------------------------------
 		
 	}
-
-	private void reset_search() {
-		txtSearch.setForeground(Color.LIGHT_GRAY);
-		txtSearch.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
-		txtSearch.setText("Search");
-	}
+	
 	private void openDetailWindow() {
 		if (detailwindow == null)
 			detailwindow = new BookDetail(library, library.getBooks().get(

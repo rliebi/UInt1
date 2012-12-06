@@ -22,8 +22,10 @@ public class Library extends Observable{
 		if (!isCopyLent(copy)) {
 			Loan l = new Loan(customer, copy);
 			loans.add(l);
+			fireChange();
 			return l;
 		} else {
+			fireChange();
 			return null;
 		}
 	}
@@ -31,22 +33,26 @@ public class Library extends Observable{
 	public Customer createAndAddCustomer(String name, String surname) {
 		Customer c = new Customer(name, surname);
 		customers.add(c);
+		fireChange();
 		return c;
+	}
+
+	private void fireChange() {
+		setChanged();
+		notifyObservers();
 	}
 
 	public Book createAndAddBook(String name) {
 		Book b = new Book(name);
 		books.add(b);
-		setChanged();
-		notifyObservers();
+		fireChange();
 		return b;
 	}
 
 	public Copy createAndAddCopy(Book title) {
 		Copy c = new Copy(title);
 		copies.add(c);
-		setChanged();
-		notifyObservers();
+		fireChange();
 		return c;
 	}
 
