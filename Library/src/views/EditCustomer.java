@@ -14,17 +14,20 @@ import java.awt.Insets;
 import javax.swing.JButton;
 
 import components.MyJTextField;
+import controll.InterfaceFormState;
+
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
 
 
-public class EditCustomer implements Observer{
+public class EditCustomer extends AbstractStatefullForm{
 	
 
 	private static final Color myBlackColor = new Color(0, 0, 0);
@@ -39,6 +42,7 @@ public class EditCustomer implements Observer{
 	protected Customer realCustomer;
 	private JButton btnSave;
 	private JButton btnReload;
+	private JPanel panel;
 	
 	
 	public EditCustomer(Customer customer) {
@@ -80,70 +84,22 @@ public class EditCustomer implements Observer{
 
 
 	private void updateFields() {
-		setTxtFirstName(realCustomer.getSurname());
-		setTxtLastName(realCustomer.getName());
-		setTxtStreetName(realCustomer.getStreet());
-		setTxtCityName(realCustomer.getCity());
-		setTxtPLZ(realCustomer.getZip()+"");
+		this.txtFirstName.setTextReload(realCustomer.getSurname());
+		txtLastName.setWrittingSettings();
+		this.txtLastName.setTextReload(realCustomer.getName());
+		this.txtStreetName.setTextReload(realCustomer.getStreet());
+		this.txtCityName.setTextReload(realCustomer.getCity());
+		this.txtPLZ.setTextReload(realCustomer.getZip()+"");
 		
 	}
 
 	private void updateCustomer() {
-		realCustomer.setName(getTxtLastName());
+		realCustomer.setName(txtLastName.getText());
 		txtLastName.setTextReload();
-		realCustomer.setSurname(getTxtFirstName());
+		realCustomer.setSurname(txtFirstName.getText());
 		txtFirstName.setTextReload();
-		realCustomer.setAdress(getTxtStreetName(), Integer.parseInt(getTxtPLZ()), getTxtCityName());
+		realCustomer.setAdress(txtStreetName.getText(), Integer.parseInt(txtPLZ.getText()), txtCityName.getText());
 		txtStreetName.setTextReload();
-	}
-
-	protected String getLblCustomerWindow() {
-		return lblCustomerWindow.getText();
-	}
-
-	protected void setLblCustomerWindow(String input) {
-		this.lblCustomerWindow.setText(input);
-	}
-
-	protected String getTxtFirstName() {
-		return txtFirstName.getText();
-	}
-
-	protected void setTxtFirstName(String input) {
-		this.txtFirstName.setTextReload(input);
-	}
-
-	protected String getTxtStreetName() {
-		return txtStreetName.getText();
-	}
-
-	protected void setTxtStreetName(String input) {
-		this.txtStreetName.setTextReload(input);
-	}
-
-	protected String getTxtCityName() {
-		return txtCityName.getText();
-	}
-
-	protected void setTxtCityName(String input) {
-		this.txtCityName.setTextReload(input);
-	}
-
-	protected String getTxtPLZ() {
-		return txtPLZ.getText();
-	}
-
-	protected void setTxtPLZ(String input) {;
-		this.txtPLZ.setTextReload(input);
-	}
-
-	protected String getTxtLastName() {
-		return txtLastName.getText();
-	}
-
-	protected void setTxtLastName(String input) {
-		txtLastName.setWrittingSettings();
-		this.txtLastName.setTextReload(input);
 	}
 
 	private void initialize() {
@@ -157,7 +113,7 @@ public class EditCustomer implements Observer{
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		final JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setMinimumSize(new Dimension(60, 30));
 		panel.setBorder(UIManager.getBorder("InsetBorder.aquaVariant"));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -304,6 +260,110 @@ public class EditCustomer implements Observer{
 		gbc_btnSave.gridx = 2;
 		gbc_btnSave.gridy = 6;
 		panel.add(btnSave, gbc_btnSave);
+	}
+
+
+	@Override
+	public List<MyJTextField> getMyFields() {
+		List<MyJTextField> answerFields = new ArrayList<MyJTextField>();
+		for(Component f : panel.getComponents()){
+			answerFields.add((MyJTextField)f);
+		}
+		return answerFields;
+	}
+
+
+	@Override
+	public JButton getSaveBtn() {
+		return btnSave;
+	}
+
+
+	@Override
+	public JButton getReloadBtn() {
+		return btnReload;
+	}
+
+
+	@Override
+	public void setState(InterfaceFormState newState) {
+		myState=newState;
+	}
+
+
+	@Override
+	public void update(Observable object) {
+		myState.update(this, realCustomer);
+	}
+
+
+	@Override
+	public void reloadFieldsfromRealObject() {
+		this.txtFirstName.setTextReload(realCustomer.getSurname());
+		txtLastName.setWrittingSettings();
+		this.txtLastName.setTextReload(realCustomer.getName());
+		this.txtStreetName.setTextReload(realCustomer.getStreet());
+		this.txtCityName.setTextReload(realCustomer.getCity());
+		this.txtPLZ.setTextReload(realCustomer.getZip()+"");
+	}
+
+
+	@Override
+	public void saveChangestoRealObject() {
+		realCustomer.setName(txtLastName.getText());
+		txtLastName.setTextReload();
+		realCustomer.setSurname(txtFirstName.getText());
+		txtFirstName.setTextReload();
+		realCustomer.setAdress(txtStreetName.getText(), Integer.parseInt(txtPLZ.getText()), txtCityName.getText());
+		txtStreetName.setTextReload();		
+	}
+
+
+	@Override
+	public void addListenertoMyFields() {
+		for(Component f : panel.getComponents()){
+			if(f instanceof MyJTextField){
+				final MyJTextField mytextfield = (MyJTextField) f;
+				mytextfield.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+						super.keyReleased(e);
+						if(mytextfield.changed()){
+							btnSave.setEnabled(true);
+							btnReload.setEnabled(true);
+						} else {
+							btnSave.setEnabled(false);							
+						}
+					}
+					
+				});;
+			}
+		}
+	}
+
+
+	@Override
+	public void addListenertoSavebtn() {
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateCustomer();
+				btnSave.setEnabled(false);
+				btnReload.setEnabled(false);
+				btnReload.setForeground(myBlackColor);
+			}
+		});
+	}
+
+
+	@Override
+	public void addListenertoReloadbtn() {
+		btnReload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnSave.setEnabled(false);
+				btnReload.setForeground(myBlackColor);
+				updateFields();		
+			}
+		});
 	}
 
 }
