@@ -7,12 +7,6 @@ import views.AbstractStatefullForm;
 public class OldFormState implements InterfaceFormState {
 
 	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void update(AbstractStatefullForm FORM, Observable realObject) {
 		// TODO Auto-generated method stub
 		

@@ -1,13 +1,14 @@
 package views;
 
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 
 import components.MyJTextField;
 import controll.InterfaceFormState;
 
-public abstract class AbstractStatefullForm extends Observable{
+public abstract class AbstractStatefullForm implements Observer{
 	@SuppressWarnings("unused")
 	private InterfaceFormState myState;
 	
