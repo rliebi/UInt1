@@ -25,7 +25,6 @@ public abstract class AbstractStatefullForm implements Observer{
 	protected JButton btnSave;
 	protected JButton btnReload;
 	
-	public abstract void setState(InterfaceFormState newState);
 	public abstract void update(Observable arg0, Object arg1);
 	public abstract void reloadFieldsfromRealObject();
 	public abstract void saveChangestoRealObject();
@@ -43,7 +42,7 @@ public abstract class AbstractStatefullForm implements Observer{
 		}
 		return answerFields;	
 	}
-	public void addListenertoMyFields(JPanel panel) {
+	public void addListenertoMyFields(JPanel panel,final AbstractStatefullForm FORM) {
 		for(Component f : panel.getComponents()){
 			if(f instanceof MyJTextField){
 				final MyJTextField mytextfield = (MyJTextField) f;
@@ -51,12 +50,7 @@ public abstract class AbstractStatefullForm implements Observer{
 					@Override
 					public void keyReleased(KeyEvent e) {
 						super.keyReleased(e);
-						if(mytextfield.changed()){
-							btnSave.setEnabled(true);
-							btnReload.setEnabled(true);
-						} else {
-							btnSave.setEnabled(false);							
-						}
+						myState.keyreleased(mytextfield, FORM);
 					}
 					
 				});;
@@ -74,10 +68,11 @@ public abstract class AbstractStatefullForm implements Observer{
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				saveChangestoRealObject();
-				btnSave.setEnabled(false);
-				btnReload.setEnabled(false);
-				btnReload.setForeground(myBlackColor);
 			}
 		});
+	}
+	public void setState(InterfaceFormState newState) {
+		myState=newState;
+		System.out.println("Set state: " + newState.toString());
 	}
 }

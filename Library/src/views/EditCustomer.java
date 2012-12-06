@@ -13,7 +13,7 @@ import java.awt.Insets;
 import javax.swing.JButton;
 
 import components.MyJTextField;
-import controll.InterfaceFormState;
+import components.StateLogicException;
 import controll.UnchangedFormState;
 
 import java.awt.Dimension;
@@ -35,11 +35,11 @@ public class EditCustomer extends AbstractStatefullForm{
 	protected JPanel panel;
 	public EditCustomer(Customer customer) {
 		setCustomer(customer);
-		setState(new UnchangedFormState());
 		customer.addObserver(this);
 		initialize();
 		lblCustomerWindow.setText("Edit Customer");
 		frame.getRootPane().setDefaultButton(btnSave);
+		setState(new UnchangedFormState(this));
 	}
 
 
@@ -200,21 +200,18 @@ public class EditCustomer extends AbstractStatefullForm{
 
 
 	@Override
-	public void setState(InterfaceFormState newState) {
-		myState=newState;
-	}
-
-
-	@Override
 	public void reloadFieldsfromRealObject() {
-		btnSave.setEnabled(false);
-		btnReload.setForeground(myBlackColor);
 		this.txtFirstName.setTextReload(realCustomer.getSurname());
 		txtLastName.setWrittingSettings();
 		this.txtLastName.setTextReload(realCustomer.getName());
 		this.txtStreetName.setTextReload(realCustomer.getStreet());
 		this.txtCityName.setTextReload(realCustomer.getCity());
 		this.txtPLZ.setTextReload(realCustomer.getZip()+"");
+		try {
+			myState.reloadFieldsfromRealObject(this);
+		} catch (StateLogicException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -226,13 +223,17 @@ public class EditCustomer extends AbstractStatefullForm{
 		txtFirstName.setTextReload();
 		realCustomer.setAdress(txtStreetName.getText(), Integer.parseInt(txtPLZ.getText()), txtCityName.getText());
 		txtStreetName.setTextReload();
-		myState.saveChangestoRealObject(this);
+		try {
+			myState.saveChangestoRealObject(this);
+		} catch (StateLogicException e) {
+			e.printStackTrace();
+		}
 	}
 
 
 	@Override
 	public void addListenertoMyFields() {
-		addListenertoMyFields(panel);
+		addListenertoMyFields(panel,this);
 	}
 	
 	public List<MyJTextField> getMyFields() {

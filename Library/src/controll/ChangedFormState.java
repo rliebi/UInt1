@@ -2,25 +2,45 @@ package controll;
 
 import java.util.Observable;
 
+import components.MyJTextField;
+
 import views.AbstractStatefullForm;
 
 public class ChangedFormState implements InterfaceFormState {
 
+	public ChangedFormState(AbstractStatefullForm FORM) {
+		FORM.getSaveBtn().setEnabled(true);
+		FORM.getReloadBtn().setEnabled(true);
+	}
+
 	@Override
 	public void update(AbstractStatefullForm FORM, Observable realObject) {
-		
+		FORM.setState(new OldFormState(FORM));
 	}
 
 	@Override
 	public void reloadFieldsfromRealObject(AbstractStatefullForm FORM) {
-		// TODO Auto-generated method stub
-		
+		FORM.setState(new UnchangedFormState(FORM));
 	}
 
 	@Override
 	public void saveChangestoRealObject(AbstractStatefullForm FORM) {
-		// TODO Auto-generated method stub
+		FORM.getSaveBtn().setEnabled(false);
+		FORM.getReloadBtn().setEnabled(false);
+		FORM.getReloadBtn().setForeground(myBlackColor);
+		FORM.setState(new UnchangedFormState(FORM));
 		
 	}
+
+	@Override
+	public void keyreleased(MyJTextField mytextfield, AbstractStatefullForm FORM) {
+		//TODO Fix bug: Need to check all fields if changed
+		if(mytextfield.changed()){
+		} else {
+			FORM.setState(new UnchangedFormState(FORM));
+		}
+		
+	}
+
 
 }

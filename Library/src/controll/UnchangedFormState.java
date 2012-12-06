@@ -1,29 +1,42 @@
 package controll;
 
 import java.util.Observable;
+import components.MyJTextField;
+import components.StateLogicException;
 
 import views.AbstractStatefullForm;
 
-public class UnchangedFormState implements InterfaceFormState {
+public class UnchangedFormState implements InterfaceFormState{
 
-	@Override
-	public void update(AbstractStatefullForm FORM, Observable realObject) {
+	public UnchangedFormState(AbstractStatefullForm FORM) {
 		FORM.getSaveBtn().setEnabled(false);
-		FORM.getReloadBtn().setEnabled(true);
-		FORM.getReloadBtn().setForeground(myBadColor);
-		FORM.setState(new OldFormState());
+		FORM.getReloadBtn().setEnabled(false);
+		FORM.getReloadBtn().setForeground(myBlackColor);
 	}
 
 	@Override
-	public void reloadFieldsfromRealObject(AbstractStatefullForm FORM) {
-		// TODO Auto-generated method stub
-		
+	public void update(AbstractStatefullForm FORM, Observable realObject) {		
+		FORM.setState(new OldFormState(FORM));
 	}
 
 	@Override
-	public void saveChangestoRealObject(AbstractStatefullForm FORM) {
-		// TODO Auto-generated method stub
-		
+	public void reloadFieldsfromRealObject(AbstractStatefullForm FORM) throws StateLogicException{
+		throw new StateLogicException();
 	}
+
+	@Override
+	public void saveChangestoRealObject(AbstractStatefullForm FORM) throws StateLogicException {
+		throw new StateLogicException();
+	}
+
+	@Override
+	public void keyreleased(MyJTextField mytextfield, AbstractStatefullForm FORM) {
+		if(mytextfield.changed()){
+			FORM.setState(new ChangedFormState(FORM));
+		} else {
+			FORM.getSaveBtn().setEnabled(false);							
+		}
+	}
+
 
 }
