@@ -8,8 +8,10 @@ public class UnchangedFormState implements InterfaceFormState {
 
 	@Override
 	public void update(AbstractStatefullForm FORM, Observable realObject) {
-		// TODO Auto-generated method stub
-		
+		FORM.getSaveBtn().setEnabled(false);
+		FORM.getReloadBtn().setEnabled(true);
+		FORM.getReloadBtn().setForeground(myBadColor);
+		FORM.setState(new OldFormState());
 	}
 
 	@Override
