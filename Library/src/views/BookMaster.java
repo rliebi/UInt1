@@ -48,6 +48,7 @@ public class BookMaster implements Observer{
 	private JLabel lblSelectednumber = new JLabel("0");
 	private Library library;
 	private BookDetail detailwindow;
+	private BookDetail newBookDetailWindow;
 	private JTextField txtSearch;
 	public BookMaster(Library library) {
 		this.library = library;
@@ -217,6 +218,11 @@ public class BookMaster implements Observer{
 		gbc_btnAddNewBook.gridx = 4;
 		gbc_btnAddNewBook.gridy = 1;
 		panelBookInventory.add(btnAddNewBook, gbc_btnAddNewBook);
+		btnAddNewBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openNewBookWindow();
+			}
+		});
 		//------------Button Add new Book--------
 		
 //-------------Lending Tab---------------
@@ -241,6 +247,12 @@ public class BookMaster implements Observer{
 		detailwindow.setVisible();
 		detailwindow.setBook(library.getBooks().get(
 				table.convertRowIndexToModel(table.getSelectedRow())));
+	}
+	
+	private void openNewBookWindow() {
+		System.out.println("Open new Book");
+		newBookDetailWindow = new BookDetail(library);
+		newBookDetailWindow.setVisible();
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
