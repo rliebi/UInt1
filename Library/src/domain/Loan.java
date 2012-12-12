@@ -10,6 +10,7 @@ public class Loan {
 	private Customer customer;
 	private GregorianCalendar pickupDate, returnDate;
 	private final static int DAYS_TO_RETURN_BOOK = 30;
+	private static final SimpleDateFormat date_formatter = new SimpleDateFormat("dd.MM.yyyy");
 
 	public Loan(Customer customer, Copy copy) {
 		this.copy = copy;
@@ -50,9 +51,15 @@ public class Loan {
 	public GregorianCalendar getPickupDate() {
 		return pickupDate;
 	}
-
+	public String getPickupDatetoString(){
+		return getMyFormattedDate(pickupDate);
+	}
+	
 	public GregorianCalendar getReturnDate() {
 		return returnDate;
+	}
+	public String getReturnDatetoString(){
+		return getMyFormattedDate(returnDate);
 	}
 
 	public Copy getCopy() {
@@ -79,7 +86,9 @@ public class Loan {
 		}
 		return "00.00.00";
 	}
-
+	private String getMyFormattedDate(GregorianCalendar date){
+		return date_formatter.format(date.getTime());
+	}
 	public int getDaysOfLoanDuration() {
 		if (returnDate != null)
 			return (int) (returnDate.getTimeInMillis() - pickupDate
@@ -122,5 +131,8 @@ public class Loan {
 		dueDate.add(GregorianCalendar.MINUTE, 59);
 		dueDate.add(GregorianCalendar.SECOND, 59);
 		return dueDate;
+	}
+	public String getdueDatetoString(){
+		return getMyFormattedDate(getdueDate());
 	}
 }

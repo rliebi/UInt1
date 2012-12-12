@@ -2,6 +2,7 @@ package views;
 
 import java.awt.EventQueue;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
@@ -16,26 +17,35 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Observable;
+
 import javax.swing.JRadioButton;
 
-public class LoanDetail {
+import components.MyJTextField;
+
+import domain.Book;
+import domain.Copy;
+import domain.Customer;
+import domain.Loan;
+
+public class EditLoan extends AbstractStatefullForm{
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private MyJTextField txtTitel;
+	private MyJTextField txtId;
+	private MyJTextField txtFromDate;
+	private MyJTextField txtToDate;
 	private JLabel lblTo;
 	private JLabel lblCustomer;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtFirstName;
+	private JTextField txtLastName;
 	private JLabel lblLoanDetail;
-	private JButton btnReturnBook;
+	private JButton btnSave;
 	private JButton btnReload;
 	private JRadioButton rdbtnYes;
 	private JRadioButton rdbtnNo;
 	private JLabel lblReturned;
-
+	private Loan realLoan;
 	/**
 	 * Launch the application.
 	 */
@@ -43,7 +53,8 @@ public class LoanDetail {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoanDetail window = new LoanDetail();
+					Loan loan = new Loan(new Customer("LastName", "Firstname"), new Copy(new Book("BookTitel")));
+					EditLoan window = new EditLoan(loan);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,7 +66,8 @@ public class LoanDetail {
 	/**
 	 * Create the application.
 	 */
-	public LoanDetail() {
+	public EditLoan(Loan loan) {
+		realLoan=loan;
 		initialize();
 	}
 
@@ -94,15 +106,15 @@ public class LoanDetail {
 		gbc_lblTitel.gridy = 2;
 		panel.add(lblTitel, gbc_lblTitel);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 3;
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 2;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		txtTitel = new MyJTextField("Titel", realLoan.getCopy().getTitle().getName());
+		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
+		gbc_txtTitel.gridwidth = 3;
+		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTitel.insets = new Insets(0, 0, 5, 5);
+		gbc_txtTitel.gridx = 1;
+		gbc_txtTitel.gridy = 2;
+		panel.add(txtTitel, gbc_txtTitel);
+		txtTitel.setColumns(10);
 		
 		JLabel lblId = new JLabel("ID:");
 		GridBagConstraints gbc_lblId = new GridBagConstraints();
@@ -112,14 +124,14 @@ public class LoanDetail {
 		gbc_lblId.gridy = 2;
 		panel.add(lblId, gbc_lblId);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.gridx = 5;
-		gbc_textField_1.gridy = 2;
-		panel.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		txtId = new MyJTextField("ID", realLoan.getCopy().getInventoryNumber() + "");
+		GridBagConstraints gbc_txtId = new GridBagConstraints();
+		gbc_txtId.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtId.insets = new Insets(0, 0, 5, 0);
+		gbc_txtId.gridx = 5;
+		gbc_txtId.gridy = 2;
+		panel.add(txtId, gbc_txtId);
+		txtId.setColumns(10);
 		
 		JLabel lblFrom = new JLabel("From:");
 		GridBagConstraints gbc_lblFrom = new GridBagConstraints();
@@ -129,14 +141,14 @@ public class LoanDetail {
 		gbc_lblFrom.gridy = 3;
 		panel.add(lblFrom, gbc_lblFrom);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 3;
-		panel.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		txtFromDate = new MyJTextField("From Date", realLoan.getPickupDatetoString());
+		GridBagConstraints gbc_txtFromDate = new GridBagConstraints();
+		gbc_txtFromDate.insets = new Insets(0, 0, 5, 5);
+		gbc_txtFromDate.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFromDate.gridx = 1;
+		gbc_txtFromDate.gridy = 3;
+		panel.add(txtFromDate, gbc_txtFromDate);
+		txtFromDate.setColumns(10);
 		
 		lblTo = new JLabel("To:");
 		GridBagConstraints gbc_lblTo = new GridBagConstraints();
@@ -146,15 +158,15 @@ public class LoanDetail {
 		gbc_lblTo.gridy = 3;
 		panel.add(lblTo, gbc_lblTo);
 		
-		textField_3 = new JTextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.gridwidth = 3;
-		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 3;
-		gbc_textField_3.gridy = 3;
-		panel.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		txtToDate = new MyJTextField("To date", realLoan.getdueDatetoString());
+		GridBagConstraints gbc_txtToDate = new GridBagConstraints();
+		gbc_txtToDate.gridwidth = 3;
+		gbc_txtToDate.insets = new Insets(0, 0, 5, 0);
+		gbc_txtToDate.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtToDate.gridx = 3;
+		gbc_txtToDate.gridy = 3;
+		panel.add(txtToDate, gbc_txtToDate);
+		txtToDate.setColumns(10);
 		
 		lblCustomer = new JLabel("Customer:");
 		GridBagConstraints gbc_lblCustomer = new GridBagConstraints();
@@ -164,24 +176,24 @@ public class LoanDetail {
 		gbc_lblCustomer.gridy = 4;
 		panel.add(lblCustomer, gbc_lblCustomer);
 		
-		textField_4 = new JTextField();
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.gridx = 1;
-		gbc_textField_4.gridy = 4;
-		panel.add(textField_4, gbc_textField_4);
-		textField_4.setColumns(10);
+		txtFirstName = new MyJTextField("First Name", realLoan.getCustomer().getSurname());
+		GridBagConstraints gbc_txtFirstName = new GridBagConstraints();
+		gbc_txtFirstName.insets = new Insets(0, 0, 5, 5);
+		gbc_txtFirstName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFirstName.gridx = 1;
+		gbc_txtFirstName.gridy = 4;
+		panel.add(txtFirstName, gbc_txtFirstName);
+		txtFirstName.setColumns(10);
 		
-		textField_5 = new JTextField();
-		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
-		gbc_textField_5.gridwidth = 4;
-		gbc_textField_5.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_5.gridx = 2;
-		gbc_textField_5.gridy = 4;
-		panel.add(textField_5, gbc_textField_5);
-		textField_5.setColumns(10);
+		txtLastName = new MyJTextField("Last Name", realLoan.getCustomer().getName());
+		GridBagConstraints gbc_txtLastName = new GridBagConstraints();
+		gbc_txtLastName.gridwidth = 4;
+		gbc_txtLastName.insets = new Insets(0, 0, 5, 0);
+		gbc_txtLastName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLastName.gridx = 2;
+		gbc_txtLastName.gridy = 4;
+		panel.add(txtLastName, gbc_txtLastName);
+		txtLastName.setColumns(10);
 		
 		btnReload = new JButton("Reload");
 		btnReload.addActionListener(new ActionListener() {
@@ -204,6 +216,7 @@ public class LoanDetail {
 		panel.add(rdbtnYes, gbc_rdbtnYes);
 		
 		rdbtnNo = new JRadioButton("No");
+		if(realLoan.isLent())rdbtnNo.setSelected(true);
 		GridBagConstraints gbc_rdbtnNo = new GridBagConstraints();
 		gbc_rdbtnNo.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNo.gridx = 3;
@@ -216,18 +229,50 @@ public class LoanDetail {
 		gbc_btnReload.gridy = 6;
 		panel.add(btnReload, gbc_btnReload);
 		
-		btnReturnBook = new JButton("Save");
-		btnReturnBook.addActionListener(new ActionListener() {
+		ButtonGroup rdbtnGroup = new ButtonGroup();
+		rdbtnGroup.add(rdbtnYes);
+		rdbtnGroup.add(rdbtnNo);
+		
+		btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		GridBagConstraints gbc_btnReturnBook = new GridBagConstraints();
-		gbc_btnReturnBook.gridwidth = 2;
-		gbc_btnReturnBook.anchor = GridBagConstraints.SOUTHWEST;
-		gbc_btnReturnBook.insets = new Insets(0, 0, 0, 5);
-		gbc_btnReturnBook.gridx = 2;
-		gbc_btnReturnBook.gridy = 6;
-		panel.add(btnReturnBook, gbc_btnReturnBook);
+		GridBagConstraints gbc_btnSave = new GridBagConstraints();
+		gbc_btnSave.gridwidth = 2;
+		gbc_btnSave.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_btnSave.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSave.gridx = 2;
+		gbc_btnSave.gridy = 6;
+		panel.add(btnSave, gbc_btnSave);
+		
+		for(MyJTextField field : getMyFields(panel)){
+			field.setEnabled(false);
+		}
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reloadFieldsfromRealObject() {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	@Override
+	public void saveChangestoRealObject() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addListenertoMyFields() {
+		// TODO Auto-generated method stub	
 	}
 
 }
