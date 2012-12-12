@@ -206,8 +206,7 @@ public class CustomerTab extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		updateFields();
-		
+		updateFields();		
 	}
 
 }
