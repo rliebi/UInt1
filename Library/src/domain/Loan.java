@@ -99,16 +99,28 @@ public class Loan {
 				dueDate.getTimeInMillis())/ 1000 /60 /60 /24;
 	}
 	
+	public int getDaysLeft(){
+		if(returnDate!=null||isOverdue()){
+			return 0;
+		}
+		return (int) (new GregorianCalendar().getTimeInMillis() - getdueDate().getTimeInMillis())
+				/ 1000 /60 /60 /24;
+		
+	}
+	
 	public boolean isOverdue() {
 		if ( !isLent() )
 			return false;
-		
+		GregorianCalendar dueDate = getdueDate();
+		return ( new GregorianCalendar().after(dueDate) );
+	}
+
+	public GregorianCalendar getdueDate() {
 		GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
 		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
 		dueDate.add(GregorianCalendar.HOUR_OF_DAY, 23);
 		dueDate.add(GregorianCalendar.MINUTE, 59);
 		dueDate.add(GregorianCalendar.SECOND, 59);
-		
-		return ( new GregorianCalendar().after(dueDate) );
+		return dueDate;
 	}
 }

@@ -10,13 +10,13 @@ public class LendingTableModel extends AbstractTableModel{
 	private static final String Status = "Status";
 	private static final String ID = "ID";
 	private static final String Titel = "Titel";
-	private static final String From = "From";
-	private static final String to = "to";
+	private static final String Until = "Until";
+	private static final String Customer = "Customer";
 	private static final long serialVersionUID = -5278540270938445385L;
-	private static final SimpleDateFormat date = new SimpleDateFormat("MM.dd.yyyy");
+	private static final SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy");
 	List<Loan> wordsList;
 	
-	String headerList[] = new String[] { Status, ID, Titel, From, to};
+	String headerList[] = new String[] { Status, ID, Titel, Until, Customer};
 
 	public LendingTableModel(List<Loan> list) {
 		wordsList = list;
@@ -46,9 +46,10 @@ public class LendingTableModel extends AbstractTableModel{
 		case 2:
 			return entity.getCopy().getTitle();
 		case 3:
-			return date.format(entity.getPickupDate().getTime());
+			//return date.format(entity.getPickupDate().getTime());
+			return date.format(entity.getdueDate().getTime()) + "("+ entity.getDaysLeft() + " days left)";
 		case 4:
-			return "";
+			return entity.getCustomer().getName() + " " + entity.getCustomer().getSurname();
 		default:
 			return "";
 		}

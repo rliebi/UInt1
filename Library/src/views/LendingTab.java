@@ -94,7 +94,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lbl_number_of_lendings.gridy = 0;
 		panelrentstatistics.add(lbl_number_of_lendings, gbc_lbl_number_of_lendings);
 		
-		JLabel display_number_of_lendings = new JLabel("%nr");
+		final JLabel display_number_of_lendings = new JLabel("%nr");
 		GridBagConstraints gbc_display_number_of_lendings = new GridBagConstraints();
 		gbc_display_number_of_lendings.insets = new Insets(0, 0, 0, 5);
 		gbc_display_number_of_lendings.gridx = 4;
@@ -147,7 +147,7 @@ public class LendingTab extends JPanel implements Observer{
 		loan_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent lse) {
 				if (!lse.getValueIsAdjusting()) {
-					btnDisplay_selected.setText(loan_table.getSelectedRows().length+"");
+					display_number_of_lendings.setText(loan_table.getSelectedRows().length+"");
 				}
 			}
 		});
@@ -157,6 +157,7 @@ public class LendingTab extends JPanel implements Observer{
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( loan_table.getModel()); 
 		loan_table.setRowSorter(customerSorter);
+		//TODO Resize Correctly
 		//loan_table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		//loan_table.getColumnModel().getColumn(0).setResizable(false);
 		loan_table.getColumnModel().getColumn(0).setMaxWidth(45);
