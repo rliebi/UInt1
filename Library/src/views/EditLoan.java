@@ -22,6 +22,7 @@ import java.util.Observable;
 import javax.swing.JRadioButton;
 
 import components.MyJTextField;
+import controll.UnchangedFormState;
 
 import domain.Book;
 import domain.Copy;
@@ -40,8 +41,6 @@ public class EditLoan extends AbstractStatefullForm{
 	private JTextField txtFirstName;
 	private JTextField txtLastName;
 	private JLabel lblLoanDetail;
-	private JButton btnSave;
-	private JButton btnReload;
 	private JRadioButton rdbtnYes;
 	private JRadioButton rdbtnNo;
 	private JLabel lblReturned;
@@ -69,6 +68,7 @@ public class EditLoan extends AbstractStatefullForm{
 	public EditLoan(Loan loan) {
 		realLoan=loan;
 		initialize();
+		setState(new UnchangedFormState(this));
 	}
 
 	/**
