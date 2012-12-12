@@ -21,17 +21,18 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
 
 import viewModels.CustomerTableModel;
+import viewModels.LendingTableModel;
 
 import components.MySearchField;
 
-import domain.Customer;
 import domain.Library;
 
 public class LendingTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
 	private Library library;
 	private JTextField txtSearchfield;
-	private JTable table_1;
+	private JTable loan_table;
+	private JButton btnDisplay_selected;
 	
 	public LendingTab(){
 		super();
@@ -42,7 +43,7 @@ public class LendingTab extends JPanel implements Observer{
 	public LendingTab(Library library){
 		super();
 		this.library = library;
-		library.addObserver(this);
+		this.library.addObserver(this);
 		initialize();
 		
 	}
@@ -126,17 +127,14 @@ public class LendingTab extends JPanel implements Observer{
 		gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JScrollPane scrollPane_2 = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
 		gbc_scrollPane_2.gridwidth = 6;
 		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_2.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane_2.gridx = 0;
 		gbc_scrollPane_2.gridy = 0;
-		panel.add(scrollPane_2, gbc_scrollPane_2);
-		
-		table_1 = new JTable();
-		scrollPane_2.setViewportView(table_1);
+		panel.add(scrollPane, gbc_scrollPane_2);
 		
 		JLabel lblSelected_1 = new JLabel("Selected: ");
 		GridBagConstraints gbc_lblSelected_1 = new GridBagConstraints();
@@ -144,6 +142,27 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lblSelected_1.gridx = 0;
 		gbc_lblSelected_1.gridy = 1;
 		panel.add(lblSelected_1, gbc_lblSelected_1);
+		
+		loan_table = new JTable();
+		loan_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent lse) {
+				if (!lse.getValueIsAdjusting()) {
+					btnDisplay_selected.setText(loan_table.getSelectedRows().length+"");
+				}
+			}
+		});
+		scrollPane.setViewportView(loan_table);
+		LendingTableModel lendingTableModel = new LendingTableModel(library.getLoans());
+		loan_table.setModel(lendingTableModel);
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( loan_table.getModel()); 
+		loan_table.setRowSorter(customerSorter);
+		//loan_table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//loan_table.getColumnModel().getColumn(0).setResizable(false);
+		loan_table.getColumnModel().getColumn(0).setMaxWidth(45);
+		//loan_table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		loan_table.getColumnModel().getColumn(1).setMaxWidth(40);
+		//loan_table.getColumnModel().getColumn(1).setPreferredWidth(30);
 		
 		JLabel DisplaySelected = new JLabel("%nr");
 		GridBagConstraints gbc_DisplaySelected = new GridBagConstraints();
@@ -153,8 +172,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_DisplaySelected.gridy = 1;
 		panel.add(DisplaySelected, gbc_DisplaySelected);
 		
-		txtSearchfield = new JTextField();
-		txtSearchfield.setText("Search_field");
+		txtSearchfield = new MySearchField(loan_table);
 		GridBagConstraints gbc_txtSearchfield = new GridBagConstraints();
 		gbc_txtSearchfield.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield.fill = GridBagConstraints.HORIZONTAL;
@@ -170,7 +188,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_chckbxOverdue.gridy = 1;
 		panel.add(chckbxOverdue, gbc_chckbxOverdue);
 		
-		JButton btnDisplay_selected = new JButton("Display Selected");
+		btnDisplay_selected = new JButton("Display Selected");
 		GridBagConstraints gbc_btnDisplay_selected = new GridBagConstraints();
 		gbc_btnDisplay_selected.insets = new Insets(0, 0, 0, 5);
 		gbc_btnDisplay_selected.gridx = 4;
