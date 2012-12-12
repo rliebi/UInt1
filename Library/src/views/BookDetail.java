@@ -245,7 +245,12 @@ public class BookDetail implements Observer {
 		gbc_button_1.gridx = 4;
 		gbc_button_1.gridy = 0;
 		panel_2.add(button_1, gbc_button_1);
-
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				library.createAndAddCopy(theBook);
+				
+			}
+		});
 		createBookTable(createtableScrollPane(panel_1));
 	}
 
