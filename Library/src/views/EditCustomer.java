@@ -33,6 +33,7 @@ public class EditCustomer extends AbstractStatefullForm{
 	private MyJTextField txtLastName;
 	protected Customer realCustomer;
 	protected JPanel panel;
+	//TODO deregister form observing object when hiding window
 	public EditCustomer(Customer customer) {
 		setCustomer(customer);
 		customer.addObserver(this);
@@ -46,14 +47,19 @@ public class EditCustomer extends AbstractStatefullForm{
 	public static void main(String[] args) {
 		Customer testCustomer = new Customer("Senbony", "Tony");
 		testCustomer.setAdress("Adamstreet", 8000, "ZŸrich");
-//		EditCustomer editcustomer_window2 = new EditCustomer(testCustomer);
-//		editcustomer_window2.setVisible();
+		EditCustomer editcustomer_window2 = new EditCustomer(testCustomer);
+		editcustomer_window2.setVisible();
 		EditCustomer editcustomer_window = new EditCustomer(testCustomer);
 		editcustomer_window.setVisible();
 		editcustomer_window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	public void setCustomer(Customer customer){
 		realCustomer = customer;
+	}
+	
+	public int deregister(){
+		realCustomer.deleteObserver(this);
+		return 0;
 	}
 
 

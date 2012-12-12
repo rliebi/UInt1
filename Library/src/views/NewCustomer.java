@@ -263,6 +263,7 @@ public class NewCustomer {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 			}
 		});
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();

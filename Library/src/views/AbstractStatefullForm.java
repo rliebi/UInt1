@@ -38,7 +38,9 @@ public abstract class AbstractStatefullForm implements Observer{
 	public List<MyJTextField> getMyFields(JPanel panel) {
 		List<MyJTextField> answerFields = new ArrayList<MyJTextField>();
 		for(Component f : panel.getComponents()){
-			answerFields.add((MyJTextField)f);
+			if(f instanceof MyJTextField){
+				answerFields.add((MyJTextField)f);				
+			}
 		}
 		return answerFields;	
 	}

@@ -10,6 +10,7 @@ public class Loan {
 	private Customer customer;
 	private GregorianCalendar pickupDate, returnDate;
 	private final static int DAYS_TO_RETURN_BOOK = 30;
+	private static final SimpleDateFormat date_formatter = new SimpleDateFormat("dd.MM.yyyy");
 
 	public Loan(Customer customer, Copy copy) {
 		this.copy = copy;
@@ -50,9 +51,15 @@ public class Loan {
 	public GregorianCalendar getPickupDate() {
 		return pickupDate;
 	}
-
+	public String getPickupDatetoString(){
+		return getMyFormattedDate(pickupDate);
+	}
+	
 	public GregorianCalendar getReturnDate() {
 		return returnDate;
+	}
+	public String getReturnDatetoString(){
+		return getMyFormattedDate(returnDate);
 	}
 
 	public Copy getCopy() {
@@ -79,7 +86,9 @@ public class Loan {
 		}
 		return "00.00.00";
 	}
-
+	private String getMyFormattedDate(GregorianCalendar date){
+		return date_formatter.format(date.getTime());
+	}
 	public int getDaysOfLoanDuration() {
 		if (returnDate != null)
 			return (int) (returnDate.getTimeInMillis() - pickupDate
@@ -99,16 +108,31 @@ public class Loan {
 				dueDate.getTimeInMillis())/ 1000 /60 /60 /24;
 	}
 	
+	public int getDaysLeft(){
+		if(returnDate!=null||isOverdue()){
+			return 0;
+		}
+		return (int) (new GregorianCalendar().getTimeInMillis() - getdueDate().getTimeInMillis())
+				/ 1000 /60 /60 /24;
+		
+	}
+	
 	public boolean isOverdue() {
 		if ( !isLent() )
 			return false;
-		
+		GregorianCalendar dueDate = getdueDate();
+		return ( new GregorianCalendar().after(dueDate) );
+	}
+
+	public GregorianCalendar getdueDate() {
 		GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
 		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
 		dueDate.add(GregorianCalendar.HOUR_OF_DAY, 23);
 		dueDate.add(GregorianCalendar.MINUTE, 59);
 		dueDate.add(GregorianCalendar.SECOND, 59);
-		
-		return ( new GregorianCalendar().after(dueDate) );
+		return dueDate;
+	}
+	public String getdueDatetoString(){
+		return getMyFormattedDate(getdueDate());
 	}
 }
