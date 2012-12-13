@@ -4,13 +4,12 @@ package views;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.JLabel;
 import java.awt.Insets;
 import javax.swing.JButton;
@@ -29,7 +28,7 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import components.MySearchField;
-import viewModels.TableModel;
+import viewModels.BookTableModel;
 
 public class BookMaster implements Observer{
 
@@ -42,10 +41,9 @@ public class BookMaster implements Observer{
 	private static final String TabLabel_LENDING = "Lending";
 	private static final String bookTabLabel = "Books";
 	private JFrame frame;
-	private JTable table;
+	private JTable book_table;
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
-	private JLabel lblSelectednumber = new JLabel("0");
 	private Library library;
 	private BookDetail detailwindow;
 	private JTextField txtSearch;
@@ -135,24 +133,24 @@ public class BookMaster implements Observer{
 		gbc_panel2.gridy = 1;
 		bookTab.add(panelBookInventory, gbc_panel2);
 		GridBagLayout gbl_panelBookInventory = new GridBagLayout();
-		gbl_panelBookInventory.columnWidths = new int[]{0, 0, 50, 0, 0, 0};
+		gbl_panelBookInventory.columnWidths = new int[]{0, 50, 0, 0, 0};
 		gbl_panelBookInventory.rowHeights = new int[]{0, 0, 0};
-		gbl_panelBookInventory.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBookInventory.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panelBookInventory.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panelBookInventory.setLayout(gbl_panelBookInventory);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridwidth = 5;
+		gbc_scrollPane.gridwidth = 4;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
 		panelBookInventory.add(scrollPane, gbc_scrollPane);
 		
 		//---------BookJTable---------------------
-		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		book_table = new JTable();
+		book_table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
@@ -160,32 +158,18 @@ public class BookMaster implements Observer{
 				}
 			}
 		});
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-		    public void valueChanged(ListSelectionEvent lse) {
-		        if (!lse.getValueIsAdjusting()) {
-		        		lblSelectednumber.setText(table.getSelectedRows().length+"");
-		        }
-		    }
-		});
-		scrollPane.setViewportView(table);
-		TableModel tableModel = new TableModel(library.getBooks());
-		table.setModel(tableModel);
-		JLabel lblSelected = new JLabel("Selected: ");
-		GridBagConstraints gbc_lblSelected = new GridBagConstraints();
-		gbc_lblSelected.anchor = GridBagConstraints.WEST;
-		gbc_lblSelected.insets = new Insets(0, 0, 0, 5);
-		gbc_lblSelected.gridx = 0;
-		gbc_lblSelected.gridy = 1;
-		panelBookInventory.add(lblSelected, gbc_lblSelected);
-		//---------JTable---------------------
-				
-		GridBagConstraints gbc_lblSelectednumber = new GridBagConstraints();
-		gbc_lblSelectednumber.anchor = GridBagConstraints.EAST;
-		gbc_lblSelectednumber.insets = new Insets(0, 0, 0, 5);
-		gbc_lblSelectednumber.gridx = 1;
-		gbc_lblSelectednumber.gridy = 1;
-		panelBookInventory.add(lblSelectednumber, gbc_lblSelectednumber);
+		book_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(book_table);
+		BookTableModel tableModel = new BookTableModel(library.getBooks());
+		book_table.setModel(tableModel);
+		
+		JLabel lblSearch = new JLabel("Search: ");
+		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
+		gbc_lblSearch.anchor = GridBagConstraints.WEST;
+		gbc_lblSearch.insets = new Insets(0, 0, 0, 5);
+		gbc_lblSearch.gridx = 0;
+		gbc_lblSearch.gridy = 1;
+		panelBookInventory.add(lblSearch, gbc_lblSearch);
 		
 		JButton btnDisplaySelected = new JButton("Display Selected");
 
@@ -195,18 +179,19 @@ public class BookMaster implements Observer{
 			}
 		});
 		//------------Search Field --------------
-		txtSearch = new MySearchField(table);
+		txtSearch = new MySearchField(book_table);
 
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
+		gbc_txtSearch.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSearch.gridx = 2;
+		gbc_txtSearch.gridx = 1;
 		gbc_txtSearch.gridy = 1;
 		panelBookInventory.add(txtSearch, gbc_txtSearch);
 		txtSearch.setColumns(10);
 		GridBagConstraints gbc_btnDisplaySelected = new GridBagConstraints();
 		gbc_btnDisplaySelected.anchor = GridBagConstraints.EAST;
 		gbc_btnDisplaySelected.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDisplaySelected.gridx = 3;
+		gbc_btnDisplaySelected.gridx = 2;
 		gbc_btnDisplaySelected.gridy = 1;
 		panelBookInventory.add(btnDisplaySelected, gbc_btnDisplaySelected);
 		//------------Search Field --------------
@@ -214,33 +199,30 @@ public class BookMaster implements Observer{
 		//------------Button Add new Book--------		
 		JButton btnAddNewBook = new JButton("Add new Book");
 		GridBagConstraints gbc_btnAddNewBook = new GridBagConstraints();
-		gbc_btnAddNewBook.gridx = 4;
+		gbc_btnAddNewBook.gridx = 3;
 		gbc_btnAddNewBook.gridy = 1;
 		panelBookInventory.add(btnAddNewBook, gbc_btnAddNewBook);
 		//------------Button Add new Book--------
 		
-//-------------Lending Tab---------------
+		book_table.getColumnModel().getColumn(1).setMaxWidth(40);
+		
+
 		JPanel lendingTab = new LendingTab(library);
 		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
-
-//-------------Lending Tab---------------
-		
-//-------------------------Customer Tab ---------------------------------------------------		
+	
 		
 		CustomerTab customerTab = new CustomerTab(library);
 		tabbedPane.addTab("Customers", null, customerTab, null);
-
-//-------------------------Customer Tab-----------------------------------
 		
 	}
 	
 	private void openDetailWindow() {
 		if (detailwindow == null)
 			detailwindow = new BookDetail(library, library.getBooks().get(
-					table.convertRowIndexToModel(table.getSelectedRow())));
+					book_table.convertRowIndexToModel(book_table.getSelectedRow())));
 		detailwindow.setVisible();
 		detailwindow.setBook(library.getBooks().get(
-				table.convertRowIndexToModel(table.getSelectedRow())));
+				book_table.convertRowIndexToModel(book_table.getSelectedRow())));
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {

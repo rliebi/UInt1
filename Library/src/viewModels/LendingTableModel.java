@@ -40,7 +40,9 @@ public class LendingTableModel extends AbstractTableModel{
 		switch (column) {
 
 		case 0:
-			return entity.isOverdue();
+			if(!entity.isLent()){return "Ended";}
+			if(!entity.isOverdue()){return "Ok";}
+			else{return "Due!";}
 		case 1:
 			return entity.getCopy().getInventoryNumber();
 		case 2:

@@ -311,5 +311,8 @@ public class EditLoan extends AbstractStatefullForm{
 	private boolean btnActivated(JRadioButton button) {
 		return button.getSelectedObjects()!=null;
 	}
+	public void setVisible(){
+		frame.setVisible(true);
+	}
 
 }

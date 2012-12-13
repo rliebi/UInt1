@@ -8,20 +8,18 @@ import domain.Book;
 
 
 
-public class TableModel extends AbstractTableModel {
+public class BookTableModel extends AbstractTableModel {
 
-	private static final String REGAL = "Regal";
-	private static final String PUBLISHER = "Publisher";
-	private static final String AUTHOR = "Author";
-	private static final String NAME = "Name";
+	private static final String SHELF = "Shelf";
+	private static final String TITEL = "Titel";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Book> wordsList;
-	String headerList[] = new String[] { NAME, AUTHOR, PUBLISHER, REGAL};
+	String headerList[] = new String[] { TITEL, SHELF};
 
-	public TableModel(List<Book> list) {
+	public BookTableModel(List<Book> list) {
 		wordsList = list;
 	}
 
@@ -45,11 +43,7 @@ public class TableModel extends AbstractTableModel {
 		case 0:
 			return entity.getName();
 		case 1:
-			return entity.getName();
-		case 2:
-			return entity.getPublisher();
-		case 3:
-			return entity.getShelf().name();
+			return entity.getShelf();
 		default:
 			return "";
 		}

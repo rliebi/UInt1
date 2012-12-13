@@ -15,9 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
 import viewModels.CustomerTableModel;
@@ -33,6 +34,9 @@ public class LendingTab extends JPanel implements Observer{
 	private JTextField txtSearchfield;
 	private JTable loan_table;
 	private JButton btnDisplay_selected;
+	private EditLoan editLoanWindow;
+	private JLabel display_number_of_rents;
+	private JLabel lblSearch;
 	
 	public LendingTab(){
 		super();
@@ -79,7 +83,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lblNumber_of_Rents.gridy = 0;
 		panelrentstatistics.add(lblNumber_of_Rents, gbc_lblNumber_of_Rents);
 		
-		JLabel display_number_of_rents = new JLabel("%nr");
+		display_number_of_rents = new JLabel(library.getLentOutCopies().size()+"");
 		GridBagConstraints gbc_display_number_of_rents = new GridBagConstraints();
 		gbc_display_number_of_rents.insets = new Insets(0, 0, 0, 5);
 		gbc_display_number_of_rents.anchor = GridBagConstraints.WEST;
@@ -87,14 +91,14 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_display_number_of_rents.gridy = 0;
 		panelrentstatistics.add(display_number_of_rents, gbc_display_number_of_rents);
 		
-		JLabel lbl_number_of_lendings = new JLabel("Nr. of Lendings");
+		JLabel lbl_number_of_lendings = new JLabel("All Loans:");
 		GridBagConstraints gbc_lbl_number_of_lendings = new GridBagConstraints();
 		gbc_lbl_number_of_lendings.insets = new Insets(0, 0, 0, 5);
 		gbc_lbl_number_of_lendings.gridx = 3;
 		gbc_lbl_number_of_lendings.gridy = 0;
 		panelrentstatistics.add(lbl_number_of_lendings, gbc_lbl_number_of_lendings);
 		
-		final JLabel display_number_of_lendings = new JLabel("%nr");
+		final JLabel display_number_of_lendings = new JLabel(library.getLoans().size()+"");
 		GridBagConstraints gbc_display_number_of_lendings = new GridBagConstraints();
 		gbc_display_number_of_lendings.insets = new Insets(0, 0, 0, 5);
 		gbc_display_number_of_lendings.gridx = 4;
@@ -108,7 +112,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lblOverdue.gridy = 0;
 		panelrentstatistics.add(lblOverdue, gbc_lblOverdue);
 		
-		JLabel display_overdue = new JLabel("%nr");
+		JLabel display_overdue = new JLabel(library.getOverdueLoans().size()+"");
 		GridBagConstraints gbc_display_overdue = new GridBagConstraints();
 		gbc_display_overdue.gridx = 7;
 		gbc_display_overdue.gridy = 0;
@@ -135,22 +139,9 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_scrollPane_2.gridx = 0;
 		gbc_scrollPane_2.gridy = 0;
 		panel.add(scrollPane, gbc_scrollPane_2);
-		
-		JLabel lblSelected_1 = new JLabel("Selected: ");
-		GridBagConstraints gbc_lblSelected_1 = new GridBagConstraints();
-		gbc_lblSelected_1.insets = new Insets(0, 0, 0, 5);
-		gbc_lblSelected_1.gridx = 0;
-		gbc_lblSelected_1.gridy = 1;
-		panel.add(lblSelected_1, gbc_lblSelected_1);
-		
+				
 		loan_table = new JTable();
-		loan_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent lse) {
-				if (!lse.getValueIsAdjusting()) {
-					display_number_of_lendings.setText(loan_table.getSelectedRows().length+"");
-				}
-			}
-		});
+		loan_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(loan_table);
 		LendingTableModel lendingTableModel = new LendingTableModel(library.getLoans());
 		loan_table.setModel(lendingTableModel);
@@ -160,20 +151,19 @@ public class LendingTab extends JPanel implements Observer{
 		//TODO Resize Correctly
 		//loan_table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		//loan_table.getColumnModel().getColumn(0).setResizable(false);
-		loan_table.getColumnModel().getColumn(0).setMaxWidth(45);
+		loan_table.getColumnModel().getColumn(0).setMaxWidth(40);
 		//loan_table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		loan_table.getColumnModel().getColumn(1).setMaxWidth(40);
 		//loan_table.getColumnModel().getColumn(1).setPreferredWidth(30);
+
+		lblSearch = new JLabel("Search: ");
+		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
+		gbc_lblSearch.insets = new Insets(0, 0, 0, 5);
+		gbc_lblSearch.gridx = 0;
+		gbc_lblSearch.gridy = 1;
+		panel.add(lblSearch, gbc_lblSearch);
 		
-		JLabel DisplaySelected = new JLabel("%nr");
-		GridBagConstraints gbc_DisplaySelected = new GridBagConstraints();
-		gbc_DisplaySelected.insets = new Insets(0, 0, 0, 5);
-		gbc_DisplaySelected.anchor = GridBagConstraints.EAST;
-		gbc_DisplaySelected.gridx = 1;
-		gbc_DisplaySelected.gridy = 1;
-		panel.add(DisplaySelected, gbc_DisplaySelected);
-		
-		txtSearchfield = new MySearchField(loan_table);
+		txtSearchfield = new MySearchField(loan_table,2);
 		GridBagConstraints gbc_txtSearchfield = new GridBagConstraints();
 		gbc_txtSearchfield.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield.fill = GridBagConstraints.HORIZONTAL;
@@ -182,7 +172,14 @@ public class LendingTab extends JPanel implements Observer{
 		panel.add(txtSearchfield, gbc_txtSearchfield);
 		txtSearchfield.setColumns(10);
 		
-		JCheckBox chckbxOverdue = new JCheckBox("Only Overdue");
+		final JCheckBox chckbxOverdue = new JCheckBox("Only Overdue");
+		chckbxOverdue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxOverdue.getSelectedObjects()!=null){ //is selected
+				filterKeep("due");
+				} else {filterKeep("due|ok");}
+			}
+		});
 		GridBagConstraints gbc_chckbxOverdue = new GridBagConstraints();
 		gbc_chckbxOverdue.insets = new Insets(0, 0, 0, 5);
 		gbc_chckbxOverdue.gridx = 3;
@@ -190,6 +187,13 @@ public class LendingTab extends JPanel implements Observer{
 		panel.add(chckbxOverdue, gbc_chckbxOverdue);
 		
 		btnDisplay_selected = new JButton("Display Selected");
+		btnDisplay_selected.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				editLoanWindow=new EditLoan(library.getLoans().get(loan_table.convertRowIndexToModel(loan_table.getSelectedRow())));
+				editLoanWindow.setVisible();
+				
+			}
+		});
 		GridBagConstraints gbc_btnDisplay_selected = new GridBagConstraints();
 		gbc_btnDisplay_selected.insets = new Insets(0, 0, 0, 5);
 		gbc_btnDisplay_selected.gridx = 4;
@@ -205,7 +209,20 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_btnNew_rent.gridx = 5;
 		gbc_btnNew_rent.gridy = 1;
 		panel.add(btnNew_rent, gbc_btnNew_rent);
+		
+		filterOutEnded();
 
+	}
+
+	private void filterKeep(String keep) {
+		@SuppressWarnings({ "unchecked" })
+		TableRowSorter<AbstractTableModel> sorter = (TableRowSorter<AbstractTableModel>) loan_table.getRowSorter();
+		loan_table.setRowSorter(sorter);
+		RowFilter<AbstractTableModel, Object> rf = RowFilter.regexFilter("(?i)("+ keep +")", 0);
+		sorter.setRowFilter(rf);
+	}
+	private void filterOutEnded(){
+		filterKeep("ok|due!");
 	}
 	
 	public void updateFields(){

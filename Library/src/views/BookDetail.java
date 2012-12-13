@@ -50,7 +50,6 @@ public class BookDetail implements Observer{
 	private JTable table;
 	private Library library;
 	private  JPanel panel_1;
-//	static private Book book = new Book();
 
 
 	/**
@@ -71,7 +70,6 @@ public class BookDetail implements Observer{
 		
 		frame.setMinimumSize(new Dimension(460, 290));
 		frame.setBounds(100, 100, 650, 511);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{225,0};
 		gridBagLayout.rowHeights = new int[]{0,50};
