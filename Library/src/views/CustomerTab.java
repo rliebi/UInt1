@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,6 +23,7 @@ import javax.swing.table.TableRowSorter;
 import components.MySearchField;
 
 import viewModels.CustomerTableModel;
+import viewModels.LendingTableModel;
 import domain.Customer;
 import domain.Library;
 
@@ -112,6 +115,16 @@ public class CustomerTab extends JPanel implements Observer{
 		panel_1.add(scrollPane_1, gbc_scrollPane_1);
 		
 		customer_jtable = new JTable();
+		customer_jtable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					editCustomerWindow = new EditCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
+					editCustomerWindow.setVisible();
+				}
+				table.setModel(new LendingTableModel(library.getCustomerLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
+			}
+		});
 		customer_jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(customer_jtable);
 		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
