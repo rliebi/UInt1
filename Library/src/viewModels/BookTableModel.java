@@ -1,24 +1,25 @@
 package viewModels;
 
+
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+import domain.Book;
 
-import domain.Customer;
 
-public class CustomerTableModel  extends AbstractTableModel{
-	private static final String Name = "Name";
-	private static final String Surname = "Surname";
-	private static final String Street = "Street";
-	private static final String City = "City";
+
+public class BookTableModel extends AbstractTableModel {
+
+	private static final String SHELF = "Shelf";
+	private static final String TITEL = "Titel";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
-	List<Customer> wordsList;
-	String headerList[] = new String[] { Name, Surname, Street, City};
+	List<Book> wordsList;
+	String headerList[] = new String[] { TITEL, SHELF};
 
-	public CustomerTableModel(List<Customer> list) {
+	public BookTableModel(List<Book> list) {
 		wordsList = list;
 	}
 
@@ -35,18 +36,14 @@ public class CustomerTableModel  extends AbstractTableModel{
 	// this method is called to set the value of each cell
 	@Override
 	public Object getValueAt(int row, int column) {
-		Customer entity = null;
+		Book entity = null;
 		entity = wordsList.get(row);
 		switch (column) {
 
 		case 0:
 			return entity.getName();
 		case 1:
-			return entity.getSurname();
-		case 2:
-			return entity.getStreet();
-		case 3:
-			return entity.getCity();
+			return entity.getShelf();
 		default:
 			return "";
 		}

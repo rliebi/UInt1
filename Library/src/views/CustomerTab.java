@@ -5,30 +5,24 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
 
 import components.MySearchField;
 
 import viewModels.CustomerTableModel;
-import viewModels.LendingTableModel;
 import domain.Customer;
 import domain.Library;
-import javax.swing.BoxLayout;
 
 public class CustomerTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
@@ -37,7 +31,6 @@ public class CustomerTab extends JPanel implements Observer{
 	private EditCustomer editCustomerWindow;
 	private JTextField txtSearchfield;
 	private JTable customer_jtable;
-	private JLabel displaySelected;
 	private JLabel displayNrCustomer;
 	private JTable table;
 	
@@ -94,19 +87,6 @@ public class CustomerTab extends JPanel implements Observer{
 		gbc_displayNrCustomer.gridy = 0;
 		panelCustomerStats.add(displayNrCustomer, gbc_displayNrCustomer);
 		
-		JLabel lblCustomOverdue = new JLabel("Custom. Overdue");
-		GridBagConstraints gbc_lblCustomOverdue = new GridBagConstraints();
-		gbc_lblCustomOverdue.insets = new Insets(0, 0, 0, 5);
-		gbc_lblCustomOverdue.gridx = 2;
-		gbc_lblCustomOverdue.gridy = 0;
-		panelCustomerStats.add(lblCustomOverdue, gbc_lblCustomOverdue);
-		
-		JLabel displayCustomerOverdue = new JLabel("%nr");
-		GridBagConstraints gbc_displayCustomerOverdue = new GridBagConstraints();
-		gbc_displayCustomerOverdue.gridx = 3;
-		gbc_displayCustomerOverdue.gridy = 0;
-		panelCustomerStats.add(displayCustomerOverdue, gbc_displayCustomerOverdue);
-		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Customers", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
@@ -116,79 +96,29 @@ public class CustomerTab extends JPanel implements Observer{
 		gbc_panel_1.gridy = 1;
 		add(panel_1, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_1.columnWidths = new int[]{0, 0, 200, 0, 0};
 		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.gridwidth = 6;
+		gbc_scrollPane_1.gridwidth = 4;
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane_1.gridx = 0;
 		gbc_scrollPane_1.gridy = 0;
 		panel_1.add(scrollPane_1, gbc_scrollPane_1);
 		
-		//----------Customer jtable ----------
 		customer_jtable = new JTable();
-		customer_jtable.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					editCustomerWindow = new EditCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
-					editCustomerWindow.setVisible();
-				}
-				table.setModel(new LendingTableModel(library.getCustomerLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
-			}
-		});
-		customer_jtable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent lse) {
-				if (!lse.getValueIsAdjusting()) {
-					displaySelected.setText(customer_jtable.getSelectedRows().length+"");
-				}
-			}
-		});
+		customer_jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(customer_jtable);
 		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
 		customer_jtable.setModel(customerTableModel);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_jtable.getModel()); 
 		customer_jtable.setRowSorter(customerSorter);
-		//-----------------------------
-		
-		JLabel lblSelected_2 = new JLabel("Selected: ");
-		GridBagConstraints gbc_lblSelected_2 = new GridBagConstraints();
-		gbc_lblSelected_2.insets = new Insets(0, 0, 0, 5);
-		gbc_lblSelected_2.anchor = GridBagConstraints.EAST;
-		gbc_lblSelected_2.gridx = 0;
-		gbc_lblSelected_2.gridy = 1;
-		panel_1.add(lblSelected_2, gbc_lblSelected_2);
-		
-		displaySelected = new JLabel("%nr");
-		GridBagConstraints gbc_displaySelected = new GridBagConstraints();
-		gbc_displaySelected.insets = new Insets(0, 0, 0, 5);
-		gbc_displaySelected.anchor = GridBagConstraints.EAST;
-		gbc_displaySelected.gridx = 1;
-		gbc_displaySelected.gridy = 1;
-		panel_1.add(displaySelected, gbc_displaySelected);
-		
-		txtSearchfield = new MySearchField(customer_jtable);
-		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
-		gbc_txtSearchfield_1.insets = new Insets(0, 0, 0, 5);
-		gbc_txtSearchfield_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSearchfield_1.gridx = 2;
-		gbc_txtSearchfield_1.gridy = 1;
-		panel_1.add(txtSearchfield, gbc_txtSearchfield_1);
-		txtSearchfield.setColumns(10);
-		
-		JCheckBox chckbxOnlyOverdue = new JCheckBox("Only Overdue");
-		GridBagConstraints gbc_chckbxOnlyOverdue = new GridBagConstraints();
-		gbc_chckbxOnlyOverdue.insets = new Insets(0, 0, 0, 5);
-		gbc_chckbxOnlyOverdue.gridx = 3;
-		gbc_chckbxOnlyOverdue.gridy = 1;
-		panel_1.add(chckbxOnlyOverdue, gbc_chckbxOnlyOverdue);
 		
 		JButton btnDisplaySelected_1 = new JButton("Display Selected");
 		btnDisplaySelected_1.addActionListener(new ActionListener() {
@@ -197,9 +127,27 @@ public class CustomerTab extends JPanel implements Observer{
 				editCustomerWindow.setVisible();
 			}
 		});
+		
+		JLabel lblSearch = new JLabel("Search: ");
+		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
+		gbc_lblSearch.insets = new Insets(0, 0, 0, 5);
+		gbc_lblSearch.anchor = GridBagConstraints.EAST;
+		gbc_lblSearch.gridx = 0;
+		gbc_lblSearch.gridy = 1;
+		panel_1.add(lblSearch, gbc_lblSearch);
+		
+		txtSearchfield = new MySearchField(customer_jtable);
+		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
+		gbc_txtSearchfield_1.insets = new Insets(0, 0, 0, 5);
+		gbc_txtSearchfield_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSearchfield_1.gridx = 1;
+		gbc_txtSearchfield_1.gridy = 1;
+		panel_1.add(txtSearchfield, gbc_txtSearchfield_1);
+		txtSearchfield.setColumns(10);
 		GridBagConstraints gbc_btnDisplaySelected_1 = new GridBagConstraints();
+		gbc_btnDisplaySelected_1.anchor = GridBagConstraints.EAST;
 		gbc_btnDisplaySelected_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDisplaySelected_1.gridx = 4;
+		gbc_btnDisplaySelected_1.gridx = 2;
 		gbc_btnDisplaySelected_1.gridy = 1;
 		panel_1.add(btnDisplaySelected_1, gbc_btnDisplaySelected_1);
 		
@@ -211,7 +159,7 @@ public class CustomerTab extends JPanel implements Observer{
 			}
 		});
 		GridBagConstraints gbc_btnNewCustomer = new GridBagConstraints();
-		gbc_btnNewCustomer.gridx = 5;
+		gbc_btnNewCustomer.gridx = 3;
 		gbc_btnNewCustomer.gridy = 1;
 		panel_1.add(btnNewCustomer, gbc_btnNewCustomer);
 		

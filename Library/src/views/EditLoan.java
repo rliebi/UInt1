@@ -33,7 +33,7 @@ import domain.Loan;
 
 public class EditLoan extends AbstractStatefullForm{
 
-	private JFrame frame;
+	protected JFrame frame;
 	private MyJTextField txtTitel;
 	private MyJTextField txtId;
 	private MyJTextField txtFromDate;
@@ -61,6 +61,7 @@ public class EditLoan extends AbstractStatefullForm{
 //					EditLoan window2 = new EditLoan(loan);
 //					window2.frame.setVisible(true);
 					window1.frame.setVisible(true);
+					window1.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -84,7 +85,6 @@ public class EditLoan extends AbstractStatefullForm{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 428, 265);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();
 		panel.setBorder(UIManager.getBorder("InsetBorder.aquaVariant"));
@@ -310,6 +310,9 @@ public class EditLoan extends AbstractStatefullForm{
 
 	private boolean btnActivated(JRadioButton button) {
 		return button.getSelectedObjects()!=null;
+	}
+	public void setVisible(){
+		frame.setVisible(true);
 	}
 
 }
