@@ -21,7 +21,11 @@ public class Loan {
 	public boolean isLent() {
 		return returnDate == null;
 	}
-
+	
+	public void unreturnCopy(){
+		returnDate=null;
+	}
+	
 	public boolean returnCopy() {
 		try {
 			returnCopy(new GregorianCalendar());

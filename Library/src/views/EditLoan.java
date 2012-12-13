@@ -22,7 +22,9 @@ import java.util.Observable;
 import javax.swing.JRadioButton;
 
 import components.MyJTextField;
+import controll.OldFormState;
 import controll.UnchangedFormState;
+import controll.ChangedFormState;
 
 import domain.Book;
 import domain.Copy;
@@ -45,6 +47,8 @@ public class EditLoan extends AbstractStatefullForm{
 	private JRadioButton rdbtnNo;
 	private JLabel lblReturned;
 	private Loan realLoan;
+	private JPanel panel;
+	private ButtonGroup rdbtnGroup;
 	/**
 	 * Launch the application.
 	 */
@@ -79,7 +83,7 @@ public class EditLoan extends AbstractStatefullForm{
 		frame.setBounds(100, 100, 428, 265);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBorder(UIManager.getBorder("InsetBorder.aquaVariant"));
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
@@ -194,12 +198,7 @@ public class EditLoan extends AbstractStatefullForm{
 		gbc_txtLastName.gridy = 4;
 		panel.add(txtLastName, gbc_txtLastName);
 		txtLastName.setColumns(10);
-		
-		btnReload = new JButton("Reload");
-		btnReload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+
 		
 		lblReturned = new JLabel("Returned:");
 		GridBagConstraints gbc_lblReturned = new GridBagConstraints();
@@ -209,6 +208,13 @@ public class EditLoan extends AbstractStatefullForm{
 		panel.add(lblReturned, gbc_lblReturned);
 		
 		rdbtnYes = new JRadioButton("Yes");
+		rdbtnYes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!realLoan.isLent()){
+					setUnchanged();
+				} else {setChanged();}
+			}
+		});
 		GridBagConstraints gbc_rdbtnYes = new GridBagConstraints();
 		gbc_rdbtnYes.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnYes.gridx = 1;
@@ -216,12 +222,26 @@ public class EditLoan extends AbstractStatefullForm{
 		panel.add(rdbtnYes, gbc_rdbtnYes);
 		
 		rdbtnNo = new JRadioButton("No");
+		rdbtnNo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(realLoan.isLent()){
+					setUnchanged();
+				} else {setChanged();}
+			}
+		});
 		if(realLoan.isLent())rdbtnNo.setSelected(true);
 		GridBagConstraints gbc_rdbtnNo = new GridBagConstraints();
 		gbc_rdbtnNo.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnNo.gridx = 3;
 		gbc_rdbtnNo.gridy = 5;
 		panel.add(rdbtnNo, gbc_rdbtnNo);
+		
+		rdbtnGroup = new ButtonGroup();
+		rdbtnGroup.add(rdbtnYes);
+		rdbtnGroup.add(rdbtnNo);
+
+		btnReload = new JButton("Reload");
+		
 		GridBagConstraints gbc_btnReload = new GridBagConstraints();
 		gbc_btnReload.anchor = GridBagConstraints.SOUTHEAST;
 		gbc_btnReload.insets = new Insets(0, 0, 0, 5);
@@ -229,15 +249,8 @@ public class EditLoan extends AbstractStatefullForm{
 		gbc_btnReload.gridy = 6;
 		panel.add(btnReload, gbc_btnReload);
 		
-		ButtonGroup rdbtnGroup = new ButtonGroup();
-		rdbtnGroup.add(rdbtnYes);
-		rdbtnGroup.add(rdbtnNo);
 		
 		btnSave = new JButton("Save");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
 		gbc_btnSave.gridwidth = 2;
 		gbc_btnSave.anchor = GridBagConstraints.SOUTHWEST;
@@ -249,30 +262,51 @@ public class EditLoan extends AbstractStatefullForm{
 		for(MyJTextField field : getMyFields(panel)){
 			field.setEnabled(false);
 		}
+		addListenertoReloadbtn();
+		addListenertoSavebtn();
+	}
+	
+	private void setChanged(){
+		setState(new ChangedFormState(this));
+	}
+	private void setUnchanged(){
+		setState(new UnchangedFormState(this));
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
+		setState(new OldFormState(this));
 		
 	}
 
 	@Override
 	public void reloadFieldsfromRealObject() {
-		// TODO Auto-generated method stub
-		
-		
+		txtTitel.setTextReload(realLoan.getCopy().getTitle().getName());
+		txtId.setTextReload(realLoan.getCopy().getInventoryNumber() + "");
+		txtFromDate.setTextReload(realLoan.getPickupDatetoString());
+		txtToDate.setTextReload(realLoan.getdueDatetoString());
+		if(realLoan.isLent()){
+			rdbtnNo.setSelected(true);
+		} else {rdbtnYes.setSelected(true);}
+		setState(new UnchangedFormState(this));
 	}
 
 	@Override
 	public void saveChangestoRealObject() {
-		// TODO Auto-generated method stub
-		
+		if(btnActivated(rdbtnYes)){
+			realLoan.returnCopy();
+		} else {realLoan.unreturnCopy();}
+		setState(new UnchangedFormState(this));
 	}
 
 	@Override
 	public void addListenertoMyFields() {
-		// TODO Auto-generated method stub	
+		addListenertoMyFields(panel,this);
+	}
+
+	private boolean btnActivated(JRadioButton button) {
+		return button.getSelectedObjects()!=null;
 	}
 
 }
