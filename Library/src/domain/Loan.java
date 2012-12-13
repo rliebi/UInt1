@@ -3,8 +3,9 @@ package domain;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Observable;
 
-public class Loan {
+public class Loan extends Observable{
 
 	private Copy copy;
 	private Customer customer;
@@ -21,7 +22,12 @@ public class Loan {
 	public boolean isLent() {
 		return returnDate == null;
 	}
-
+	
+	public void unreturnCopy(){
+		returnDate=null;
+		fireChanged();
+	}
+	
 	public boolean returnCopy() {
 		try {
 			returnCopy(new GregorianCalendar());
@@ -38,6 +44,7 @@ public class Loan {
 					"Return Date is before pickupDate");
 		}
 		this.returnDate = returnDate;
+		fireChanged();
 	}
 
 	public void setPickupDate(GregorianCalendar pickupDate)
@@ -134,5 +141,9 @@ public class Loan {
 	}
 	public String getdueDatetoString(){
 		return getMyFormattedDate(getdueDate());
+	}
+	private void fireChanged(){
+		setChanged();
+		notifyObservers();
 	}
 }
