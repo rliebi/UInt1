@@ -148,13 +148,12 @@ public class LendingTab extends JPanel implements Observer{
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( loan_table.getModel()); 
 		loan_table.setRowSorter(customerSorter);
-		//TODO Resize Correctly
-		//loan_table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		//loan_table.getColumnModel().getColumn(0).setResizable(false);
 		loan_table.getColumnModel().getColumn(0).setMaxWidth(40);
-		//loan_table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		loan_table.getColumnModel().getColumn(1).setMaxWidth(40);
-		//loan_table.getColumnModel().getColumn(1).setPreferredWidth(30);
+		loan_table.getColumnModel().getColumn(3).setMinWidth(90);
+		loan_table.getColumnModel().getColumn(3).setMaxWidth(160);
+		loan_table.getColumnModel().getColumn(4).setMinWidth(100);
+		loan_table.getColumnModel().getColumn(4).setMaxWidth(160);
 
 		lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();

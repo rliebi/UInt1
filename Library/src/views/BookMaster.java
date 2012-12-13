@@ -133,9 +133,9 @@ public class BookMaster implements Observer{
 		gbc_panel2.gridy = 1;
 		bookTab.add(panelBookInventory, gbc_panel2);
 		GridBagLayout gbl_panelBookInventory = new GridBagLayout();
-		gbl_panelBookInventory.columnWidths = new int[]{0, 50, 0, 0, 0};
+		gbl_panelBookInventory.columnWidths = new int[]{0, 50, 200, 0, 0};
 		gbl_panelBookInventory.rowHeights = new int[]{0, 0, 0};
-		gbl_panelBookInventory.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBookInventory.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panelBookInventory.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panelBookInventory.setLayout(gbl_panelBookInventory);
 		

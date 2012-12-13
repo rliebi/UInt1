@@ -93,7 +93,7 @@ public class CustomerTab extends JPanel implements Observer{
 		gbc_panel_1.gridy = 1;
 		add(panel_1, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0, 175, 0, 0};
+		gbl_panel_1.columnWidths = new int[]{0, 0, 200, 0, 0};
 		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
 		gbl_panel_1.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};

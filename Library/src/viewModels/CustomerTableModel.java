@@ -11,13 +11,12 @@ public class CustomerTableModel  extends AbstractTableModel{
 	private static final String Surname = "Surname";
 	private static final String Street = "Street";
 	private static final String City = "City";
-	private static final String Rented = "Rented";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Customer> wordsList;
-	String headerList[] = new String[] { Name, Surname, Street, City, Rented};
+	String headerList[] = new String[] { Name, Surname, Street, City};
 
 	public CustomerTableModel(List<Customer> list) {
 		wordsList = list;
@@ -48,8 +47,6 @@ public class CustomerTableModel  extends AbstractTableModel{
 			return entity.getStreet();
 		case 3:
 			return entity.getCity();
-		case 4:
-			return "nan";
 		default:
 			return "";
 		}
