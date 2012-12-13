@@ -32,7 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class BookDetail implements Observer {
+public class BookDetail extends Observable implements Observer {
 	private String bookTitleLabelText = "Titel";
 	private String bookAuthorLabel = "Author";
 	private String bookPublisherLabel = "Verlag";
@@ -182,7 +182,7 @@ public class BookDetail implements Observer {
 
 	}
 
-	private void exemplaerAnsicht() {
+	private void exemplaerAnsicht()  {
 		panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, booksInformationLabelText,
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -248,7 +248,8 @@ public class BookDetail implements Observer {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				library.createAndAddCopy(theBook);
-				
+				setChanged();
+				notifyObservers();
 			}
 		});
 		createBookTable(createtableScrollPane(panel_1));
