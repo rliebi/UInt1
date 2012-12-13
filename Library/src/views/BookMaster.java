@@ -170,7 +170,7 @@ public class BookMaster implements Observer{
 		    }
 		});
 		scrollPane.setViewportView(table);
-		TableModel tableModel = new TableModel(library.getBooks());
+		TableModel tableModel = new TableModel(library);
 		table.setModel(tableModel);
 		JLabel lblSelected = new JLabel("Selected: ");
 		GridBagConstraints gbc_lblSelected = new GridBagConstraints();

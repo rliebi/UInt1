@@ -1,10 +1,10 @@
 package viewModels;
 
-import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
 import domain.Book;
+import domain.Library;
 
 
 
@@ -17,12 +17,12 @@ public class TableModel extends AbstractTableModel {
 	/**
 	 * 
 	 */
+	private Library lib;
 	private static final long serialVersionUID = -5278540270938445385L;
-	List<Book> wordsList;
 	String headerList[] = new String[] { NAME, AUTHOR, PUBLISHER, REGAL};
 
-	public TableModel(List<Book> list) {
-		wordsList = list;
+	public TableModel(Library lib) {
+		this.lib = lib;
 	}
 
 	@Override
@@ -32,14 +32,15 @@ public class TableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return wordsList.size();
+		return lib.getBooks().size();
 	}
 
 	// this method is called to set the value of each cell
 	@Override
 	public Object getValueAt(int row, int column) {
 		Book entity = null;
-		entity = wordsList.get(row);
+		//entity = wordsList.get(row);
+		entity = lib.getBooks().get(row);
 		switch (column) {
 
 		case 0:

@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,8 +25,10 @@ import javax.swing.table.TableRowSorter;
 import components.MySearchField;
 
 import viewModels.CustomerTableModel;
+import viewModels.LendingTableModel;
 import domain.Customer;
 import domain.Library;
+import javax.swing.BoxLayout;
 
 public class CustomerTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
@@ -35,6 +39,7 @@ public class CustomerTab extends JPanel implements Observer{
 	private JTable customer_jtable;
 	private JLabel displaySelected;
 	private JLabel displayNrCustomer;
+	private JTable table;
 	
 	public CustomerTab(){
 		super();
@@ -53,9 +58,9 @@ public class CustomerTab extends JPanel implements Observer{
 	private void initialize (){
 		GridBagLayout gbl_customerTab = new GridBagLayout();
 		gbl_customerTab.columnWidths = new int[]{0, 0};
-		gbl_customerTab.rowHeights = new int[]{48, 0, 0};
+		gbl_customerTab.rowHeights = new int[]{48, 0, 0, 0};
 		gbl_customerTab.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_customerTab.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_customerTab.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gbl_customerTab);
 		
 		JPanel panelCustomerStats = new JPanel();
@@ -103,7 +108,9 @@ public class CustomerTab extends JPanel implements Observer{
 		panelCustomerStats.add(displayCustomerOverdue, gbc_displayCustomerOverdue);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "Customers", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 0;
 		gbc_panel_1.gridy = 1;
@@ -126,6 +133,16 @@ public class CustomerTab extends JPanel implements Observer{
 		
 		//----------Customer jtable ----------
 		customer_jtable = new JTable();
+		customer_jtable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					editCustomerWindow = new EditCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
+					editCustomerWindow.setVisible();
+				}
+				table.setModel(new LendingTableModel(library.getCustomerLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
+			}
+		});
 		customer_jtable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent lse) {
 				if (!lse.getValueIsAdjusting()) {
@@ -197,6 +214,41 @@ public class CustomerTab extends JPanel implements Observer{
 		gbc_btnNewCustomer.gridx = 5;
 		gbc_btnNewCustomer.gridy = 1;
 		panel_1.add(btnNewCustomer, gbc_btnNewCustomer);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Loans", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 2;
+		add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{321, 0};
+		gbl_panel.rowHeights = new int[]{79, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		table = new JTable();
+		GridBagConstraints gbc_table = new GridBagConstraints();
+		gbc_table.insets = new Insets(0, 0, 5, 0);
+		gbc_table.fill = GridBagConstraints.BOTH;
+		gbc_table.gridx = 0;
+		gbc_table.gridy = 0;
+		panel.add(table, gbc_table);
+		
+		JButton btnNewButton = new JButton("Return Loan");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				library.getLoans().get(table.convertRowIndexToModel(table.getSelectedRow())).returnCopy();
+			}
+		});
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton.gridx = 0;
+		gbc_btnNewButton.gridy = 1;
+		panel.add(btnNewButton, gbc_btnNewButton);
 		
 	}
 	
