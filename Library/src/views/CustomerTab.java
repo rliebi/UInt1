@@ -35,7 +35,7 @@ public class CustomerTab extends JPanel implements Observer{
 	private JTextField txtSearchfield;
 	private JTable customer_jtable;
 	private JLabel displayNrCustomer;
-	private JTable table;
+	private JTable customer_loan_jtable;
 	
 	public CustomerTab(){
 		super();
@@ -54,9 +54,9 @@ public class CustomerTab extends JPanel implements Observer{
 	private void initialize (){
 		GridBagLayout gbl_customerTab = new GridBagLayout();
 		gbl_customerTab.columnWidths = new int[]{0, 0};
-		gbl_customerTab.rowHeights = new int[]{48, 0, 0, 0};
+		gbl_customerTab.rowHeights = new int[]{48, 150, 100, 0};
 		gbl_customerTab.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_customerTab.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_customerTab.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gbl_customerTab);
 		
 		JPanel panelCustomerStats = new JPanel();
@@ -91,7 +91,7 @@ public class CustomerTab extends JPanel implements Observer{
 		panelCustomerStats.add(displayNrCustomer, gbc_displayNrCustomer);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Customers", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(null);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
@@ -122,7 +122,7 @@ public class CustomerTab extends JPanel implements Observer{
 					editCustomerWindow = new EditCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
 					editCustomerWindow.setVisible();
 				}
-				table.setModel(new LendingTableModel(library.getCustomerLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
+				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
 			}
 		});
 		customer_jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -177,37 +177,40 @@ public class CustomerTab extends JPanel implements Observer{
 		panel_1.add(btnNewCustomer, gbc_btnNewCustomer);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Loans", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBorder(null);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 2;
 		add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{321, 0};
-		gbl_panel.rowHeights = new int[]{79, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{254, 0, 0};
+		gbl_panel.rowHeights = new int[]{78, 29, 0};
+		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		table = new JTable();
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.insets = new Insets(0, 0, 5, 0);
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 0;
-		gbc_table.gridy = 0;
-		panel.add(table, gbc_table);
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridwidth = 2;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 0;
+		panel.add(scrollPane, gbc_scrollPane);
+		
+		customer_loan_jtable = new JTable();
+		scrollPane.setViewportView(customer_loan_jtable);
 		
 		JButton btnNewButton = new JButton("Return Loan");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				library.getLoans().get(table.convertRowIndexToModel(table.getSelectedRow())).returnCopy();
+				library.getLoans().get(customer_loan_jtable.convertRowIndexToModel(customer_loan_jtable.getSelectedRow())).returnCopy();
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton.gridx = 0;
+		gbc_btnNewButton.gridx = 1;
 		gbc_btnNewButton.gridy = 1;
 		panel.add(btnNewButton, gbc_btnNewButton);
 		
