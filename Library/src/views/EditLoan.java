@@ -57,8 +57,10 @@ public class EditLoan extends AbstractStatefullForm{
 			public void run() {
 				try {
 					Loan loan = new Loan(new Customer("LastName", "Firstname"), new Copy(new Book("BookTitel")));
-					EditLoan window = new EditLoan(loan);
-					window.frame.setVisible(true);
+					EditLoan window1 = new EditLoan(loan);
+//					EditLoan window2 = new EditLoan(loan);
+//					window2.frame.setVisible(true);
+					window1.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,6 +73,7 @@ public class EditLoan extends AbstractStatefullForm{
 	 */
 	public EditLoan(Loan loan) {
 		realLoan=loan;
+		realLoan.addObserver(this);
 		initialize();
 		setState(new UnchangedFormState(this));
 	}
