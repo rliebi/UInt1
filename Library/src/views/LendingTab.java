@@ -27,6 +27,8 @@ import viewModels.LendingTableModel;
 import components.MySearchField;
 
 import domain.Library;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class LendingTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
@@ -37,6 +39,9 @@ public class LendingTab extends JPanel implements Observer{
 	private EditLoan editLoanWindow;
 	private JLabel display_number_of_rents;
 	private JLabel lblSearch;
+	private WarningWindow warningWindow;
+	private LendingTableModel lendingTableModel;
+	private JCheckBox chckbxOverdue;
 	
 	public LendingTab(){
 		super();
@@ -143,7 +148,8 @@ public class LendingTab extends JPanel implements Observer{
 		loan_table = new JTable();
 		loan_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(loan_table);
-		LendingTableModel lendingTableModel = new LendingTableModel(library.getLoans());
+		lendingTableModel = new LendingTableModel(library.getOngoingLoans());
+		//lendingTableModel = new LendingTableModel(library.getOverdueLoans());
 		loan_table.setModel(lendingTableModel);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( loan_table.getModel()); 
@@ -162,7 +168,14 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lblSearch.gridy = 1;
 		panel.add(lblSearch, gbc_lblSearch);
 		
+		//TODO nicer solution for search with overdue
 		txtSearchfield = new MySearchField(loan_table,2);
+		txtSearchfield.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				chckbxOverdue.setSelected(false);
+			}
+		});
 		GridBagConstraints gbc_txtSearchfield = new GridBagConstraints();
 		gbc_txtSearchfield.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield.fill = GridBagConstraints.HORIZONTAL;
@@ -171,12 +184,12 @@ public class LendingTab extends JPanel implements Observer{
 		panel.add(txtSearchfield, gbc_txtSearchfield);
 		txtSearchfield.setColumns(10);
 		
-		final JCheckBox chckbxOverdue = new JCheckBox("Only Overdue");
+		chckbxOverdue = new JCheckBox("Only Overdue");
 		chckbxOverdue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(chckbxOverdue.getSelectedObjects()!=null){ //is selected
-				filterKeep("due");
-				} else {filterKeep("due|ok");}
+					filterKeep("due");
+				} else {filterKeep("");}
 			}
 		});
 		GridBagConstraints gbc_chckbxOverdue = new GridBagConstraints();
@@ -188,8 +201,13 @@ public class LendingTab extends JPanel implements Observer{
 		btnDisplay_selected = new JButton("Display Selected");
 		btnDisplay_selected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				editLoanWindow=new EditLoan(library.getLoans().get(loan_table.convertRowIndexToModel(loan_table.getSelectedRow())));
-				editLoanWindow.setVisible();
+				try {
+					editLoanWindow=new EditLoan(library.getLoans().get(loan_table.convertRowIndexToModel(loan_table.getSelectedRow())));
+					editLoanWindow.setVisible();
+				} catch (IndexOutOfBoundsException e) {
+					warningWindow = new WarningWindow("Please select a Loan!");
+					warningWindow.setVisible();
+				}
 				
 			}
 		});

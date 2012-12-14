@@ -26,6 +26,7 @@ import viewModels.CustomerTableModel;
 import viewModels.LendingTableModel;
 import domain.Customer;
 import domain.Library;
+import domain.Loan;
 
 public class CustomerTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
@@ -36,6 +37,7 @@ public class CustomerTab extends JPanel implements Observer{
 	private JTable customer_jtable;
 	private JLabel displayNrCustomer;
 	private JTable customer_loan_jtable;
+	private WarningWindow warningWindow;
 	
 	public CustomerTab(){
 		super();
@@ -122,7 +124,7 @@ public class CustomerTab extends JPanel implements Observer{
 					editCustomerWindow = new EditCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
 					editCustomerWindow.setVisible();
 				}
-				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
+				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
 			}
 		});
 		customer_jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -136,8 +138,13 @@ public class CustomerTab extends JPanel implements Observer{
 		JButton btnDisplaySelected_1 = new JButton("Display Selected");
 		btnDisplaySelected_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				editCustomerWindow = new EditCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
-				editCustomerWindow.setVisible();
+				try {
+					editCustomerWindow = new EditCustomer(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())));
+					editCustomerWindow.setVisible();
+				} catch (IndexOutOfBoundsException e) {
+					warningWindow = new WarningWindow("Please select a customer!");
+					warningWindow.setVisible();
+				}
 			}
 		});
 		
@@ -202,10 +209,18 @@ public class CustomerTab extends JPanel implements Observer{
 		customer_loan_jtable = new JTable();
 		scrollPane.setViewportView(customer_loan_jtable);
 		
+		//TODO Add observer patter so returned actually disapear in view / Further inspect
 		JButton btnNewButton = new JButton("Return Loan");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				library.getLoans().get(customer_loan_jtable.convertRowIndexToModel(customer_loan_jtable.getSelectedRow())).returnCopy();
+				try {
+					//Loan to_be_returned = library.getLoans().get(customer_loan_jtable.convertRowIndexToModel(customer_loan_jtable.getSelectedRow()));
+					library.getLoans().get(customer_loan_jtable.convertRowIndexToModel(customer_loan_jtable.getSelectedRow())).returnCopy();
+					customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
+				} catch (IndexOutOfBoundsException e) {
+					warningWindow = new WarningWindow("Please Select a Loan!");
+					warningWindow.setVisible();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();

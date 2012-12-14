@@ -50,6 +50,7 @@ public class BookMaster implements Observer{
 	private BookDetail detailwindow;
 	private BookDetail newBookDetailWindow;
 	private JTextField txtSearch;
+	private WarningWindow warningWindow;
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
@@ -174,10 +175,14 @@ public class BookMaster implements Observer{
 		panelBookInventory.add(lblSearch, gbc_lblSearch);
 		
 		JButton btnDisplaySelected = new JButton("Display Selected");
-
 		btnDisplaySelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openDetailWindow();
+				try {
+					openDetailWindow();
+				} catch (IndexOutOfBoundsException e) {
+					warningWindow = new WarningWindow("Please Select a Book");
+					warningWindow.setVisible();
+				}
 			}
 		});
 		//------------Search Field --------------

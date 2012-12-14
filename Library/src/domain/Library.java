@@ -104,6 +104,15 @@ public class Library extends Observable{
 		}
 		return lentCopies;
 	}
+	public List<Loan> getCustomerOngoingLoans(Customer customer){
+		List<Loan> lentCopies = new ArrayList<Loan>();
+		for (Loan l : loans) {
+			if (l.getCustomer().equals(customer)&&l.isLent()) {
+				lentCopies.add(l);
+			}
+		}
+		return lentCopies;
+	}
 	
 	public List<Loan> getOverdueLoans() {
 		List<Loan> overdueLoans = new ArrayList<Loan>();
@@ -146,6 +155,14 @@ public class Library extends Observable{
 
 	public List<Customer> getCustomers() {
 		return customers;
+	}
+
+	public List<Loan> getOngoingLoans() {
+		List<Loan> answer=new ArrayList<Loan>();
+		for(Loan l : loans){
+			if(l.isLent()){answer.add(l);}
+		}
+		return answer;
 	}
 
 }
