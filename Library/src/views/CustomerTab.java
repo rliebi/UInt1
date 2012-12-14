@@ -26,7 +26,6 @@ import viewModels.CustomerTableModel;
 import viewModels.LendingTableModel;
 import domain.Customer;
 import domain.Library;
-import domain.Loan;
 
 public class CustomerTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
