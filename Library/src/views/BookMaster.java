@@ -165,7 +165,7 @@ public class BookMaster implements Observer{
 		book_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(book_table);
 		BookTableModel tableModel = new BookTableModel(library.getBooks());
-		book_table.setModel(tableModel);
+		setModel(tableModel);
 		JLabel lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
 		gbc_lblSearch.anchor = GridBagConstraints.WEST;
@@ -215,8 +215,6 @@ public class BookMaster implements Observer{
 		});
 		//------------Button Add new Book--------
 		
-		book_table.getColumnModel().getColumn(1).setMaxWidth(40);
-		
 
 		JPanel lendingTab = new LendingTab(library);
 		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
@@ -227,6 +225,13 @@ public class BookMaster implements Observer{
 		
 	}
 	
+	private void setModel(BookTableModel model) {
+		book_table.setModel(model);
+		book_table.getColumnModel().getColumn(1).setMaxWidth(40);
+		
+		
+	}
+
 	private void openDetailWindow() {
 		if (detailwindow == null)
 			detailwindow = new BookDetail(library, library.getBooks().get(
@@ -244,6 +249,8 @@ public class BookMaster implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		display_number_of_titles.setText(library.getBooks().size() + "");
-		display_number_of_books.setText(library.getCopies().size() + "");		
+		display_number_of_books.setText(library.getCopies().size() + "");
+		BookTableModel model = new BookTableModel(library.getBooks());
+		setModel(model);
 	}
 }

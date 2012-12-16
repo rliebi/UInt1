@@ -49,7 +49,6 @@ public class CustomerTab extends JPanel implements Observer{
 		this.library = library;
 		library.addObserver(this);
 		initialize();
-		
 	}
 	
 	private void initialize (){
@@ -131,8 +130,9 @@ public class CustomerTab extends JPanel implements Observer{
 		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
 		customer_jtable.setModel(customerTableModel);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_jtable.getModel()); 
+		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_jtable.getModel());
 		customer_jtable.setRowSorter(customerSorter);
+		customerSorter.setSortsOnUpdates(true);
 		
 		JButton btnDisplaySelected_1 = new JButton("Display Selected");
 		btnDisplaySelected_1.addActionListener(new ActionListener() {
@@ -173,7 +173,7 @@ public class CustomerTab extends JPanel implements Observer{
 		JButton btnNewCustomer = new JButton("New Customer");
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				newCustomerWindow = new NewCustomer(new Customer("Last", "First"));
+				newCustomerWindow = new NewCustomer(new Customer("Last", "First"),library);
 				newCustomerWindow.setVisible();
 			}
 		});
@@ -193,7 +193,7 @@ public class CustomerTab extends JPanel implements Observer{
 		gbl_panel.columnWidths = new int[]{254, 0, 0};
 		gbl_panel.rowHeights = new int[]{78, 29, 0};
 		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -208,13 +208,11 @@ public class CustomerTab extends JPanel implements Observer{
 		customer_loan_jtable = new JTable();
 		scrollPane.setViewportView(customer_loan_jtable);
 		
-		//TODO Add observer patter so returned actually disapear in view / Further inspect
 		JButton btnNewButton = new JButton("Return Loan");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					//Loan to_be_returned = library.getLoans().get(customer_loan_jtable.convertRowIndexToModel(customer_loan_jtable.getSelectedRow()));
-					library.getLoans().get(customer_loan_jtable.convertRowIndexToModel(customer_loan_jtable.getSelectedRow())).returnCopy();
+					library.getOngoingLoans().get(customer_loan_jtable.convertRowIndexToModel(customer_loan_jtable.getSelectedRow())).returnCopy();
 					customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please Select a Loan!");
@@ -236,7 +234,9 @@ public class CustomerTab extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		updateFields();		
+		updateFields();
+		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
+		customer_jtable.setModel(customerTableModel);
 	}
 
 }

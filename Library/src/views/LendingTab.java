@@ -34,7 +34,7 @@ public class LendingTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
 	private Library library;
 	private JTextField txtSearchfield;
-	private JTable loan_table;
+	private JTable lending_table;
 	private JButton btnDisplay_selected;
 	private EditLoan editLoanWindow;
 	private JLabel display_number_of_rents;
@@ -145,21 +145,15 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_scrollPane_2.gridy = 0;
 		panel.add(scrollPane, gbc_scrollPane_2);
 				
-		loan_table = new JTable();
-		loan_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(loan_table);
+		lending_table = new JTable();
+		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(lending_table);
 		lendingTableModel = new LendingTableModel(library.getOngoingLoans());
 		//lendingTableModel = new LendingTableModel(library.getOverdueLoans());
-		loan_table.setModel(lendingTableModel);
+		setModel(lendingTableModel);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( loan_table.getModel()); 
-		loan_table.setRowSorter(customerSorter);
-		loan_table.getColumnModel().getColumn(0).setMaxWidth(40);
-		loan_table.getColumnModel().getColumn(1).setMaxWidth(40);
-		loan_table.getColumnModel().getColumn(3).setMinWidth(90);
-		loan_table.getColumnModel().getColumn(3).setMaxWidth(160);
-		loan_table.getColumnModel().getColumn(4).setMinWidth(100);
-		loan_table.getColumnModel().getColumn(4).setMaxWidth(160);
+		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( lending_table.getModel()); 
+		lending_table.setRowSorter(customerSorter);
 
 		lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
@@ -169,7 +163,7 @@ public class LendingTab extends JPanel implements Observer{
 		panel.add(lblSearch, gbc_lblSearch);
 		
 		//TODO nicer solution for search with overdue
-		txtSearchfield = new MySearchField(loan_table,2);
+		txtSearchfield = new MySearchField(lending_table,2);
 		txtSearchfield.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -202,7 +196,7 @@ public class LendingTab extends JPanel implements Observer{
 		btnDisplay_selected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					editLoanWindow=new EditLoan(library.getLoans().get(loan_table.convertRowIndexToModel(loan_table.getSelectedRow())));
+					editLoanWindow=new EditLoan(library.getOngoingLoans().get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow())));
 					editLoanWindow.setVisible();
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please select a Loan!");
@@ -220,6 +214,8 @@ public class LendingTab extends JPanel implements Observer{
 		JButton btnNew_rent = new JButton("New Rent");
 		btnNew_rent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				warningWindow= new WarningWindow("Not yet Implemented!");
+				warningWindow.setVisible();
 			}
 		});
 		GridBagConstraints gbc_btnNew_rent = new GridBagConstraints();
@@ -231,10 +227,20 @@ public class LendingTab extends JPanel implements Observer{
 
 	}
 
+	private void setModel(LendingTableModel lendingTableModel) {
+		lending_table.setModel(lendingTableModel);
+		lending_table.getColumnModel().getColumn(0).setMaxWidth(40);
+		lending_table.getColumnModel().getColumn(1).setMaxWidth(40);
+		lending_table.getColumnModel().getColumn(3).setMinWidth(90);
+		lending_table.getColumnModel().getColumn(3).setMaxWidth(160);
+		lending_table.getColumnModel().getColumn(4).setMinWidth(100);
+		lending_table.getColumnModel().getColumn(4).setMaxWidth(160);	
+	}
+
 	private void filterKeep(String keep) {
 		@SuppressWarnings({ "unchecked" })
-		TableRowSorter<AbstractTableModel> sorter = (TableRowSorter<AbstractTableModel>) loan_table.getRowSorter();
-		loan_table.setRowSorter(sorter);
+		TableRowSorter<AbstractTableModel> sorter = (TableRowSorter<AbstractTableModel>) lending_table.getRowSorter();
+		lending_table.setRowSorter(sorter);
 		RowFilter<AbstractTableModel, Object> rf = RowFilter.regexFilter("(?i)("+ keep +")", 0);
 		sorter.setRowFilter(rf);
 	}
@@ -248,7 +254,8 @@ public class LendingTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		
+		LendingTableModel model = new LendingTableModel(library.getLoans());
+		setModel(model);
 	}
 
 }

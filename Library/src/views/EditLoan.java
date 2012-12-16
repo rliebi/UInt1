@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JPanel;
+
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
@@ -85,6 +87,7 @@ public class EditLoan extends AbstractStatefullForm{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 428, 265);
+		frame.setMinimumSize(new Dimension(428, 265));
 		
 		panel = new JPanel();
 		panel.setBorder(UIManager.getBorder("InsetBorder.aquaVariant"));

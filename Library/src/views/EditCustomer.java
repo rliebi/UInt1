@@ -25,14 +25,14 @@ public class EditCustomer extends AbstractStatefullForm{
 	
 
 	protected JFrame frame;
-	protected JLabel lblCustomerWindow;
+	private JLabel lblCustomerWindow;
 	private MyJTextField txtFirstName;
 	private MyJTextField txtStreetName;
 	private MyJTextField txtCityName;
 	private MyJTextField txtPLZ;
 	private MyJTextField txtLastName;
-	protected Customer realCustomer;
-	protected JPanel panel;
+	private Customer realCustomer;
+	private JPanel panel;
 	//TODO deregister form observing object when hiding window
 	public EditCustomer(Customer customer) {
 		setCustomer(customer);

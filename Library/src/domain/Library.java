@@ -37,6 +37,11 @@ public class Library extends Observable{
 		return c;
 	}
 
+	public void createAndAddCustomer(Customer newCustomer) {
+		customers.add(newCustomer);
+		fireChange();
+	}
+
 	private void fireChange() {
 		setChanged();
 		notifyObservers();

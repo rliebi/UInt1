@@ -1,9 +1,10 @@
 package views;
 
-import java.awt.Component;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+
+import domain.Customer;
+import domain.Library;
+
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
@@ -13,118 +14,72 @@ import java.awt.Insets;
 import javax.swing.JButton;
 
 import components.MyJTextField;
-import domain.Customer;
+import components.StateLogicException;
+import controll.UnchangedFormState;
 
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.util.List;
+import java.util.Observable;
 
 
-public class NewCustomer {
-
+public class NewCustomer extends AbstractStatefullForm{
+	
 
 	protected JFrame frame;
-	protected JLabel lblCustomerWindow;
+	private JLabel lblCustomerWindow;
 	private MyJTextField txtFirstName;
 	private MyJTextField txtStreetName;
-	protected MyJTextField txtStreetNr;
 	private MyJTextField txtCityName;
 	private MyJTextField txtPLZ;
 	private MyJTextField txtLastName;
-	protected Customer realCustomer;
-
-	protected String getLblCustomerWindow() {
-		return lblCustomerWindow.getText();
-	}
-
-	protected void setLblCustomerWindow(String input) {
-		this.lblCustomerWindow.setText(input);
-	}
-
-	protected String getTxtFirstName() {
-		return txtFirstName.getText();
-	}
-
-	protected void setTxtFirstName(String input) {
-		txtFirstName.setWrittingSettings();
-		this.txtFirstName.setText(input);
-	}
-
-	protected String getTxtStreetName() {
-		return txtStreetName.getText();
-	}
-
-	protected void setTxtStreetName(String input) {
-		txtStreetName.setWrittingSettings();
-		this.txtStreetName.setText(input);
-	}
-
-	protected String getTxtStreetNr() {
-		return txtStreetNr.getText();
-	}
-
-	protected void setTxtStreetNr(String input) {
-		txtStreetNr.setWrittingSettings();
-		this.txtStreetNr.setText(input);
-	}
-
-	protected String getTxtCityName() {
-		return txtCityName.getText();
-	}
-
-	protected void setTxtCityName(String input) {
-		txtCityName.setWrittingSettings();
-		this.txtCityName.setText(input);
-	}
-
-	protected String getTxtPLZ() {
-		return txtPLZ.getText();
-	}
-
-	protected void setTxtPLZ(String input) {
-		txtPLZ.setWrittingSettings();
-		this.txtPLZ.setText(input);
-	}
-
-	protected String getTxtLastName() {
-		return txtLastName.getText();
-	}
-
-	protected void setTxtLastName(String input) {
-		txtLastName.setWrittingSettings();
-		this.txtLastName.setText(input);
-	}
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Customer customer = new Customer("Last", "First");
-					NewCustomer window = new NewCustomer(customer);
-					window.frame.setVisible(true);
-					window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public NewCustomer(Customer customer) {
-		realCustomer=customer;
+	private Customer realCustomer;
+	private JPanel panel;
+	private boolean is_saved;
+	private Library library;
+	
+	//TODO deregister form observing object when hiding window
+	public NewCustomer(Customer customer, Library library) {
+		is_saved=false;
+		this.library=library;
+		setCustomer(customer);
+		customer.addObserver(this);
 		initialize();
+		lblCustomerWindow.setText("New Customer");
+		frame.getRootPane().setDefaultButton(btnSave);
+		setState(new UnchangedFormState(this));
 	}
+
+
+	public static void main(String[] args) {
+		Customer testCustomer = new Customer("", "");
+		Library library = new Library();
+		NewCustomer newcustomer_window = new NewCustomer(testCustomer,library);
+		newcustomer_window.setVisible();
+		newcustomer_window.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	public void setCustomer(Customer customer){
+		realCustomer = customer;
+	}
+	
+	public int deregister(){
+		realCustomer.deleteObserver(this);
+		return 0;
+	}
+
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		myState.update(this, realCustomer);
+	}
+
 
 	public void setVisible(){
 		frame.setVisible(true);
 	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -136,7 +91,7 @@ public class NewCustomer {
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		final JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setMinimumSize(new Dimension(60, 30));
 		panel.setBorder(UIManager.getBorder("InsetBorder.aquaVariant"));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -167,7 +122,7 @@ public class NewCustomer {
 		gbc_lblName.gridy = 2;
 		panel.add(lblName, gbc_lblName);
 		
-		txtFirstName = new MyJTextField("First");
+		txtFirstName = new MyJTextField("First",realCustomer.getSurname());
 		GridBagConstraints gbc_txtFirstName = new GridBagConstraints();
 		gbc_txtFirstName.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFirstName.fill = GridBagConstraints.HORIZONTAL;
@@ -203,17 +158,6 @@ public class NewCustomer {
 		panel.add(txtStreetName, gbc_txtStreetName);
 		txtStreetName.setColumns(10);
 		
-		txtStreetNr = new MyJTextField("Nr.");
-		txtStreetNr.setMaximumSize(new Dimension(40, 2147483647));
-		txtStreetNr.setMinimumSize(new Dimension(40, 28));
-		GridBagConstraints gbc_txtStreeNr = new GridBagConstraints();
-		gbc_txtStreeNr.anchor = GridBagConstraints.WEST;
-		gbc_txtStreeNr.insets = new Insets(0, 0, 5, 5);
-		gbc_txtStreeNr.gridx = 2;
-		gbc_txtStreeNr.gridy = 3;
-		panel.add(txtStreetNr, gbc_txtStreeNr);
-		txtStreetNr.setColumns(10);
-		
 		JLabel lblCity = new JLabel("City");
 		GridBagConstraints gbc_lblCity = new GridBagConstraints();
 		gbc_lblCity.anchor = GridBagConstraints.WEST;
@@ -243,29 +187,21 @@ public class NewCustomer {
 		panel.add(txtPLZ, gbc_txtPLZ);
 		txtPLZ.setColumns(10);
 		
-		final JButton btnReset = new JButton("Reset");
-		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				for(Component f : panel.getComponents()){
-					if(f instanceof MyJTextField){
-						((MyJTextField) f).reset_to_placeholder();
-					}
-				}
-			}
-		});
-		GridBagConstraints gbc_btnReset = new GridBagConstraints();
-		gbc_btnReset.anchor = GridBagConstraints.EAST;
-		gbc_btnReset.insets = new Insets(0, 0, 0, 5);
-		gbc_btnReset.gridx = 1;
-		gbc_btnReset.gridy = 6;
-		panel.add(btnReset, gbc_btnReset);
+		addListenertoMyFields();
 		
-		JButton btnSave = new JButton("Save");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		});
+		btnReload = new JButton("Reload");
+		btnReload.setEnabled(false);
+		addListenertoReloadbtn();
+		GridBagConstraints gbc_btnRload = new GridBagConstraints();
+		gbc_btnRload.anchor = GridBagConstraints.EAST;
+		gbc_btnRload.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRload.gridx = 1;
+		gbc_btnRload.gridy = 6;
+		panel.add(btnReload, gbc_btnRload);
+		
+		btnSave = new JButton("Save");
+		btnSave.setEnabled(false);
+		addListenertoSavebtn();
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
 		gbc_btnSave.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSave.gridwidth = 2;
@@ -273,6 +209,52 @@ public class NewCustomer {
 		gbc_btnSave.gridx = 2;
 		gbc_btnSave.gridy = 6;
 		panel.add(btnSave, gbc_btnSave);
+	}
+
+
+	@Override
+	public void reloadFieldsfromRealObject() {
+		this.txtFirstName.setTextReload(realCustomer.getSurname());
+		txtLastName.setWrittingSettings();
+		this.txtLastName.setTextReload(realCustomer.getName());
+		this.txtStreetName.setTextReload(realCustomer.getStreet());
+		this.txtCityName.setTextReload(realCustomer.getCity());
+		this.txtPLZ.setTextReload(realCustomer.getZip()+"");
+		try {
+			myState.reloadFieldsfromRealObject(this);
+		} catch (StateLogicException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@Override
+	public void saveChangestoRealObject() {
+		if(!is_saved){
+			library.createAndAddCustomer(realCustomer);
+			is_saved=true;
+		}
+		realCustomer.setName(txtLastName.getText());
+		txtLastName.setTextReload();
+		realCustomer.setSurname(txtFirstName.getText());
+		txtFirstName.setTextReload();
+		realCustomer.setAdress(txtStreetName.getText(), Integer.parseInt(txtPLZ.getText()), txtCityName.getText());
+		txtStreetName.setTextReload();
+		try {
+			myState.saveChangestoRealObject(this);
+		} catch (StateLogicException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@Override
+	public void addListenertoMyFields() {
+		addListenertoMyFields(panel,this);
+	}
+	
+	public List<MyJTextField> getMyFields() {
+		return getMyFields(panel);
 	}
 
 }

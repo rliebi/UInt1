@@ -15,6 +15,7 @@ public class MyJTextField extends JTextField {
 	public MyJTextField(String default_text){
 		super();
 		this.default_text=default_text;
+		old_text=default_text;
 		reset_to_placeholder();
 		this.addFocusListener(new MyTextField_FocusAdapter(this));
 	}
