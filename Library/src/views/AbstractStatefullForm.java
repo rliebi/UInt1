@@ -29,6 +29,7 @@ public abstract class AbstractStatefullForm implements Observer{
 	public abstract void reloadFieldsfromRealObject();
 	public abstract void saveChangestoRealObject();
 	public abstract void addListenertoMyFields();
+	
 	public JButton getSaveBtn() {
 		return btnSave;
 	}
@@ -66,6 +67,7 @@ public abstract class AbstractStatefullForm implements Observer{
 			}
 		});
 	}
+	
 	public void addListenertoSavebtn() {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -73,6 +75,7 @@ public abstract class AbstractStatefullForm implements Observer{
 			}
 		});
 	}
+	
 	public void setState(InterfaceFormState newState) {
 		myState=newState;
 		System.out.println("Set state: " + newState.toString());

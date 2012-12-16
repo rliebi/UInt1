@@ -36,7 +36,7 @@ public class CustomerTab extends JPanel implements Observer{
 	private NewCustomer newCustomerWindow;
 	private EditCustomer editCustomerWindow;
 	private JTextField txtSearchfield;
-	private JTable customer_jtable;
+	private JTable customer_table;
 	private JLabel displayNrCustomer;
 	private JTable customer_loan_jtable;
 	private WarningWindow warningWindow;
@@ -118,8 +118,8 @@ public class CustomerTab extends JPanel implements Observer{
 		gbc_scrollPane_1.gridy = 0;
 		panel_1.add(scrollPane_1, gbc_scrollPane_1);
 		
-		customer_jtable = new JTable();
-		customer_jtable.addMouseListener(new MouseAdapter() {
+		customer_table = new JTable();
+		customer_table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
@@ -129,13 +129,13 @@ public class CustomerTab extends JPanel implements Observer{
 				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(getSelectedCustomer())));
 			}
 		});
-		customer_jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane_1.setViewportView(customer_jtable);
+		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane_1.setViewportView(customer_table);
 		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
-		customer_jtable.setModel(customerTableModel);
+		customer_table.setModel(customerTableModel);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_jtable.getModel());
-		customer_jtable.setRowSorter(customerSorter);
+		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_table.getModel());
+		customer_table.setRowSorter(customerSorter);
 		customerSorter.setSortsOnUpdates(true);
 		
 		JButton btnDisplayCustomer = new JButton("Display Customer");
@@ -159,7 +159,7 @@ public class CustomerTab extends JPanel implements Observer{
 		gbc_lblSearch.gridy = 1;
 		panel_1.add(lblSearch, gbc_lblSearch);
 		
-		txtSearchfield = new MySearchField(customer_jtable);
+		txtSearchfield = new MySearchField(customer_table);
 		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
 		gbc_txtSearchfield_1.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield_1.fill = GridBagConstraints.HORIZONTAL;
@@ -260,15 +260,22 @@ public class CustomerTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
+		setCustomerModel();
+	}
+
+	private void setCustomerModel() {
+		int selected_row = customer_table.getSelectedRow();
 		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
-		customer_jtable.setModel(customerTableModel);
+		customer_table.setModel(customerTableModel);
+		if(selected_row!=-1){customer_table.setRowSelectionInterval(selected_row, selected_row);}
+		
 	}
 
 	private Loan getSelectedLoan() {
 		return library.getCustomerOngoingLoans(getSelectedCustomer()).get(customer_loan_jtable.convertColumnIndexToModel(customer_loan_jtable.getSelectedRow()));
 	}
 	private Customer getSelectedCustomer() {
-		return library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow()));
+		return library.getCustomers().get(customer_table.convertRowIndexToModel(customer_table.getSelectedRow()));
 	}
 
 }

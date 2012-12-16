@@ -1,6 +1,8 @@
 package domain;
 
-public class Copy {
+import java.util.Observable;
+
+public class Copy extends Observable{
 	
 	public enum Condition {NEW, GOOD, DAMAGED, WASTE, LOST }
 	
@@ -26,6 +28,12 @@ public class Copy {
 
 	public void setCondition(Condition condition) {
 		this.condition = condition;
+		fireChange();
+	}
+
+	private void fireChange() {
+		setChanged();
+		notifyObservers();
 	}
 
 	public long getInventoryNumber() {

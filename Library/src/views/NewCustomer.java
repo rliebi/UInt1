@@ -36,6 +36,7 @@ public class NewCustomer extends AbstractStatefullForm{
 	private JPanel panel;
 	private boolean is_saved;
 	private Library library;
+	private WarningWindow warningWindow;
 	
 	//TODO deregister form observing object when hiding window
 	public NewCustomer(Customer customer, Library library) {
@@ -225,25 +226,29 @@ public class NewCustomer extends AbstractStatefullForm{
 		} catch (StateLogicException e) {
 			e.printStackTrace();
 		}
+		if(!is_saved){for(MyJTextField f : getMyFields()){f.reset_to_placeholder();}}
 	}
 
 
 	@Override
 	public void saveChangestoRealObject() {
-		if(!is_saved){
-			library.createAndAddCustomer(realCustomer);
-			is_saved=true;
-		}
-		realCustomer.setName(txtLastName.getText());
-		txtLastName.setTextReload();
-		realCustomer.setSurname(txtFirstName.getText());
-		txtFirstName.setTextReload();
-		realCustomer.setAdress(txtStreetName.getText(), Integer.parseInt(txtPLZ.getText()), txtCityName.getText());
-		txtStreetName.setTextReload();
 		try {
+			realCustomer.setName(txtLastName.getText());
+			txtLastName.setTextReload();
+			realCustomer.setSurname(txtFirstName.getText());
+			txtFirstName.setTextReload();
+			realCustomer.setAdress(txtStreetName.getText(), Integer.parseInt(txtPLZ.getText()), txtCityName.getText());
+			txtStreetName.setTextReload();
 			myState.saveChangestoRealObject(this);
+			if(!is_saved){
+				library.createAndAddCustomer(realCustomer);
+				is_saved=true;
+			}
 		} catch (StateLogicException e) {
 			e.printStackTrace();
+		} catch (NumberFormatException ee){
+			warningWindow = new WarningWindow("Please insert only a number for ZIP!");
+			warningWindow.setVisible();
 		}
 	}
 

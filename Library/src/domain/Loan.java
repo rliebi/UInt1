@@ -53,6 +53,7 @@ public class Loan extends Observable{
 			throw new IllegalLoanOperationException("Loan is already retuned");
 		}
 		this.pickupDate = pickupDate;
+		fireChanged();
 	}
 
 	public GregorianCalendar getPickupDate() {

@@ -44,6 +44,8 @@ public class LendingTab extends JPanel implements Observer{
 	private WarningWindow warningWindow;
 	private LendingTableModel lendingTableModel;
 	private JCheckBox chckbxOverdue;
+	private JLabel display_number_of_lendings;
+	private JLabel display_overdue;
 	
 	public LendingTab(){
 		super();
@@ -106,7 +108,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lbl_number_of_lendings.gridy = 0;
 		panelrentstatistics.add(lbl_number_of_lendings, gbc_lbl_number_of_lendings);
 		
-		final JLabel display_number_of_lendings = new JLabel(library.getLoans().size()+"");
+		display_number_of_lendings = new JLabel(library.getLoans().size()+"");
 		GridBagConstraints gbc_display_number_of_lendings = new GridBagConstraints();
 		gbc_display_number_of_lendings.insets = new Insets(0, 0, 0, 5);
 		gbc_display_number_of_lendings.gridx = 4;
@@ -120,7 +122,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lblOverdue.gridy = 0;
 		panelrentstatistics.add(lblOverdue, gbc_lblOverdue);
 		
-		JLabel display_overdue = new JLabel(library.getOverdueLoans().size()+"");
+		display_overdue = new JLabel(library.getOverdueLoans().size()+"");
 		GridBagConstraints gbc_display_overdue = new GridBagConstraints();
 		gbc_display_overdue.gridx = 7;
 		gbc_display_overdue.gridy = 0;
@@ -153,7 +155,7 @@ public class LendingTab extends JPanel implements Observer{
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(lending_table);
 		lendingTableModel = new LendingTableModel(library.getOngoingLoans());
-		setModel(lendingTableModel);
+		setLendingModel(lendingTableModel);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( lending_table.getModel()); 
 		lending_table.setRowSorter(customerSorter);
@@ -230,8 +232,8 @@ public class LendingTab extends JPanel implements Observer{
 
 	}
 
-	private void setModel(LendingTableModel lendingTableModel) {
-		lending_table.setModel(lendingTableModel);
+	private void setLendingModel(LendingTableModel model) {
+		lending_table.setModel(model);
 		lending_table.getColumnModel().getColumn(0).setMaxWidth(40);
 		lending_table.getColumnModel().getColumn(1).setMaxWidth(40);
 		lending_table.getColumnModel().getColumn(3).setMinWidth(90);
@@ -252,13 +254,17 @@ public class LendingTab extends JPanel implements Observer{
 	}
 	
 	public void updateFields(){
+		display_number_of_rents.setText(library.getLentOutCopies().size()+"");
+		display_number_of_lendings.setText(library.getLoans().size()+"");
+		display_overdue.setText(library.getOverdueLoans().size()+"");
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		LendingTableModel model = new LendingTableModel(library.getLoans());
-		setModel(model);
+		lendingTableModel = new LendingTableModel(library.getOngoingLoans());
+		setLendingModel(lendingTableModel);
+		filterKeep("");
 	}
 
 }

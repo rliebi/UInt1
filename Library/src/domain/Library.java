@@ -3,8 +3,9 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
-public class Library extends Observable{
+public class Library extends Observable implements Observer{
 
 	private List<Copy> copies;
 	private List<Customer> customers;
@@ -21,44 +22,58 @@ public class Library extends Observable{
 	public Loan createAndAddLoan(Customer customer, Copy copy) {
 		if (!isCopyLent(copy)) {
 			Loan l = new Loan(customer, copy);
+			l.addObserver(this);
 			loans.add(l);
-			fireChange();
+			fireChanged();
 			return l;
 		} else {
-			fireChange();
+			fireChanged();
 			return null;
 		}
 	}
 
 	public Customer createAndAddCustomer(String name, String surname) {
 		Customer c = new Customer(name, surname);
+		c.addObserver(this);
 		customers.add(c);
-		fireChange();
+		fireChanged();
 		return c;
 	}
 
 	public void createAndAddCustomer(Customer newCustomer) {
 		customers.add(newCustomer);
-		fireChange();
+		fireChanged();
 	}
 
-	private void fireChange() {
+	private void fireChanged() {
 		setChanged();
 		notifyObservers();
 	}
 
 	public Book createAndAddBook(String name) {
 		Book b = new Book(name);
+		b.addObserver(this);
 		books.add(b);
-		fireChange();
+		fireChanged();
 		return b;
+	}
+
+	public void addBook(Book realBook) {
+		books.add(realBook);
+		fireChanged();
 	}
 
 	public Copy createAndAddCopy(Book title) {
 		Copy c = new Copy(title);
+		c.addObserver(this);
 		copies.add(c);
-		fireChange();
+		fireChanged();
 		return c;
+	}
+	public void removeCopy(Copy c){
+		copies.remove(c);
+		c.deleteObservers();
+		fireChanged();
 	}
 
 	public Book findByBookTitle(String title) {
@@ -168,6 +183,11 @@ public class Library extends Observable{
 			if(l.isLent()){answer.add(l);}
 		}
 		return answer;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		fireChanged();
 	}
 
 }

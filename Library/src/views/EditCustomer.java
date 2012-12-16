@@ -33,7 +33,6 @@ public class EditCustomer extends AbstractStatefullForm{
 	private MyJTextField txtLastName;
 	private Customer realCustomer;
 	private JPanel panel;
-	//TODO deregister form observing object when hiding window
 	public EditCustomer(Customer customer) {
 		setCustomer(customer);
 		customer.addObserver(this);
@@ -180,11 +179,9 @@ public class EditCustomer extends AbstractStatefullForm{
 		panel.add(txtPLZ, gbc_txtPLZ);
 		txtPLZ.setColumns(10);
 		
-		addListenertoMyFields();
 		
 		btnReload = new JButton("Reload");
 		btnReload.setEnabled(false);
-		addListenertoReloadbtn();
 		GridBagConstraints gbc_btnRload = new GridBagConstraints();
 		gbc_btnRload.anchor = GridBagConstraints.EAST;
 		gbc_btnRload.insets = new Insets(0, 0, 0, 5);
@@ -194,7 +191,6 @@ public class EditCustomer extends AbstractStatefullForm{
 		
 		btnSave = new JButton("Save");
 		btnSave.setEnabled(false);
-		addListenertoSavebtn();
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
 		gbc_btnSave.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSave.gridwidth = 2;
@@ -202,6 +198,11 @@ public class EditCustomer extends AbstractStatefullForm{
 		gbc_btnSave.gridx = 2;
 		gbc_btnSave.gridy = 6;
 		panel.add(btnSave, gbc_btnSave);
+
+		
+		addListenertoSavebtn();
+		addListenertoMyFields();
+		addListenertoReloadbtn();
 	}
 
 
@@ -228,7 +229,7 @@ public class EditCustomer extends AbstractStatefullForm{
 		realCustomer.setSurname(txtFirstName.getText());
 		txtFirstName.setTextReload();
 		realCustomer.setAdress(txtStreetName.getText(), Integer.parseInt(txtPLZ.getText()), txtCityName.getText());
-		txtStreetName.setTextReload();
+		txtStreetName.setTextReload();	
 		try {
 			myState.saveChangestoRealObject(this);
 		} catch (StateLogicException e) {

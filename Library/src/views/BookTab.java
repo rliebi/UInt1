@@ -23,6 +23,7 @@ import javax.swing.border.TitledBorder;
 
 import components.MySearchField;
 import viewModels.BookTableModel;
+import domain.Book;
 import domain.Library;
 
 
@@ -133,7 +134,7 @@ public class BookTab extends JPanel implements Observer{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					openDetailWindow();
+					openEditBook();
 				}
 			}
 		});
@@ -153,7 +154,7 @@ public class BookTab extends JPanel implements Observer{
 		btnDisplayBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					openDetailWindow();
+					openEditBook();
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please Select a Book");
 					warningWindow.setVisible();
@@ -185,39 +186,37 @@ public class BookTab extends JPanel implements Observer{
 		panelBookInventory.add(btnAddNewBook, gbc_btnAddNewBook);
 		btnAddNewBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openNewBookWindow();
+				newBookDetailWindow = new EditBook(library);
+				newBookDetailWindow.setVisible();
 			}
 		});
 		//------------Button Add new Book--------
 	}
 	
 	public void updateFields(){
+		display_number_of_titles.setText(library.getBooks().size() + "");
+		display_number_of_books.setText(library.getCopies().size() + "");
 	}
 	
 	
+	private Book getSelectedBook() {
+		return library.getBooks().get(book_table.convertRowIndexToModel(book_table.getSelectedRow()));
+	}
+
 	private void setModel(BookTableModel model) {
 		book_table.setModel(model);
 		book_table.getColumnModel().getColumn(1).setMaxWidth(40);
 			
 	}
 
-	private void openDetailWindow() {
-		if (detailwindow == null)
-			detailwindow = new EditBook(library, library.getBooks().get(
-					book_table.convertRowIndexToModel(book_table.getSelectedRow())));
+	private void openEditBook() {
+		detailwindow = new EditBook(library, getSelectedBook());
 		detailwindow.setVisible();
-		detailwindow.setBook(library.getBooks().get(
-				book_table.convertRowIndexToModel(book_table.getSelectedRow())));
 	}
 	
-	private void openNewBookWindow() {
-		newBookDetailWindow = new EditBook(library);
-		newBookDetailWindow.setVisible();
-	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		display_number_of_titles.setText(library.getBooks().size() + "");
-		display_number_of_books.setText(library.getCopies().size() + "");
+		updateFields();
 		BookTableModel model = new BookTableModel(library.getBooks());
 		setModel(model);
 	}

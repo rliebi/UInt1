@@ -32,7 +32,7 @@ import components.MyJTextField;
 import components.StateLogicException;
 import controll.UnchangedFormState;
 
-public class EditBook extends AbstractStatefullForm implements Observer{
+public class NewBook extends AbstractStatefullForm implements Observer{
 	private String bookTitleLabelText = "Titel";
 	private String bookAuthorLabel = "Author";
 	private String bookPublisherLabel = "Verlag";
@@ -59,16 +59,12 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 
 	public static void main(String[] args) {
 		Library library = new Library();
-		Book b = new Book("");
-		b.setAuthor("J.K. Rowling");
-		b.setName("Harry Potter");
-		b.setPublisher("Me");
-		EditBook editBookWindow = new EditBook(library,b);
-		editBookWindow.setVisible();
-		editBookWindow.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		NewBook newBookWindow = new NewBook(library);
+		newBookWindow.setVisible();
+		newBookWindow.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public EditBook(Library library, Book book) {
+	public NewBook(Library library, Book book) {
 		this.library = library;
 		realBook = book;
 		realBook.addObserver(this);
@@ -79,7 +75,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public EditBook(Library library) {
+	public NewBook(Library library) {
 		this(library,new Book(""));
 		is_saved=false;
 	}
@@ -128,7 +124,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		gbc_lblIsbn.gridy = 0;
 		book_panel.add(lblIsbn, gbc_lblIsbn);
 
-		txtFieldBookTitle = new MyJTextField("Title", realBook.getName());
+		txtFieldBookTitle = new MyJTextField("Title");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -145,7 +141,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		gbc_lblTitle.gridy = 1;
 		book_panel.add(bookTitleLabel, gbc_lblTitle);
 
-		txtFieldBookAuthor = new MyJTextField("Author", realBook.getAuthor());
+		txtFieldBookAuthor = new MyJTextField("Author");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
@@ -162,7 +158,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		gbc_lblAuthor.gridy = 2;
 		book_panel.add(lblAuthor, gbc_lblAuthor);
 
-		txtFieldBookPublisher = new MyJTextField("Publisher",realBook.getPublisher());
+		txtFieldBookPublisher = new MyJTextField("Publisher");
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
@@ -293,7 +289,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		gbl_panel1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel1);
 		
-		JButton btnReload = new JButton("Reload");
+		JButton btnReload = new JButton("New button");
 		this.btnReload=btnReload;
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -349,6 +345,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
+		//reloadFieldsfromRealObject();
 		myState.update(this, realBook);
 	}
 
@@ -382,13 +379,15 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 
 	@Override
 	public void saveChangestoRealObject() {
+		//realBook.setShelf((Shelf)conditionComboBox.getSelectedItem());
 		try {
 			realBook.setName(txtFieldBookTitle.getText());
 			realBook.setAuthor(txtFieldBookAuthor.getText());
 			realBook.setPublisher(txtFieldBookPublisher.getText());
 			 myState.saveChangestoRealObject(this);
 			if(!is_saved){
-				library.addBook(realBook);	
+				library.addBook(realBook);
+				setState(new UnchangedFormState(this));
 				is_saved=true;
 			}
 		} catch (Exception e) {
