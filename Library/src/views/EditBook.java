@@ -29,7 +29,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class BookDetail extends Observable implements Observer {
+public class EditBook extends Observable implements Observer {
 	private String bookTitleLabelText = "Titel";
 	private String bookAuthorLabel = "Author";
 	private String bookPublisherLabel = "Verlag";
@@ -57,7 +57,7 @@ public class BookDetail extends Observable implements Observer {
 	 * Create the application.
 	 */
 
-	public BookDetail(Library library, Book book) {
+	public EditBook(Library library, Book book) {
 		this.library = library;
 		theBook = book;
 		initialize();
@@ -67,7 +67,7 @@ public class BookDetail extends Observable implements Observer {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public BookDetail(Library library2) {
+	public EditBook(Library library2) {
 		this.library = library2;
 		theBook = null;
 		initialize();

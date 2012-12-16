@@ -47,8 +47,8 @@ public class BookMaster implements Observer{
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
 	private Library library;
-	private BookDetail detailwindow;
-	private BookDetail newBookDetailWindow;
+	private EditBook detailwindow;
+	private EditBook newBookDetailWindow;
 	private JTextField txtSearch;
 	private WarningWindow warningWindow;
 	public BookMaster(Library library) {
@@ -174,8 +174,8 @@ public class BookMaster implements Observer{
 		gbc_lblSearch.gridy = 1;
 		panelBookInventory.add(lblSearch, gbc_lblSearch);
 		
-		JButton btnDisplaySelected = new JButton("Display Selected");
-		btnDisplaySelected.addActionListener(new ActionListener() {
+		JButton btnDisplayBook = new JButton("Display Book");
+		btnDisplayBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					openDetailWindow();
@@ -199,7 +199,7 @@ public class BookMaster implements Observer{
 		gbc_btnDisplaySelected.insets = new Insets(0, 0, 0, 5);
 		gbc_btnDisplaySelected.gridx = 2;
 		gbc_btnDisplaySelected.gridy = 1;
-		panelBookInventory.add(btnDisplaySelected, gbc_btnDisplaySelected);
+		panelBookInventory.add(btnDisplayBook, gbc_btnDisplaySelected);
 		//------------Search Field --------------
 
 		//------------Button Add new Book--------		
@@ -234,7 +234,7 @@ public class BookMaster implements Observer{
 
 	private void openDetailWindow() {
 		if (detailwindow == null)
-			detailwindow = new BookDetail(library, library.getBooks().get(
+			detailwindow = new EditBook(library, library.getBooks().get(
 					book_table.convertRowIndexToModel(book_table.getSelectedRow())));
 		detailwindow.setVisible();
 		detailwindow.setBook(library.getBooks().get(
@@ -243,7 +243,7 @@ public class BookMaster implements Observer{
 	
 	private void openNewBookWindow() {
 		System.out.println("Open new Book");
-		newBookDetailWindow = new BookDetail(library);
+		newBookDetailWindow = new EditBook(library);
 		newBookDetailWindow.setVisible();
 	}
 	@Override

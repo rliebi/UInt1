@@ -35,7 +35,7 @@ public class LendingTab extends JPanel implements Observer{
 	private Library library;
 	private JTextField txtSearchfield;
 	private JTable lending_table;
-	private JButton btnDisplay_selected;
+	private JButton btnDisplayLoan;
 	private EditLoan editLoanWindow;
 	private JLabel display_number_of_rents;
 	private JLabel lblSearch;
@@ -192,8 +192,8 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_chckbxOverdue.gridy = 1;
 		panel.add(chckbxOverdue, gbc_chckbxOverdue);
 		
-		btnDisplay_selected = new JButton("Display Selected");
-		btnDisplay_selected.addActionListener(new ActionListener() {
+		btnDisplayLoan = new JButton("Display Loan");
+		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					editLoanWindow=new EditLoan(library.getOngoingLoans().get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow())));
@@ -209,7 +209,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_btnDisplay_selected.insets = new Insets(0, 0, 0, 5);
 		gbc_btnDisplay_selected.gridx = 4;
 		gbc_btnDisplay_selected.gridy = 1;
-		panel.add(btnDisplay_selected, gbc_btnDisplay_selected);
+		panel.add(btnDisplayLoan, gbc_btnDisplay_selected);
 		
 		JButton btnNew_rent = new JButton("New Rent");
 		btnNew_rent.addActionListener(new ActionListener() {
