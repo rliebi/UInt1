@@ -17,12 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableRowSorter;
-
-import viewModels.CustomerTableModel;
 import viewModels.LendingTableModel;
 
 import components.MySearchField;
@@ -156,9 +151,6 @@ public class LendingTab extends JPanel implements Observer{
 		scrollPane.setViewportView(lending_table);
 		lendingTableModel = new LendingTableModel(library.getOngoingLoans());
 		setLendingModel(lendingTableModel);
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( lending_table.getModel()); 
-		lending_table.setRowSorter(customerSorter);
 
 		lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
@@ -187,8 +179,11 @@ public class LendingTab extends JPanel implements Observer{
 		chckbxOverdue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(chckbxOverdue.getSelectedObjects()!=null){ //is selected
-					filterKeep("due");
-				} else {filterKeep("");}
+					lending_table.setModel(new LendingTableModel(library.getOverdueLoans()));
+				} else {
+					LendingTableModel lendingTableModel = new LendingTableModel(library.getOngoingLoans());
+					setLendingModel(lendingTableModel);
+				}
 			}
 		});
 		GridBagConstraints gbc_chckbxOverdue = new GridBagConstraints();
@@ -227,8 +222,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_btnNew_rent.gridx = 5;
 		gbc_btnNew_rent.gridy = 1;
 		panel.add(btnNew_rent, gbc_btnNew_rent);
-		
-		filterOutEnded();
+
 
 	}
 
@@ -242,16 +236,6 @@ public class LendingTab extends JPanel implements Observer{
 		lending_table.getColumnModel().getColumn(4).setMaxWidth(160);	
 	}
 
-	private void filterKeep(String keep) {
-		@SuppressWarnings({ "unchecked" })
-		TableRowSorter<AbstractTableModel> sorter = (TableRowSorter<AbstractTableModel>) lending_table.getRowSorter();
-		lending_table.setRowSorter(sorter);
-		RowFilter<AbstractTableModel, Object> rf = RowFilter.regexFilter("(?i)("+ keep +")", 0);
-		sorter.setRowFilter(rf);
-	}
-	private void filterOutEnded(){
-		filterKeep("ok|due!");
-	}
 	
 	public void updateFields(){
 		display_number_of_rents.setText(library.getLentOutCopies().size()+"");
@@ -262,9 +246,8 @@ public class LendingTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		lendingTableModel = new LendingTableModel(library.getOngoingLoans());
+		LendingTableModel lendingTableModel = new LendingTableModel(library.getOngoingLoans());
 		setLendingModel(lendingTableModel);
-		filterKeep("");
 	}
 
 }

@@ -217,6 +217,10 @@ public class CustomerTab extends JPanel implements Observer{
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					if(getSelectedLoan().isOverdue()){
+						warningWindow = new WarningWindow("Ask for 3 CHF, book is late!");
+						warningWindow.setVisible();
+					}
 					getSelectedLoan().returnCopy();
 					customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(getSelectedCustomer())));
 				} catch (IndexOutOfBoundsException e) {

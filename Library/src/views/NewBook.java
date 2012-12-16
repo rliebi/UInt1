@@ -55,7 +55,9 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 	private JLabel txtNrCopies;
 	private JComboBox conditionComboBox;
 	private JPanel book_panel;
-	private boolean is_saved=true;
+	private boolean is_saved;
+	private JButton btnAddCopy;
+	private JButton btnRemoveCopy;
 
 	public static void main(String[] args) {
 		Library library = new Library();
@@ -66,10 +68,17 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 
 	public NewBook(Library library, Book book) {
 		this.library = library;
+		is_saved=false;
 		realBook = book;
 		realBook.addObserver(this);
 		initialize();
 		setState(new UnchangedFormState(this));
+		disableCopyButtons();
+	}
+
+	private void disableCopyButtons() {
+		btnRemoveCopy.setEnabled(false);
+		btnAddCopy.setEnabled(false);
 	}
 
 	/**
@@ -77,7 +86,6 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 	 */
 	public NewBook(Library library) {
 		this(library,new Book(""));
-		is_saved=false;
 	}
 
 	/**
@@ -241,8 +249,8 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		gbc_comboBox.gridy = 0;
 		panel_2.add(conditionComboBox, gbc_comboBox);
 
-		JButton button = new JButton(bookRemoveButton);
-		button.addActionListener(new ActionListener() {
+		btnRemoveCopy = new JButton(bookRemoveButton);
+		btnRemoveCopy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					library.removeCopy(getSelectedCopy());
@@ -258,16 +266,16 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		gbc_button.insets = new Insets(0, 0, 0, 5);
 		gbc_button.gridx = 4;
 		gbc_button.gridy = 0;
-		panel_2.add(button, gbc_button);
+		panel_2.add(btnRemoveCopy, gbc_button);
 
-		JButton button_1 = new JButton(bookAddButtonText);
+		btnAddCopy = new JButton(bookAddButtonText);
 		GridBagConstraints gbc_button_1 = new GridBagConstraints();
 		gbc_button_1.anchor = GridBagConstraints.NORTH;
 		gbc_button_1.gridwidth = 2;
 		gbc_button_1.gridx = 5;
 		gbc_button_1.gridy = 0;
-		panel_2.add(button_1, gbc_button_1);
-		button_1.addActionListener(new ActionListener() {
+		panel_2.add(btnAddCopy, gbc_button_1);
+		btnAddCopy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				library.createAndAddCopy(realBook);
 				setModel();
@@ -299,6 +307,16 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		panel.add(btnReload, gbc_btnNewButton);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				enableCopyButtons();
+			}
+
+			private void enableCopyButtons() {
+				btnAddCopy.setEnabled(true);
+				btnRemoveCopy.setEnabled(true);
+			}
+		});
 		this.btnSave=btnSave;
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
 		gbc_btnSave.gridx = 2;
