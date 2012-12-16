@@ -61,14 +61,13 @@ public class EditBook implements Observer {
 		this.library = library;
 		theBook = book;
 		initialize();
-		exemplaerAnsicht();
 	}
 
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public EditBook(Library library2) {
-		this.library = library2;
+	public EditBook(Library library) {
+		this.library = library;
 		theBook = null;
 		initialize();
 		newBookSaveButton();
@@ -177,10 +176,8 @@ public class EditBook implements Observer {
 		gbc_textField_3.gridy = 3;
 		panel.add(cmbFieldShelfNumber, gbc_textField_3);
 		
-
-	}
-
-	private void exemplaerAnsicht()  {
+		//------------------------- ExemplarAnsicht
+		
 		panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, booksInformationLabelText,
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -252,6 +249,10 @@ public class EditBook implements Observer {
 			}
 		});
 		createBookTable(createtableScrollPane(panel_1));
+		
+		
+		
+
 	}
 
 	private void newBookSaveButton() {
