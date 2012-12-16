@@ -12,12 +12,11 @@ public class MySearchField extends MyJTextField{
 
 	private static final long serialVersionUID = 4798414752488878629L;
 	private final JTable table_to_search;
-	private int row_to_search;
+	private int row_to_search=0;
 	
 	public MySearchField(JTable table_to_search){
 		super("Search");
 		this.table_to_search=table_to_search;
-		this.row_to_search=0;
 		setSorter();
 	}
 	public MySearchField(JTable table_to_search, int row_to_seach){

@@ -211,7 +211,6 @@ public class BookTab extends JPanel implements Observer{
 	}
 	
 	private void openNewBookWindow() {
-		System.out.println("Open new Book");
 		newBookDetailWindow = new EditBook(library);
 		newBookDetailWindow.setVisible();
 	}

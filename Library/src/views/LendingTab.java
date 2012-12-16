@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -32,6 +33,7 @@ import java.awt.event.FocusEvent;
 
 public class LendingTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
+	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
 	private JTextField txtSearchfield;
 	private JTable lending_table;
@@ -66,6 +68,7 @@ public class LendingTab extends JPanel implements Observer{
 		setLayout(gbl_lendingTab);
 		
 		JPanel panelrentstatistics = new JPanel();
+		panelrentstatistics.setBackground(background_Color);
 		panelrentstatistics.setBorder(new TitledBorder(null, "Rent Statistics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panelrentstatistics = new GridBagConstraints();
 		gbc_panelrentstatistics.insets = new Insets(0, 0, 5, 0);
@@ -124,6 +127,7 @@ public class LendingTab extends JPanel implements Observer{
 		panelrentstatistics.add(display_overdue, gbc_display_overdue);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(background_Color);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
@@ -149,7 +153,6 @@ public class LendingTab extends JPanel implements Observer{
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(lending_table);
 		lendingTableModel = new LendingTableModel(library.getOngoingLoans());
-		//lendingTableModel = new LendingTableModel(library.getOverdueLoans());
 		setModel(lendingTableModel);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( lending_table.getModel()); 

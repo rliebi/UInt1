@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -30,6 +31,7 @@ import domain.Loan;
 
 public class CustomerTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
+	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
 	private NewCustomer newCustomerWindow;
 	private EditCustomer editCustomerWindow;
@@ -92,6 +94,7 @@ public class CustomerTab extends JPanel implements Observer{
 		panelCustomerStats.add(displayNrCustomer, gbc_displayNrCustomer);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(background_Color);
 		panel_1.setBorder(null);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
@@ -123,7 +126,7 @@ public class CustomerTab extends JPanel implements Observer{
 					editCustomerWindow = new EditCustomer(getSelectedCustomer());
 					editCustomerWindow.setVisible();
 				}
-				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(library.getCustomers().get(customer_jtable.convertRowIndexToModel(customer_jtable.getSelectedRow())))));
+				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(getSelectedCustomer())));
 			}
 		});
 		customer_jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -184,6 +187,7 @@ public class CustomerTab extends JPanel implements Observer{
 		panel_1.add(btnNewCustomer, gbc_btnNewCustomer);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(background_Color);
 		panel.setBorder(null);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;

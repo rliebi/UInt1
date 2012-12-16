@@ -29,7 +29,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class EditBook extends Observable implements Observer {
+public class EditBook implements Observer {
 	private String bookTitleLabelText = "Titel";
 	private String bookAuthorLabel = "Author";
 	private String bookPublisherLabel = "Verlag";
@@ -246,8 +246,9 @@ public class EditBook extends Observable implements Observer {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				library.createAndAddCopy(theBook);
-				setChanged();
-				notifyObservers();
+				setModel();
+				table.setEnabled(false);
+				System.out.println("Try to disable");
 			}
 		});
 		createBookTable(createtableScrollPane(panel_1));
@@ -260,7 +261,6 @@ public class EditBook extends Observable implements Observer {
 			public void actionPerformed(ActionEvent arg0) {
 				theBook = library.createAndAddBook(txtFieldBookTitle.getText());
 				saveBook();
-				
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -311,6 +311,11 @@ public class EditBook extends Observable implements Observer {
 		txtFieldBookAuthor.setText(theBook.getAuthor());
 		txtFieldBookPublisher.setText(theBook.getPublisher());
 		txtFieldBookTitle.setText(theBook.getName());
+		setModel();
+	}
+
+	private void setModel() {
+		//TODO add Fixed width
 		table.setModel(new CopiesTableModel(library, theBook));
 	}
 
