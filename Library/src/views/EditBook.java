@@ -295,11 +295,6 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		
 		JButton btnReload = new JButton("Reload");
 		this.btnReload=btnReload;
-		btnReload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				reloadFieldsfromRealObject();
-			}
-		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
@@ -316,11 +311,6 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		panel.add(btnSave, gbc_btnSave);
 		this.btnSave=btnSave;
 		btnSave.setHorizontalAlignment(SwingConstants.RIGHT);
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				saveChangestoRealObject();
-			}
-		});
 		
 		addListenertoSavebtn();
 		addListenertoReloadbtn();

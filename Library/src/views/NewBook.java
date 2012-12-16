@@ -289,13 +289,8 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		gbl_panel1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel1);
 		
-		JButton btnReload = new JButton("New button");
+		JButton btnReload = new JButton("Reload");
 		this.btnReload=btnReload;
-		btnReload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				reloadFieldsfromRealObject();
-			}
-		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
@@ -312,11 +307,6 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		panel.add(btnSave, gbc_btnSave);
 		this.btnSave=btnSave;
 		btnSave.setHorizontalAlignment(SwingConstants.RIGHT);
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				saveChangestoRealObject();
-			}
-		});
 		
 		addListenertoSavebtn();
 		addListenertoReloadbtn();
@@ -384,12 +374,11 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 			realBook.setName(txtFieldBookTitle.getText());
 			realBook.setAuthor(txtFieldBookAuthor.getText());
 			realBook.setPublisher(txtFieldBookPublisher.getText());
-			 myState.saveChangestoRealObject(this);
 			if(!is_saved){
 				library.addBook(realBook);
 				setState(new UnchangedFormState(this));
 				is_saved=true;
-			}
+			} else {myState.saveChangestoRealObject(this);}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
