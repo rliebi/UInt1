@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +24,8 @@ import viewModels.LendingTableModel;
 import components.MySearchField;
 
 import domain.Library;
+import domain.Loan;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -40,6 +43,7 @@ public class LendingTab extends JPanel implements Observer{
 	private JCheckBox chckbxOverdue;
 	private JLabel display_number_of_lendings;
 	private JLabel display_overdue;
+	private List<Loan> internalOngoingLoans;
 	
 	public LendingTab(){
 		super();
@@ -136,19 +140,20 @@ public class LendingTab extends JPanel implements Observer{
 		gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane lending_scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
 		gbc_scrollPane_2.gridwidth = 6;
 		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_2.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane_2.gridx = 0;
 		gbc_scrollPane_2.gridy = 0;
-		panel.add(scrollPane, gbc_scrollPane_2);
+		panel.add(lending_scrollPane, gbc_scrollPane_2);
 				
 		lending_table = new JTable();
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane.setViewportView(lending_table);
-		setLendingModel(new LendingTableModel(library.getOngoingLoans()));
+		lending_scrollPane.setViewportView(lending_table);
+		internalOngoingLoans = library.getOngoingLoans();
+		setLendingModel(new LendingTableModel(internalOngoingLoans));
 
 		lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
@@ -179,7 +184,7 @@ public class LendingTab extends JPanel implements Observer{
 				if(chckbxOverdue.getSelectedObjects()!=null){ //is selected
 					lending_table.setModel(new LendingTableModel(library.getOverdueLoans()));
 				} else {
-					setLendingModel(new LendingTableModel(library.getOngoingLoans()));
+					setLendingModel(new LendingTableModel(internalOngoingLoans));
 				}
 			}
 		});
@@ -193,7 +198,7 @@ public class LendingTab extends JPanel implements Observer{
 		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					editLoanWindow=new EditLoan(library.getOngoingLoans().get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow())));
+					editLoanWindow=new EditLoan(internalOngoingLoans.get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow())));
 					editLoanWindow.setVisible();
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please select a Loan!");
@@ -230,7 +235,7 @@ public class LendingTab extends JPanel implements Observer{
 		lending_table.getColumnModel().getColumn(3).setMinWidth(90);
 		lending_table.getColumnModel().getColumn(3).setMaxWidth(160);
 		lending_table.getColumnModel().getColumn(4).setMinWidth(100);
-		lending_table.getColumnModel().getColumn(4).setMaxWidth(160);	
+		lending_table.getColumnModel().getColumn(4).setMaxWidth(160);
 	}
 
 	

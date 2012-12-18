@@ -2,11 +2,13 @@ package viewModels;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 import domain.Loan;
 
-public class LendingTableModel extends AbstractTableModel{
+public class LendingTableModel extends AbstractTableModel implements Observer{
 	private static final String Status = "Status";
 	private static final String ID = "ID";
 	private static final String Titel = "Titel";
@@ -19,6 +21,9 @@ public class LendingTableModel extends AbstractTableModel{
 	String headerList[] = new String[] { Status, ID, Titel, Until, Customer};
 
 	public LendingTableModel(List<Loan> list) {
+		for(Loan l : list){
+			l.addObserver(this);
+		}
 		wordsList = list;
 	}
 
@@ -60,5 +65,11 @@ public class LendingTableModel extends AbstractTableModel{
 	// This method will be used to display the name of columns
 	public String getColumnName(int col) {
 		return headerList[col];
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }

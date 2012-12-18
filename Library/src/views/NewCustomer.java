@@ -226,7 +226,7 @@ public class NewCustomer extends AbstractStatefullForm{
 		} catch (StateLogicException e) {
 			e.printStackTrace();
 		}
-		if(!is_saved){for(MyJTextField f : getMyFields()){f.reset_to_placeholder();}}
+		if(!is_saved){for(MyJTextField f : getMyFields(panel)){f.reset_to_placeholder();}}
 	}
 
 
