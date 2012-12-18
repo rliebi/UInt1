@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Observable;
 
+import controll.ModelRowEvent;
+
 public class Loan extends Observable{
 
 	private Copy copy;
@@ -44,7 +46,7 @@ public class Loan extends Observable{
 					"Return Date is before pickupDate");
 		}
 		this.returnDate = returnDate;
-		fireChanged();
+		fireChanged(ModelRowEvent.returned);
 	}
 
 	public void setPickupDate(GregorianCalendar pickupDate)
@@ -146,5 +148,10 @@ public class Loan extends Observable{
 	private void fireChanged(){
 		setChanged();
 		notifyObservers();
+	}
+
+	public void fireChanged(ModelRowEvent rowevent) {
+		setChanged();
+		notifyObservers(rowevent);
 	}
 }

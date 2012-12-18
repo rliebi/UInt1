@@ -18,7 +18,7 @@ public class Library extends Observable implements Observer{
 		customers = new ArrayList<Customer>();
 		loans = new ArrayList<Loan>();
 		books = new ArrayList<Book>();
-		updateOngoingLoans();
+		onGoingLoans = new ArrayList<Loan>();
 	}
 
 	public Loan createAndAddLoan(Customer customer, Copy copy) {
@@ -27,6 +27,7 @@ public class Library extends Observable implements Observer{
 			l.addObserver(this);
 			loans.add(l);
 			fireChanged();
+			onGoingLoans.add(l);
 			return l;
 		} else {
 			fireChanged();
@@ -185,18 +186,13 @@ public class Library extends Observable implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o instanceof Loan&& !((Loan) o).isLent()){
-			updateOngoingLoans();
+//		if(o instanceof Loan&& !((Loan) o).isLent()){
+//			updateOngoingLoans();
+//		}
+		if(o instanceof Loan && !((Loan) o).isLent()){
+			onGoingLoans.remove(onGoingLoans.indexOf(o));
 		}
 		fireChanged();
-	}
-
-	private void updateOngoingLoans() {
-		List<Loan> answer=new ArrayList<Loan>();
-		for(Loan l : loans){
-			if(l.isLent()){answer.add(l);}
-		}
-		onGoingLoans=answer;
 	}
 
 }

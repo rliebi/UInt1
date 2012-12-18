@@ -6,6 +6,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
+
+import controll.ModelRowEvent;
 import domain.Loan;
 
 public class LendingTableModel extends AbstractTableModel implements Observer{
@@ -16,15 +18,15 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 	private static final String Customer = "Customer";
 	private static final long serialVersionUID = -5278540270938445385L;
 	private static final SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy");
-	List<Loan> loans;
+	private List<Loan> loans;
 	
 	String headerList[] = new String[] { Status, ID, Titel, Until, Customer};
 
-	public LendingTableModel(List<Loan> list) {
-		for(Loan l : list){
+	public LendingTableModel(List<Loan> loans) {
+		for(Loan l : loans){
 			l.addObserver(this);
 		}
-		loans = list;
+		this.loans = loans;
 	}
 
 	@Override
@@ -66,13 +68,18 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 	
 
 	@Override
-	public void update(Observable o, Object arg) {
-		Loan l = (Loan)o;
-		if(!l.isLent()){
-			//loans.remove(loans.indexOf(l)); This works
-			fireTableRowsDeleted(loans.indexOf(l), loans.indexOf(l));
-		}
-		System.out.println("First element in internal loans is: " + loans.get(0));
-		//fireTableDataChanged();
+	public void update(Observable o, Object modelRowEvent) {
+		if(modelRowEvent instanceof ModelRowEvent){
+			switch((ModelRowEvent)modelRowEvent){
+			case added:
+				fireTableRowsInserted(loans.indexOf(o),loans.indexOf(o));
+			case deleted:
+				fireTableRowsDeleted(loans.indexOf(o), loans.indexOf(o));
+			case returned:
+				fireTableRowsDeleted(loans.indexOf(o), loans.indexOf(o));
+			case updated:
+				fireTableRowsUpdated(loans.indexOf(o),loans.indexOf(o));
+			}
+		} else {fireTableDataChanged();}
 	}
 }

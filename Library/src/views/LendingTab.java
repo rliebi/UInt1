@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,7 +23,6 @@ import viewModels.LendingTableModel;
 import components.MySearchField;
 
 import domain.Library;
-import domain.Loan;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -247,7 +245,6 @@ public class LendingTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		//setLendingModel(new LendingTableModel(library.getOngoingLoans()));
 	}
 
 }
