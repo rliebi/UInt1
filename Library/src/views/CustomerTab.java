@@ -131,8 +131,7 @@ public class CustomerTab extends JPanel implements Observer{
 		});
 		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(customer_table);
-		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
-		customer_table.setModel(customerTableModel);
+		customer_table.setModel(new CustomerTableModel(library.getCustomers()));
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_table.getModel());
 		customer_table.setRowSorter(customerSorter);
@@ -264,15 +263,7 @@ public class CustomerTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		setCustomerModel();
-	}
-
-	private void setCustomerModel() {
-		int selected_row = customer_table.getSelectedRow();
-		CustomerTableModel customerTableModel = new CustomerTableModel(library.getCustomers());
-		customer_table.setModel(customerTableModel);
-		if(selected_row!=-1){customer_table.setRowSelectionInterval(selected_row, selected_row);}
-		
+		//setCustomerModel();
 	}
 
 	private Loan getSelectedLoan() {

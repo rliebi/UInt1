@@ -2,6 +2,8 @@ package domain;
 
 import java.util.Observable;
 
+import controll.ModelRowEvent;
+
 public class Book extends Observable{
 	
 	private String title, author, publisher;
@@ -17,7 +19,7 @@ public class Book extends Observable{
 
 	public void setName(String name) {
 		this.title = name;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 
 	public String getAuthor() {
@@ -26,7 +28,7 @@ public class Book extends Observable{
 
 	public void setAuthor(String autor) {
 		this.author = autor;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 
 	public String getPublisher() {
@@ -35,7 +37,7 @@ public class Book extends Observable{
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 	
 	public Shelf getShelf() {
@@ -44,7 +46,7 @@ public class Book extends Observable{
 	
 	public void setShelf(Shelf shelf) {
 		this.shelf = shelf;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 	
 	@Override
@@ -52,8 +54,8 @@ public class Book extends Observable{
 		return title + ", " + author + ", " + publisher;
 	}
 
-	private void fireChange() {
+	public void fireChange(ModelRowEvent modelRowEvent) {
 		setChanged();
-		notifyObservers();	
+		notifyObservers(modelRowEvent);	
 	}
 }

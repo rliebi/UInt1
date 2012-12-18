@@ -1,11 +1,16 @@
 package viewModels;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.table.AbstractTableModel;
+
+import controll.ModelRowEvent;
 
 import domain.Customer;
 
-public class CustomerTableModel  extends AbstractTableModel{
+public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	private static final String Name = "Name";
 	private static final String Surname = "Surname";
 	private static final String Street = "Street";
@@ -14,11 +19,14 @@ public class CustomerTableModel  extends AbstractTableModel{
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
-	List<Customer> wordsList;
+	List<Customer> customers;
 	String headerList[] = new String[] { Name, Surname, Street, City};
 
 	public CustomerTableModel(List<Customer> list) {
-		wordsList = list;
+		for(Customer c : list){
+			c.addObserver(this);
+		}
+		this.customers = list;
 	}
 
 	@Override
@@ -28,14 +36,14 @@ public class CustomerTableModel  extends AbstractTableModel{
 
 	@Override
 	public int getRowCount() {
-		return wordsList.size();
+		return customers.size();
 	}
 
 	// this method is called to set the value of each cell
 	@Override
 	public Object getValueAt(int row, int column) {
 		Customer entity = null;
-		entity = wordsList.get(row);
+		entity = customers.get(row);
 		switch (column) {
 
 		case 0:
@@ -54,5 +62,20 @@ public class CustomerTableModel  extends AbstractTableModel{
 	// This method will be used to display the name of columns
 	public String getColumnName(int col) {
 		return headerList[col];
+	}
+	@Override
+	public void update(Observable o, Object modelRowEvent) {
+		if(modelRowEvent instanceof ModelRowEvent){
+			switch((ModelRowEvent)modelRowEvent){
+			case added:
+				fireTableRowsInserted(customers.indexOf(o),customers.indexOf(o));
+			case deleted:
+				fireTableRowsDeleted(customers.indexOf(o), customers.indexOf(o));
+			case returned:
+				fireTableRowsDeleted(customers.indexOf(o), customers.indexOf(o));
+			case updated:
+				fireTableRowsUpdated(customers.indexOf(o),customers.indexOf(o));
+			}
+		} else {fireTableDataChanged();}
 	}
 }

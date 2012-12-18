@@ -30,6 +30,7 @@ import javax.swing.SwingConstants;
 
 import components.MyJTextField;
 import components.StateLogicException;
+import controll.ModelRowEvent;
 import controll.UnchangedFormState;
 
 public class NewBook extends AbstractStatefullForm implements Observer{
@@ -347,7 +348,6 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//reloadFieldsfromRealObject();
 		myState.update(this, realBook);
 	}
 
@@ -383,7 +383,6 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 
 	@Override
 	public void saveChangestoRealObject() {
-		//realBook.setShelf((Shelf)conditionComboBox.getSelectedItem());
 		try {
 			realBook.setName(txtFieldBookTitle.getText());
 			realBook.setAuthor(txtFieldBookAuthor.getText());
@@ -391,6 +390,7 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 			realBook.setShelf((Shelf)cmbShelfNumber.getSelectedItem());
 			if(!is_saved){
 				library.addBook(realBook);
+				realBook.fireChange(ModelRowEvent.added);
 				setState(new UnchangedFormState(this));
 				is_saved=true;
 			} else {myState.saveChangestoRealObject(this);}

@@ -2,6 +2,8 @@ package domain;
 
 import java.util.Observable;
 
+import controll.ModelRowEvent;
+
 public class Customer extends Observable{
 	
 	private String name, surname, street, city;
@@ -11,21 +13,16 @@ public class Customer extends Observable{
 		this.name = name;
 		this.surname = surname;
 	}
-	public Customer(String surname, String name, String street, String city) {
-		this.name = name;
-		this.surname = surname;
-	}
-	
-	
+		
 	public void setAdress(String street, int zip, String city) {
 		this.street = street;
 		this.zip = zip;
 		this.city = city;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
-	public void fireChange() {
+	public void fireChange(ModelRowEvent e) {
 		setChanged();
-		notifyObservers();
+		notifyObservers(e);
 	}
 
 	public String getName() {
@@ -34,7 +31,7 @@ public class Customer extends Observable{
 
 	public void setName(String name) {
 		this.name = name;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 
 	public String getSurname() {
@@ -43,7 +40,7 @@ public class Customer extends Observable{
 
 	public void setSurname(String surname) {
 		this.surname = surname;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 
 	public String getStreet() {
@@ -52,7 +49,7 @@ public class Customer extends Observable{
 
 	public void setStreet(String street) {
 		this.street = street;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 
 	public String getCity() {
@@ -61,7 +58,7 @@ public class Customer extends Observable{
 
 	public void setCity(String city) {
 		this.city = city;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 
 	public int getZip() {
@@ -70,7 +67,7 @@ public class Customer extends Observable{
 
 	public void setZip(int zip) {
 		this.zip = zip;
-		fireChange();
+		fireChange(ModelRowEvent.updated);
 	}
 	
 	@Override

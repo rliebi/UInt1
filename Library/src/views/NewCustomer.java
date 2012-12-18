@@ -15,6 +15,7 @@ import javax.swing.JButton;
 
 import components.MyJTextField;
 import components.StateLogicException;
+import controll.ModelRowEvent;
 import controll.UnchangedFormState;
 
 import java.awt.Dimension;
@@ -242,6 +243,8 @@ public class NewCustomer extends AbstractStatefullForm{
 			myState.saveChangestoRealObject(this);
 			if(!is_saved){
 				library.createAndAddCustomer(realCustomer);
+				realCustomer.fireChange(ModelRowEvent.added);
+				setState(new UnchangedFormState(this));
 				is_saved=true;
 			}
 		} catch (StateLogicException e) {
