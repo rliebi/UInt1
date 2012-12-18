@@ -27,7 +27,7 @@ public class Loan extends Observable{
 	
 	public void unreturnCopy(){
 		returnDate=null;
-		fireChanged();
+		fireChanged(ModelRowEvent.added);
 	}
 	
 	public boolean returnCopy() {
@@ -55,7 +55,7 @@ public class Loan extends Observable{
 			throw new IllegalLoanOperationException("Loan is already retuned");
 		}
 		this.pickupDate = pickupDate;
-		fireChanged();
+		fireChanged(ModelRowEvent.returned);
 	}
 
 	public GregorianCalendar getPickupDate() {
@@ -144,10 +144,6 @@ public class Loan extends Observable{
 	}
 	public String getdueDatetoString(){
 		return getMyFormattedDate(getdueDate());
-	}
-	private void fireChanged(){
-		setChanged();
-		notifyObservers();
 	}
 
 	public void fireChanged(ModelRowEvent rowevent) {

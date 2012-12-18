@@ -23,9 +23,12 @@ import viewModels.LendingTableModel;
 import components.MySearchField;
 
 import domain.Library;
+import domain.Loan;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LendingTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
@@ -147,6 +150,15 @@ public class LendingTab extends JPanel implements Observer{
 		panel.add(lending_scrollPane, gbc_scrollPane_2);
 				
 		lending_table = new JTable();
+		lending_table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2){
+					editLoanWindow = new EditLoan(getSelectedLoan());
+					editLoanWindow.setVisible();
+				}
+			}
+		});
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lending_scrollPane.setViewportView(lending_table);;
 		setLendingModel(new LendingTableModel(library.getOngoingLoans()));
@@ -195,7 +207,7 @@ public class LendingTab extends JPanel implements Observer{
 		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					editLoanWindow=new EditLoan(library.getOngoingLoans().get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow())));
+					editLoanWindow=new EditLoan(getSelectedLoan());
 					editLoanWindow.setVisible();
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please select a Loan!");
@@ -245,6 +257,10 @@ public class LendingTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
+	}
+
+	private Loan getSelectedLoan() {
+		return library.getOngoingLoans().get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow()));
 	}
 
 }

@@ -186,9 +186,6 @@ public class Library extends Observable implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-//		if(o instanceof Loan&& !((Loan) o).isLent()){
-//			updateOngoingLoans();
-//		}
 		if(o instanceof Loan && !((Loan) o).isLent()){
 			onGoingLoans.remove(onGoingLoans.indexOf(o));
 		}
