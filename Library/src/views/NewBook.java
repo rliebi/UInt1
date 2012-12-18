@@ -46,7 +46,7 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 	private MyJTextField txtFieldBookTitle;
 	private MyJTextField txtFieldBookAuthor;
 	private MyJTextField txtFieldBookPublisher;
-	private JComboBox cmbFieldShelfNumber;
+	private JComboBox cmbShelfNumber;
 	private WarningWindow warningWindow;
 	private Book realBook;
 	private JTable bookTable;
@@ -61,7 +61,8 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 
 	public static void main(String[] args) {
 		Library library = new Library();
-		NewBook newBookWindow = new NewBook(library);
+		Book b = new Book("");
+		NewBook newBookWindow = new NewBook(library,b);
 		newBookWindow.setVisible();
 		newBookWindow.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -79,13 +80,6 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 	private void disableCopyButtons() {
 		btnRemoveCopy.setEnabled(false);
 		btnAddCopy.setEnabled(false);
-	}
-
-	/**
-	 * @wbp.parser.constructor
-	 */
-	public NewBook(Library library) {
-		this(library,new Book(""));
 	}
 
 	/**
@@ -183,12 +177,12 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		gbc_lblPublisher.gridy = 3;
 		book_panel.add(lblPublisher, gbc_lblPublisher);
 
-		cmbFieldShelfNumber = new JComboBox(Shelf.values());
+		cmbShelfNumber = new JComboBox(Shelf.values());
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_3.gridx = 3;
 		gbc_textField_3.gridy = 3;
-		book_panel.add(cmbFieldShelfNumber, gbc_textField_3);
+		book_panel.add(cmbShelfNumber, gbc_textField_3);
 		
 		//------------------------- ExemplarAnsicht
 		
@@ -378,11 +372,13 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		txtFieldBookPublisher.setText(realBook.getPublisher());
 		txtFieldBookTitle.setText(realBook.getName());
 		txtNrCopies.setText(library.getCopiesOfBook(realBook).size()+"");
+		cmbShelfNumber.setSelectedItem(realBook.getShelf());
 		try {
 			myState.reloadFieldsfromRealObject(this);
 		} catch (StateLogicException e) {
 			e.printStackTrace();
-		}	
+		}
+		if(!is_saved){for(MyJTextField f : getMyFields(book_panel)){f.reset_to_placeholder();}}
 	}
 
 	@Override
@@ -392,6 +388,7 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 			realBook.setName(txtFieldBookTitle.getText());
 			realBook.setAuthor(txtFieldBookAuthor.getText());
 			realBook.setPublisher(txtFieldBookPublisher.getText());
+			realBook.setShelf((Shelf)cmbShelfNumber.getSelectedItem());
 			if(!is_saved){
 				library.addBook(realBook);
 				setState(new UnchangedFormState(this));

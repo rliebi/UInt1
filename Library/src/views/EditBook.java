@@ -46,7 +46,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 	private MyJTextField txtFieldBookTitle;
 	private MyJTextField txtFieldBookAuthor;
 	private MyJTextField txtFieldBookPublisher;
-	private JComboBox cmbFieldShelfNumber;
+	private JComboBox cmbShelfNumber;
 	private WarningWindow warningWindow;
 	private Book realBook;
 	private JTable bookTable;
@@ -63,6 +63,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		b.setAuthor("J.K. Rowling");
 		b.setName("Harry Potter");
 		b.setPublisher("Me");
+		b.setShelf(Shelf.A2);
 		EditBook editBookWindow = new EditBook(library,b);
 		editBookWindow.setVisible();
 		editBookWindow.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -179,12 +180,13 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		gbc_lblPublisher.gridy = 3;
 		book_panel.add(lblPublisher, gbc_lblPublisher);
 
-		cmbFieldShelfNumber = new JComboBox(Shelf.values());
+		cmbShelfNumber = new JComboBox(Shelf.values());
+		cmbShelfNumber.setSelectedItem(realBook.getShelf());
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_3.gridx = 3;
 		gbc_textField_3.gridy = 3;
-		book_panel.add(cmbFieldShelfNumber, gbc_textField_3);
+		book_panel.add(cmbShelfNumber, gbc_textField_3);
 		
 		//------------------------- ExemplarAnsicht
 		
@@ -233,11 +235,10 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		gbc_lblNrCopies.gridx = 2;
 		gbc_lblNrCopies.gridy = 0;
 		panel_2.add(txtNrCopies, gbc_lblNrCopies);
-		JComboBox comboBox = new JComboBox(Copy.Condition.values());
-		comboBox.setEnabled(false);
-
-		conditionComboBox = comboBox;
-
+		
+		JComboBox cmbCondition = new JComboBox(Copy.Condition.values());
+		cmbCondition.setEnabled(false);
+		conditionComboBox = cmbCondition;
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -362,6 +363,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		txtFieldBookAuthor.setText(realBook.getAuthor());
 		txtFieldBookPublisher.setText(realBook.getPublisher());
 		txtFieldBookTitle.setText(realBook.getName());
+		cmbShelfNumber.setSelectedItem(realBook.getShelf());
 		txtNrCopies.setText(library.getCopiesOfBook(realBook).size()+"");
 		try {
 			myState.reloadFieldsfromRealObject(this);
@@ -376,7 +378,8 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 			realBook.setName(txtFieldBookTitle.getText());
 			realBook.setAuthor(txtFieldBookAuthor.getText());
 			realBook.setPublisher(txtFieldBookPublisher.getText());
-			 myState.saveChangestoRealObject(this);
+			realBook.setShelf((Shelf)cmbShelfNumber.getSelectedItem());
+			myState.saveChangestoRealObject(this);
 			if(!is_saved){
 				library.addBook(realBook);	
 				is_saved=true;

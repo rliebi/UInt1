@@ -37,7 +37,6 @@ public class LendingTab extends JPanel implements Observer{
 	private JLabel display_number_of_rents;
 	private JLabel lblSearch;
 	private WarningWindow warningWindow;
-	private LendingTableModel lendingTableModel;
 	private JCheckBox chckbxOverdue;
 	private JLabel display_number_of_lendings;
 	private JLabel display_overdue;
@@ -149,8 +148,7 @@ public class LendingTab extends JPanel implements Observer{
 		lending_table = new JTable();
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(lending_table);
-		lendingTableModel = new LendingTableModel(library.getOngoingLoans());
-		setLendingModel(lendingTableModel);
+		setLendingModel(new LendingTableModel(library.getOngoingLoans()));
 
 		lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
@@ -181,8 +179,7 @@ public class LendingTab extends JPanel implements Observer{
 				if(chckbxOverdue.getSelectedObjects()!=null){ //is selected
 					lending_table.setModel(new LendingTableModel(library.getOverdueLoans()));
 				} else {
-					LendingTableModel lendingTableModel = new LendingTableModel(library.getOngoingLoans());
-					setLendingModel(lendingTableModel);
+					setLendingModel(new LendingTableModel(library.getOngoingLoans()));
 				}
 			}
 		});
@@ -246,8 +243,7 @@ public class LendingTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		LendingTableModel lendingTableModel = new LendingTableModel(library.getOngoingLoans());
-		setLendingModel(lendingTableModel);
+		setLendingModel(new LendingTableModel(library.getOngoingLoans()));
 	}
 
 }

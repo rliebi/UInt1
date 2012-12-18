@@ -39,7 +39,7 @@ public class BookTab extends JPanel implements Observer{
 	private JLabel display_number_of_books;
 	private JTextField txtSearch;
 	private EditBook detailwindow;
-	private EditBook newBookDetailWindow;
+	private NewBook newBookDetailWindow;
 	
 	public BookTab(){
 		super();
@@ -186,7 +186,7 @@ public class BookTab extends JPanel implements Observer{
 		panelBookInventory.add(btnAddNewBook, gbc_btnAddNewBook);
 		btnAddNewBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				newBookDetailWindow = new EditBook(library);
+				newBookDetailWindow = new NewBook(library,new Book(""));
 				newBookDetailWindow.setVisible();
 			}
 		});
