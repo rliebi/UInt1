@@ -43,7 +43,6 @@ public class LendingTab extends JPanel implements Observer{
 	private JCheckBox chckbxOverdue;
 	private JLabel display_number_of_lendings;
 	private JLabel display_overdue;
-	private List<Loan> internalOngoingLoans;
 	
 	public LendingTab(){
 		super();
@@ -151,9 +150,8 @@ public class LendingTab extends JPanel implements Observer{
 				
 		lending_table = new JTable();
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lending_scrollPane.setViewportView(lending_table);
-		internalOngoingLoans = library.getOngoingLoans();
-		setLendingModel(new LendingTableModel(internalOngoingLoans));
+		lending_scrollPane.setViewportView(lending_table);;
+		setLendingModel(new LendingTableModel(library.getOngoingLoans()));
 
 		lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
@@ -184,7 +182,8 @@ public class LendingTab extends JPanel implements Observer{
 				if(chckbxOverdue.getSelectedObjects()!=null){ //is selected
 					lending_table.setModel(new LendingTableModel(library.getOverdueLoans()));
 				} else {
-					setLendingModel(new LendingTableModel(internalOngoingLoans));
+					//TODO use rowsorter after 
+					//setLendingModel(new LendingTableModel(library.getOngoingLoans()));
 				}
 			}
 		});
@@ -198,7 +197,7 @@ public class LendingTab extends JPanel implements Observer{
 		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					editLoanWindow=new EditLoan(internalOngoingLoans.get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow())));
+					editLoanWindow=new EditLoan(library.getOngoingLoans().get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow())));
 					editLoanWindow.setVisible();
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please select a Loan!");
@@ -248,7 +247,7 @@ public class LendingTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		setLendingModel(new LendingTableModel(library.getOngoingLoans()));
+		//setLendingModel(new LendingTableModel(library.getOngoingLoans()));
 	}
 
 }

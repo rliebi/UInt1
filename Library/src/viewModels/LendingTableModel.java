@@ -16,7 +16,7 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 	private static final String Customer = "Customer";
 	private static final long serialVersionUID = -5278540270938445385L;
 	private static final SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy");
-	List<Loan> wordsList;
+	List<Loan> loans;
 	
 	String headerList[] = new String[] { Status, ID, Titel, Until, Customer};
 
@@ -24,7 +24,7 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 		for(Loan l : list){
 			l.addObserver(this);
 		}
-		wordsList = list;
+		loans = list;
 	}
 
 	@Override
@@ -34,16 +34,14 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 
 	@Override
 	public int getRowCount() {
-		return wordsList.size();
+		return loans.size();
 	}
 
 	// this method is called to set the value of each cell
 	@Override
 	public Object getValueAt(int row, int column) {
-		Loan entity = null;
-		entity = wordsList.get(row);
+		Loan entity = loans.get(row);
 		switch (column) {
-
 		case 0:
 			if(!entity.isLent()){return "Ended";}
 			if(!entity.isOverdue()){return "Ok";}
@@ -53,7 +51,6 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 		case 2:
 			return entity.getCopy().getTitle();
 		case 3:
-			//return date.format(entity.getPickupDate().getTime());
 			return date.format(entity.getdueDate().getTime()) + "("+ entity.getDaysLeft() + " days left)";
 		case 4:
 			return entity.getCustomer().getName() + " " + entity.getCustomer().getSurname();
@@ -66,10 +63,16 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 	public String getColumnName(int col) {
 		return headerList[col];
 	}
+	
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		Loan l = (Loan)o;
+		if(!l.isLent()){
+			//loans.remove(loans.indexOf(l)); This works
+			fireTableRowsDeleted(loans.indexOf(l), loans.indexOf(l));
+		}
+		System.out.println("First element in internal loans is: " + loans.get(0));
+		//fireTableDataChanged();
 	}
 }

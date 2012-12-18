@@ -11,12 +11,14 @@ public class Library extends Observable implements Observer{
 	private List<Customer> customers;
 	private List<Loan> loans;
 	private List<Book> books;
+	private List<Loan> onGoingLoans;
 
 	public Library() {
 		copies = new ArrayList<Copy>();
 		customers = new ArrayList<Customer>();
 		loans = new ArrayList<Loan>();
 		books = new ArrayList<Book>();
+		updateOngoingLoans();
 	}
 
 	public Loan createAndAddLoan(Customer customer, Copy copy) {
@@ -135,11 +137,7 @@ public class Library extends Observable implements Observer{
 	}
 	
 	public List<Loan> getOngoingLoans() {
-		List<Loan> answer=new ArrayList<Loan>();
-		for(Loan l : loans){
-			if(l.isLent()){answer.add(l);}
-		}
-		return answer;
+		return onGoingLoans;
 	}
 
 	public List<Loan> getOverdueLoans() {
@@ -187,7 +185,18 @@ public class Library extends Observable implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if(o instanceof Loan&& !((Loan) o).isLent()){
+			updateOngoingLoans();
+		}
 		fireChanged();
+	}
+
+	private void updateOngoingLoans() {
+		List<Loan> answer=new ArrayList<Loan>();
+		for(Loan l : loans){
+			if(l.isLent()){answer.add(l);}
+		}
+		onGoingLoans=answer;
 	}
 
 }
