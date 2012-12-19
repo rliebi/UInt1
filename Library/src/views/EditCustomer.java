@@ -19,6 +19,8 @@ import controll.UnchangedFormState;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.Observable;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class EditCustomer extends AbstractStatefullForm{
@@ -74,6 +76,12 @@ public class EditCustomer extends AbstractStatefullForm{
 
 	private void initialize() {
 		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				deleteViewObserverFromObject();
+			}
+		});
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 416, 262);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -239,12 +247,19 @@ public class EditCustomer extends AbstractStatefullForm{
 
 
 	@Override
-	public void addListenertoMyFields() {
+	protected void addListenertoMyFields() {
 		addListenertoMyFields(panel,this);
 	}
 	
 	public List<MyJTextField> getMyFields() {
 		return getMyFields(panel);
 	}
+
+
+	@Override
+	protected void deleteViewObserverFromObject() {
+		realCustomer.deleteObserver(this);	
+	}
+	
 
 }

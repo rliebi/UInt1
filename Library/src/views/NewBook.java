@@ -32,6 +32,8 @@ import components.MyJTextField;
 import components.StateLogicException;
 import controll.ModelRowEvent;
 import controll.UnchangedFormState;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class NewBook extends AbstractStatefullForm implements Observer{
 	private String bookTitleLabelText = "Titel";
@@ -89,6 +91,12 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 	private void initialize() {
 
 		frame = new JFrame(windowTitle);
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				deleteViewObserverFromObject();
+			}
+		});
 
 		frame.setMinimumSize(new Dimension(460, 290));
 		frame.setBounds(100, 100, 650, 511);
@@ -400,7 +408,11 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 	}
 
 	@Override
-	public void addListenertoMyFields() {
+	protected void addListenertoMyFields() {
 		addListenertoMyFields(book_panel,this);
+	}
+	@Override
+	protected void deleteViewObserverFromObject() {
+		realBook.deleteObserver(this);
 	}
 }

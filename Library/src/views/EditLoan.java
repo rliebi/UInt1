@@ -32,6 +32,8 @@ import domain.Book;
 import domain.Copy;
 import domain.Customer;
 import domain.Loan;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class EditLoan extends AbstractStatefullForm{
 
@@ -86,6 +88,12 @@ public class EditLoan extends AbstractStatefullForm{
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				deleteViewObserverFromObject();
+			}
+		});
 		frame.setBounds(100, 100, 428, 265);
 		frame.setMinimumSize(new Dimension(428, 265));
 		
@@ -306,7 +314,7 @@ public class EditLoan extends AbstractStatefullForm{
 	}
 
 	@Override
-	public void addListenertoMyFields() {
+	protected void addListenertoMyFields() {
 		addListenertoMyFields(panel,this);
 	}
 
@@ -317,4 +325,9 @@ public class EditLoan extends AbstractStatefullForm{
 		frame.setVisible(true);
 	}
 
+	@Override
+	protected void deleteViewObserverFromObject() {
+		realLoan.deleteObserver(this);
+	}
+	
 }

@@ -28,7 +28,8 @@ public abstract class AbstractStatefullForm implements Observer{
 	public abstract void update(Observable arg0, Object arg1);
 	public abstract void reloadFieldsfromRealObject();
 	public abstract void saveChangestoRealObject();
-	public abstract void addListenertoMyFields();
+	protected abstract void addListenertoMyFields();
+	protected abstract void deleteViewObserverFromObject();
 	
 	public JButton getSaveBtn() {
 		return btnSave;
