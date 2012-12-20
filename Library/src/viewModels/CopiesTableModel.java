@@ -13,11 +13,7 @@ import domain.Library;
 
 public class CopiesTableModel extends AbstractTableModel {
 
-//	private static final String AVAILABLE = "Verfügbarkeit";
-//	private static final String CONDITION = "Zustand";
-//	private static final String TITLE = "Titel";
-//	private static final String ID = "Nummer";
-	String[] columnNames = {"Verfügbarkeit","Zustand","Titel","Nummer"};
+	String[] columnNames = {"Available","Condition","Titel","Nr"};
 	/**
 	 * 
 	 */

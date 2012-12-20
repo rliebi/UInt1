@@ -37,13 +37,13 @@ import java.awt.event.WindowEvent;
 public class EditBook extends AbstractStatefullForm implements Observer{
 	private String bookTitleLabelText = "Titel";
 	private String bookAuthorLabel = "Author";
-	private String bookPublisherLabel = "Verlag";
-	private String bookShelfLabelText = "Regal";
-	private String windowTitle = "Buch Detailansicht";
-	private String bookInformationLabelText = "Buch Informationen";
-	private String booksInformationLabelText = "Exemplare";
-	private String bookAddButtonText = "Exemplar hinzufügen";
-	private String bookRemoveButton = "Ausgewählte Entfernen";
+	private String bookPublisherLabel = "Publisher";
+	private String bookShelfLabelText = "Shelf";
+	private String windowTitle = "Book Detail";
+	private String bookInformationLabelText = "Book Information";
+	private String booksInformationLabelText = "Copy";
+	private String bookAddButtonText = "Add Copy";
+	private String bookRemoveButton = "Remove selected";
 	private JFrame frame;
 	private MyJTextField txtFieldBookTitle;
 	private MyJTextField txtFieldBookAuthor;
@@ -228,7 +228,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		gbl_panel_2.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel_2.setLayout(gbl_panel_2);
 
-		JLabel lblAnzahl = new JLabel("Anzahl:");
+		JLabel lblAnzahl = new JLabel("Nr:");
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
 		gbc_lblAnzahl.anchor = GridBagConstraints.EAST;
 		gbc_lblAnzahl.insets = new Insets(0, 0, 0, 5);
