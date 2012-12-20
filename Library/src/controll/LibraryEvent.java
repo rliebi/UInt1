@@ -1,5 +1,5 @@
 package controll;
 
-public enum ModelRowEvent {
+public enum LibraryEvent {
 	added, deleted, updated, returned
 }

@@ -7,7 +7,7 @@ import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
-import controll.ModelRowEvent;
+import controll.LibraryEvent;
 import domain.Loan;
 
 public class LendingTableModel extends AbstractTableModel implements Observer{
@@ -69,8 +69,8 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 
 	@Override
 	public void update(Observable o, Object modelRowEvent) {
-		if(modelRowEvent instanceof ModelRowEvent){
-			switch((ModelRowEvent)modelRowEvent){
+		if(modelRowEvent instanceof LibraryEvent){
+			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(loans.indexOf(o),loans.indexOf(o));
 			case deleted:

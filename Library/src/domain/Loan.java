@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Observable;
 
-import controll.ModelRowEvent;
+import controll.LibraryEvent;
 
 public class Loan extends Observable{
 
@@ -27,7 +27,7 @@ public class Loan extends Observable{
 	
 	public void unreturnCopy(){
 		returnDate=null;
-		fireChanged(ModelRowEvent.added);
+		fireChanged(LibraryEvent.added);
 	}
 	
 	public boolean returnCopy() {
@@ -46,7 +46,7 @@ public class Loan extends Observable{
 					"Return Date is before pickupDate");
 		}
 		this.returnDate = returnDate;
-		fireChanged(ModelRowEvent.returned);
+		fireChanged(LibraryEvent.returned);
 	}
 
 	public void setPickupDate(GregorianCalendar pickupDate)
@@ -55,7 +55,7 @@ public class Loan extends Observable{
 			throw new IllegalLoanOperationException("Loan is already retuned");
 		}
 		this.pickupDate = pickupDate;
-		fireChanged(ModelRowEvent.returned);
+		fireChanged(LibraryEvent.returned);
 	}
 
 	public GregorianCalendar getPickupDate() {
@@ -146,7 +146,7 @@ public class Loan extends Observable{
 		return getMyFormattedDate(getdueDate());
 	}
 
-	public void fireChanged(ModelRowEvent rowevent) {
+	public void fireChanged(LibraryEvent rowevent) {
 		setChanged();
 		notifyObservers(rowevent);
 	}

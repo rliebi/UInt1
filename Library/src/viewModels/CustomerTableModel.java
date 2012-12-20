@@ -6,7 +6,7 @@ import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
-import controll.ModelRowEvent;
+import controll.LibraryEvent;
 
 import domain.Customer;
 
@@ -65,8 +65,8 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	}
 	@Override
 	public void update(Observable o, Object modelRowEvent) {
-		if(modelRowEvent instanceof ModelRowEvent){
-			switch((ModelRowEvent)modelRowEvent){
+		if(modelRowEvent instanceof LibraryEvent){
+			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(customers.indexOf(o),customers.indexOf(o));
 			case deleted:
