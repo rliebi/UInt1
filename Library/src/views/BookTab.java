@@ -25,6 +25,8 @@ import components.MySearchField;
 import viewModels.BookTableModel;
 import domain.Book;
 import domain.Library;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class BookTab extends JPanel implements Observer{
@@ -130,6 +132,15 @@ public class BookTab extends JPanel implements Observer{
 		
 		//---------BookJTable---------------------
 		book_table = new JTable();
+		book_table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
+					arg0.consume();
+					openEditBook();
+				}
+			}
+		});
 		book_table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
