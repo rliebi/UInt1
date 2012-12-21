@@ -99,6 +99,7 @@ public class NewCustomer extends AbstractStatefullForm{
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
+		addEscapeListener(frame);
 		
 		panel = new JPanel();
 		panel.setMinimumSize(new Dimension(60, 30));
@@ -218,6 +219,8 @@ public class NewCustomer extends AbstractStatefullForm{
 		gbc_btnSave.gridx = 2;
 		gbc_btnSave.gridy = 6;
 		panel.add(btnSave, gbc_btnSave);
+		
+		addEscapeListener(frame);
 	}
 
 
@@ -260,7 +263,6 @@ public class NewCustomer extends AbstractStatefullForm{
 			warningWindow.setVisible();
 		}
 	}
-
 
 	@Override
 	protected void addListenertoMyFields() {

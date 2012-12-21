@@ -331,6 +331,7 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		addListenertoSavebtn();
 		addListenertoReloadbtn();
 		addListenertoMyFields();
+		addEscapeListener(frame);
 
 
 	}

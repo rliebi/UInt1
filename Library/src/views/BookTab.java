@@ -137,7 +137,7 @@ public class BookTab extends JPanel implements Observer{
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
 					arg0.consume();
-					openEditBook();
+					openEditBookWindow();
 				}
 			}
 		});
@@ -145,7 +145,7 @@ public class BookTab extends JPanel implements Observer{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					openEditBook();
+					openEditBookWindow();
 				}
 			}
 		});
@@ -165,7 +165,7 @@ public class BookTab extends JPanel implements Observer{
 		btnDisplayBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					openEditBook();
+					openEditBookWindow();
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please Select a Book");
 					warningWindow.setVisible();
@@ -220,7 +220,7 @@ public class BookTab extends JPanel implements Observer{
 			
 	}
 
-	private void openEditBook() {
+	private void openEditBookWindow() {
 		detailwindow = new EditBook(library, getSelectedBook());
 		detailwindow.setVisible();
 	}

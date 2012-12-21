@@ -324,6 +324,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		addListenertoSavebtn();
 		addListenertoReloadbtn();
 		addListenertoMyFields();
+		addEscapeListener(frame);
 
 
 	}

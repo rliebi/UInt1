@@ -211,6 +211,7 @@ public class EditCustomer extends AbstractStatefullForm{
 		addListenertoSavebtn();
 		addListenertoMyFields();
 		addListenertoReloadbtn();
+		addEscapeListener(frame);
 	}
 
 

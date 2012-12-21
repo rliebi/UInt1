@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
@@ -124,10 +126,18 @@ public class CustomerTab extends JPanel implements Observer{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					editCustomerWindow = new EditCustomer(getSelectedCustomer());
-					editCustomerWindow.setVisible();
+					openEditCustomerWindow();
 				}
 				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(getSelectedCustomer())));
+			}
+		});
+		customer_table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
+					arg0.consume();
+					openEditCustomerWindow();
+				}
 			}
 		});
 		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -142,8 +152,7 @@ public class CustomerTab extends JPanel implements Observer{
 		btnDisplayCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					editCustomerWindow = new EditCustomer(getSelectedCustomer());
-					editCustomerWindow.setVisible();
+					openEditCustomerWindow();
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please select a customer!");
 					warningWindow.setVisible();
@@ -272,6 +281,11 @@ public class CustomerTab extends JPanel implements Observer{
 	}
 	private Customer getSelectedCustomer() {
 		return library.getCustomers().get(customer_table.convertRowIndexToModel(customer_table.getSelectedRow()));
+	}
+
+	private void openEditCustomerWindow() {
+		editCustomerWindow = new EditCustomer(getSelectedCustomer());
+		editCustomerWindow.setVisible();
 	}
 
 }

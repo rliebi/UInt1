@@ -27,6 +27,8 @@ import domain.Loan;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -154,8 +156,16 @@ public class LendingTab extends JPanel implements Observer{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2){
-					editLoanWindow = new EditLoan(getSelectedLoan());
-					editLoanWindow.setVisible();
+					openEditLoanWindow();
+				}
+			}
+		});
+		lending_table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
+					arg0.consume();
+					openEditLoanWindow();
 				}
 			}
 		});
@@ -207,8 +217,7 @@ public class LendingTab extends JPanel implements Observer{
 		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					editLoanWindow=new EditLoan(getSelectedLoan());
-					editLoanWindow.setVisible();
+					openEditLoanWindow();
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please select a Loan!");
 					warningWindow.setVisible();
@@ -261,6 +270,11 @@ public class LendingTab extends JPanel implements Observer{
 
 	private Loan getSelectedLoan() {
 		return library.getOngoingLoans().get(lending_table.convertRowIndexToModel(lending_table.getSelectedRow()));
+	}
+
+	private void openEditLoanWindow() {
+		editLoanWindow = new EditLoan(getSelectedLoan());
+		editLoanWindow.setVisible();
 	}
 
 }

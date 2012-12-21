@@ -12,7 +12,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import components.MyJTextField;
 
@@ -80,5 +83,19 @@ public abstract class AbstractStatefullForm implements Observer{
 	public void setState(InterfaceFormState newState) {
 		myState=newState;
 		System.out.println("Set state: " + newState.toString());
+	}
+	public static void addEscapeListener(final JFrame frame) {
+	    ActionListener escListener = new ActionListener() {
+
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            frame.setVisible(false);
+	        }
+	    };
+
+	    frame.getRootPane().registerKeyboardAction(escListener,
+	            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+	            JComponent.WHEN_IN_FOCUSED_WINDOW);
+
 	}
 }

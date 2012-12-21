@@ -101,9 +101,9 @@ public class EditLoan extends AbstractStatefullForm{
 		panel.setBorder(UIManager.getBorder("InsetBorder.aquaVariant"));
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 80, 0, 0, 0, 0, 0};
+		gbl_panel.columnWidths = new int[]{0, 80, 0, 0, 0, 82, 0};
 		gbl_panel.rowHeights = new int[]{0, 20, 0, 0, 0, 20, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
@@ -278,6 +278,8 @@ public class EditLoan extends AbstractStatefullForm{
 		}
 		addListenertoReloadbtn();
 		addListenertoSavebtn();
+		addListenertoMyFields();
+		addEscapeListener(frame);
 	}
 	
 	private void setChanged(){
