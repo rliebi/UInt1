@@ -30,7 +30,6 @@ import javax.swing.SwingConstants;
 
 import components.MyJTextField;
 import components.StateLogicException;
-import controll.LibraryEvent;
 import controll.UnchangedFormState;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -398,7 +397,6 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 			realBook.setShelf((Shelf)cmbShelfNumber.getSelectedItem());
 			if(!is_saved){
 				library.addBook(realBook);
-				realBook.fireChange(LibraryEvent.added);
 				setState(new UnchangedFormState(this));
 				is_saved=true;
 			} else {myState.saveChangestoRealObject(this);}

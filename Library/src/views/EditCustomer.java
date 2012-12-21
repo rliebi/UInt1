@@ -75,7 +75,7 @@ public class EditCustomer extends AbstractStatefullForm{
 	}
 
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Edit Customer");
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

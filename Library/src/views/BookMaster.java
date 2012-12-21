@@ -33,7 +33,7 @@ public class BookMaster{
 	}
 	
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Library Application");
 		frame.setMinimumSize(new Dimension(minimum_window_witdh, minimum_window_height));
 		frame.setBounds(100, 100, 567, 610);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

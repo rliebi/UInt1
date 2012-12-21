@@ -57,7 +57,7 @@ public class WarningWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Warning Window");
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 275, 137);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

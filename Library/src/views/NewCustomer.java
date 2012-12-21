@@ -15,7 +15,6 @@ import javax.swing.JButton;
 
 import components.MyJTextField;
 import components.StateLogicException;
-import controll.LibraryEvent;
 import controll.UnchangedFormState;
 
 import java.awt.Dimension;
@@ -85,7 +84,7 @@ public class NewCustomer extends AbstractStatefullForm{
 	 * @wbp.parser.entryPoint
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("New Customer");
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -251,7 +250,6 @@ public class NewCustomer extends AbstractStatefullForm{
 			myState.saveChangestoRealObject(this);
 			if(!is_saved){
 				library.createAndAddCustomer(realCustomer);
-				realCustomer.fireChange(LibraryEvent.added);
 				setState(new UnchangedFormState(this));
 				is_saved=true;
 			}

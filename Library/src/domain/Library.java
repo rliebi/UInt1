@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import controll.LibraryEvent;
+
 public class Library extends Observable implements Observer{
 
 	private List<Copy> copies;
@@ -45,6 +47,7 @@ public class Library extends Observable implements Observer{
 
 	public void createAndAddCustomer(Customer newCustomer) {
 		customers.add(newCustomer);
+		newCustomer.fireChange(LibraryEvent.added);
 		fireChanged();
 	}
 
@@ -63,6 +66,7 @@ public class Library extends Observable implements Observer{
 
 	public void addBook(Book realBook) {
 		books.add(realBook);
+		realBook.fireChange(LibraryEvent.added);
 		fireChanged();
 	}
 

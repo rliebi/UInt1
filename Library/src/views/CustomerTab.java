@@ -63,6 +63,7 @@ public class CustomerTab extends JPanel implements Observer{
 		setLayout(gbl_customerTab);
 		
 		JPanel panelCustomerStats = new JPanel();
+		panelCustomerStats.setBackground(background_Color);
 		panelCustomerStats.setBorder(new TitledBorder(null, "Customer Statistics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panelCustomerStats = new GridBagConstraints();
 		gbc_panelCustomerStats.insets = new Insets(0, 0, 5, 0);
