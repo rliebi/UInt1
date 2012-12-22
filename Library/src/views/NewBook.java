@@ -77,6 +77,7 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		initialize();
 		setState(new UnchangedFormState(this));
 		disableCopyButtons();
+		frame.getRootPane().setDefaultButton(btnSave);
 	}
 
 	private void disableCopyButtons() {
@@ -360,7 +361,6 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 	}
 
 	private void setModel() {
-		//TODO add Fixed width
 		bookTable.setModel(new CopiesTableModel(library, realBook));
 	}
 

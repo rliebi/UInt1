@@ -36,15 +36,6 @@ public class CopiesTableModel extends AbstractTableModel {
 	public int getRowCount() {
 		return wordList.size();
 	}
-	public boolean isCellEditable(int row, int col) {
-        //Note that the data/cell address is constant,
-        //no matter where the cell appears onscreen.
-        if (col < 2) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 	// this method is called to set the value of each cell
 	@Override
 	public Object getValueAt(int row, int column) {

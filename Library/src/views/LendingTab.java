@@ -17,7 +17,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableRowSorter;
+
 import viewModels.LendingTableModel;
 
 import components.MySearchField;
@@ -180,7 +183,6 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lblSearch.gridy = 1;
 		panel.add(lblSearch, gbc_lblSearch);
 		
-		//TODO nicer solution for search with overdue
 		txtSearchfield = new MySearchField(lending_table,2);
 		txtSearchfield.addFocusListener(new FocusAdapter() {
 			@Override
@@ -200,10 +202,16 @@ public class LendingTab extends JPanel implements Observer{
 		chckbxOverdue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(chckbxOverdue.getSelectedObjects()!=null){ //is selected
-					lending_table.setModel(new LendingTableModel(library.getOverdueLoans()));
+					try {
+						@SuppressWarnings("unchecked")
+						TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) lending_table.getRowSorter();
+						sorter.setRowFilter(RowFilter.regexFilter("(?i)due"));
+					} catch (java.util.regex.PatternSyntaxException ee) {
+					}
 				} else {
-					//TODO use rowsorter after 
-					//setLendingModel(new LendingTableModel(library.getOngoingLoans()));
+					@SuppressWarnings("unchecked")
+					TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) lending_table.getRowSorter();
+					sorter.setRowFilter(RowFilter.regexFilter("(?i)"));
 				}
 			}
 		});
@@ -248,7 +256,9 @@ public class LendingTab extends JPanel implements Observer{
 
 	private void setLendingModel(LendingTableModel model) {
 		lending_table.setModel(model);
-		lending_table.getColumnModel().getColumn(0).setMaxWidth(40);
+		lending_table.getColumnModel().getColumn(0).setMinWidth(40);
+		lending_table.getColumnModel().getColumn(0).setPreferredWidth(40);
+		lending_table.getColumnModel().getColumn(0).setMaxWidth(60);
 		lending_table.getColumnModel().getColumn(1).setMaxWidth(40);
 		lending_table.getColumnModel().getColumn(3).setMinWidth(90);
 		lending_table.getColumnModel().getColumn(3).setMaxWidth(160);

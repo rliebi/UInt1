@@ -34,7 +34,6 @@ public class ChangedFormState implements InterfaceFormState {
 
 	@Override
 	public void keyreleased(MyJTextField mytextfield, AbstractStatefullForm FORM) {
-		//TODO Fix bug: Need to check all fields if changed
 		if(mytextfield.changed()){
 		} else {
 			FORM.setState(new UnchangedFormState(FORM));

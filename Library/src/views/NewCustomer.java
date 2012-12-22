@@ -40,7 +40,6 @@ public class NewCustomer extends AbstractStatefullForm{
 	private Library library;
 	private WarningWindow warningWindow;
 	
-	//TODO deregister form observing object when hiding window
 	public NewCustomer(Customer customer, Library library) {
 		is_saved=false;
 		this.library=library;

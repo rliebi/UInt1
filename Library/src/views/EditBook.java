@@ -77,6 +77,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		realBook.addObserver(this);
 		initialize();
 		setState(new UnchangedFormState(this));
+		frame.getRootPane().setDefaultButton(btnSave);
 	}
 
 	/**
@@ -353,7 +354,6 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 	}
 
 	private void setModel() {
-		//TODO add Fixed width
 		bookTable.setModel(new CopiesTableModel(library, realBook));
 	}
 

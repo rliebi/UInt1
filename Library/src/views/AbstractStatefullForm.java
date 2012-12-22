@@ -82,7 +82,6 @@ public abstract class AbstractStatefullForm implements Observer{
 	
 	public void setState(InterfaceFormState newState) {
 		myState=newState;
-		System.out.println("Set state: " + newState.toString());
 	}
 	public static void addEscapeListener(final JFrame frame) {
 	    ActionListener escListener = new ActionListener() {
