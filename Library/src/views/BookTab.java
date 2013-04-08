@@ -217,7 +217,9 @@ public class BookTab extends JPanel implements Observer{
 
 	private void setModel(BookTableModel model) {
 		book_table.setModel(model);
-		book_table.getColumnModel().getColumn(1).setMaxWidth(40);
+		book_table.getColumnModel().getColumn(0).setMaxWidth(60);
+
+		book_table.getColumnModel().getColumn(2).setMaxWidth(40);
 			
 	}
 
