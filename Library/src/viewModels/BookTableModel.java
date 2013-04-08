@@ -9,10 +9,12 @@ import javax.swing.table.AbstractTableModel;
 
 import controll.LibraryEvent;
 import domain.Book;
+import domain.Library;
 
 
 
 public class BookTableModel extends AbstractTableModel implements Observer{
+	private static final String AVAILABLE = "Available";
 
 	private static final String SHELF = "Shelf";
 	private static final String TITEL = "Titel";
@@ -21,12 +23,16 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Book> books;
-	String headerList[] = new String[] { TITEL, SHELF};
+	Library lib;
+	String headerList[] = new String[] {AVAILABLE, TITEL, SHELF};
 
 	public BookTableModel(List<Book> list) {
 		books = list;
 	}
-
+	public BookTableModel(Library lib){
+		books = lib.getBooks();
+		this.lib = lib;
+	}
 	@Override
 	public int getColumnCount() {
 		return headerList.length;
@@ -41,12 +47,16 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 	@Override
 	public Object getValueAt(int row, int column) {
 		Book entity = null;
+		
 		entity = books.get(row);
 		switch (column) {
-
 		case 0:
-			return entity.getName();
+			return (lib.getLentCopiesOfBook(entity).size() < lib.getCopiesOfBook(entity).size())?"Ist da":"weg";
+//			return null;
 		case 1:
+			
+			return entity.getName();
+		case 2:
 			return entity.getShelf();
 		default:
 			return "";

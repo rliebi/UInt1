@@ -11,6 +11,7 @@ import controll.LibraryEvent;
 import domain.Customer;
 
 public class CustomerTableModel  extends AbstractTableModel implements Observer{
+	private static final String ID = "ID";
 	private static final String Name = "Name";
 	private static final String Surname = "Surname";
 	private static final String Street = "Street";
@@ -20,7 +21,7 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Customer> customers;
-	String headerList[] = new String[] { Name, Surname, Street, City};
+	String headerList[] = new String[] {ID, Name, Surname, Street, City};
 
 	public CustomerTableModel(List<Customer> list) {
 		for(Customer c : list){
@@ -45,14 +46,15 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 		Customer entity = null;
 		entity = customers.get(row);
 		switch (column) {
-
 		case 0:
-			return entity.getName();
+			return row;
 		case 1:
-			return entity.getSurname();
+			return entity.getName();
 		case 2:
-			return entity.getStreet();
+			return entity.getSurname();
 		case 3:
+			return entity.getStreet();
+		case 4:
 			return entity.getCity();
 		default:
 			return "";
