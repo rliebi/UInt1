@@ -146,12 +146,13 @@ public class BookTab extends JPanel implements Observer{
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					openEditBookWindow();
+					
 				}
 			}
 		});
 		book_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(book_table);
-		BookTableModel tableModel = new BookTableModel(library.getBooks());
+		BookTableModel tableModel = new BookTableModel(library);
 		setModel(tableModel);
 		JLabel lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
@@ -161,7 +162,7 @@ public class BookTab extends JPanel implements Observer{
 		gbc_lblSearch.gridy = 1;
 		panelBookInventory.add(lblSearch, gbc_lblSearch);
 		
-		JButton btnDisplayBook = new JButton("Display Book");
+		JButton btnDisplayBook = new JButton("Edit Book");
 		btnDisplayBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -216,7 +217,9 @@ public class BookTab extends JPanel implements Observer{
 
 	private void setModel(BookTableModel model) {
 		book_table.setModel(model);
-		book_table.getColumnModel().getColumn(1).setMaxWidth(40);
+		book_table.getColumnModel().getColumn(0).setMaxWidth(60);
+
+		book_table.getColumnModel().getColumn(2).setMaxWidth(40);
 			
 	}
 
