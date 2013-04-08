@@ -115,7 +115,7 @@ public class NewLoan extends JFrame implements Observer{
 		panel_1.add(scrollPane_1, gbc_scrollPane_1);
 		
 		customer_table = new JTable();
-
+		
 		customer_table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -123,6 +123,7 @@ public class NewLoan extends JFrame implements Observer{
 					openEditCustomerWindow();
 				}
 				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(getSelectedCustomer())));
+				
 
 			}
 		});
@@ -211,13 +212,14 @@ public class NewLoan extends JFrame implements Observer{
 				int loancount = library.getCustomerOngoingLoans(getSelectedCustomer()).size();
 				if (loancount>=3){
 					warningWindow = new WarningWindow("Cannot have more than 3 Loans!");
+					notifyAll();
 				}else{
 					warningWindow = new WarningWindow(":" + loancount);
-				
+					
 
 				}
 				System.out.println(getSelectedCustomer());
-				System.out.println(library.getAvailableCopiesOfBook(book).get(0).getTitle());
+//				System.out.println(library.getAvailableCopiesOfBook(book).get(0).getTitle());
 				
 				library.createAndAddLoan(getSelectedCustomer(), library.getAvailableCopiesOfBook(book).get(0));
 				

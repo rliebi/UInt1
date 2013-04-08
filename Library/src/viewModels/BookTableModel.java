@@ -51,7 +51,9 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 		entity = books.get(row);
 		switch (column) {
 		case 0:
-			return (lib.getLentCopiesOfBook(entity).size() < lib.getCopiesOfBook(entity).size())?"Ist da":"weg";
+//			return (lib.getLentCopiesOfBook(entity).size() < lib.getCopiesOfBook(entity).size())?"Ist da":"weg";
+//			return (>0)?"Ist da":"weg";
+			return "TODO";
 //			return null;
 		case 1:
 			
@@ -73,12 +75,18 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(books.indexOf(o),books.indexOf(o));
+				break;
 			case deleted:
 				fireTableRowsDeleted(books.indexOf(o), books.indexOf(o));
+				break;
 			case returned:
 				fireTableRowsDeleted(books.indexOf(o), books.indexOf(o));
+				break;
 			case updated:
 				fireTableRowsUpdated(books.indexOf(o),books.indexOf(o));
+				break;
+			default:
+				break;
 			}
 		} else {fireTableDataChanged();}
 	}

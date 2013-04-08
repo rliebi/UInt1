@@ -23,6 +23,7 @@ public class Library extends Observable implements Observer{
 		loans = new ArrayList<Loan>();
 		books = new ArrayList<Book>();
 		onGoingLoans = new ArrayList<Loan>();
+		
 	}
 
 	public Loan createAndAddLoan(Customer customer, Copy copy) {
@@ -34,7 +35,7 @@ public class Library extends Observable implements Observer{
 			onGoingLoans.add(l);
 			return l;
 		} else {
-			fireChanged();
+//			fireChanged();
 			return null;
 		}
 	}

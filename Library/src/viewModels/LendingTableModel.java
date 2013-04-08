@@ -26,6 +26,7 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 		for(Loan l : loans){
 			l.addObserver(this);
 		}
+	
 		this.loans = loans;
 	}
 
@@ -69,16 +70,23 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 
 	@Override
 	public void update(Observable o, Object modelRowEvent) {
+		System.out.println("CHANGED");
 		if(modelRowEvent instanceof LibraryEvent){
 			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(loans.indexOf(o),loans.indexOf(o));
+				break;
 			case deleted:
 				fireTableRowsDeleted(loans.indexOf(o), loans.indexOf(o));
+				break;
 			case returned:
 				fireTableRowsDeleted(loans.indexOf(o), loans.indexOf(o));
+				break;
 			case updated:
 				fireTableRowsUpdated(loans.indexOf(o),loans.indexOf(o));
+				break;
+			default:
+				break;
 			}
 		} else {fireTableDataChanged();}
 	}

@@ -71,12 +71,18 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(customers.indexOf(o),customers.indexOf(o));
+				break;
 			case deleted:
 				fireTableRowsDeleted(customers.indexOf(o), customers.indexOf(o));
+				break;
 			case returned:
 				fireTableRowsDeleted(customers.indexOf(o), customers.indexOf(o));
+				break;
 			case updated:
 				fireTableRowsUpdated(customers.indexOf(o),customers.indexOf(o));
+				break;
+			default:
+				break;
 			}
 		} else {fireTableDataChanged();}
 	}
