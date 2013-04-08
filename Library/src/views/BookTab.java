@@ -42,7 +42,7 @@ public class BookTab extends JPanel implements Observer{
 	private JTextField txtSearch;
 	private EditBook detailwindow;
 	private NewBook newBookDetailWindow;
-	
+	private NewLoan newLoanWindow;
 	public BookTab(){
 		super();
 		this.library = new Library();
@@ -145,9 +145,14 @@ public class BookTab extends JPanel implements Observer{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					openEditBookWindow();
+					openNewLoanWindow(getSelectedBook());
 					
 				}
+			}
+
+			private void openNewLoanWindow(Book book) {
+				newLoanWindow = new NewLoan(library,book);
+				newLoanWindow.setVisible(true);
 			}
 		});
 		book_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.sun.org.apache.xpath.internal.operations.And;
+
 import controll.LibraryEvent;
 
 public class Library extends Observable implements Observer{
@@ -111,7 +113,16 @@ public class Library extends Observable implements Observer{
 
 		return res;
 	}
+	public List<Copy> getAvailableCopiesOfBook(Book book) {
+		List<Copy> res = new ArrayList<Copy>();
+		for (Copy c : copies) {
+			if (c.getTitle().equals(book) && !isCopyLent(c)) {
+				res.add(c);
+			}
+		}
 
+		return res;
+	}
 	public List<Loan> getLentCopiesOfBook(Book book) {
 		List<Loan> lentCopies = new ArrayList<Loan>();
 		for (Loan l : loans) {

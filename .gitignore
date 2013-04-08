@@ -21,3 +21,5 @@ Library/src/components/.DS_Store
 Library/src/domain/.DS_Store
 
 Library/src/application/.DS_Store
+
+*.class

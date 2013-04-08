@@ -47,7 +47,7 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 		entity = customers.get(row);
 		switch (column) {
 		case 0:
-			return row;
+			return new Integer(row);
 		case 1:
 			return entity.getName();
 		case 2:
