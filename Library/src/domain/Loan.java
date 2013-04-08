@@ -148,7 +148,6 @@ public class Loan extends Observable{
 
 	public void fireChanged(LibraryEvent rowevent) {
 		setChanged();
-		System.out.println("FIRED IN LOAN!" + rowevent);
 		notifyObservers(rowevent);
 	}
 }

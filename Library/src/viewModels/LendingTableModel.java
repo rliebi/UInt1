@@ -8,6 +8,7 @@ import java.util.Observer;
 import javax.swing.table.AbstractTableModel;
 
 import controll.LibraryEvent;
+import domain.Library;
 import domain.Loan;
 
 public class LendingTableModel extends AbstractTableModel implements Observer{
@@ -22,12 +23,9 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 	
 	String headerList[] = new String[] { Status, ID, Titel, Until, Customer};
 
-	public LendingTableModel(List<Loan> loans) {
-		for(Loan l : loans){
-			l.addObserver(this);
-		}
-	
-		this.loans = loans;
+	public LendingTableModel(Library l) {
+		l.addObserver(this);
+		this.loans = l.getLoans();
 	}
 
 	@Override

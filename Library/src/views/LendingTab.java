@@ -173,8 +173,9 @@ public class LendingTab extends JPanel implements Observer{
 			}
 		});
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lending_scrollPane.setViewportView(lending_table);;
-		setLendingModel(new LendingTableModel(library.getOngoingLoans()));
+		lending_scrollPane.setViewportView(lending_table);
+		//TODO fix this
+		setLendingModel(new LendingTableModel(library));
 
 		lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();

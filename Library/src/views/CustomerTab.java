@@ -128,7 +128,9 @@ public class CustomerTab extends JPanel implements Observer{
 				if (e.getClickCount() == 2) {
 					openEditCustomerWindow();
 				}
-				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(getSelectedCustomer())));
+			//TODO Correctly implement search with library observe
+				//on selection, set correct filter instead of setting model
+				//customer_loan_jtable.setModel(new LendingTableModel(library));
 			}
 		});
 		customer_table.addKeyListener(new KeyAdapter() {
@@ -142,7 +144,7 @@ public class CustomerTab extends JPanel implements Observer{
 		});
 		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(customer_table);
-		customer_table.setModel(new CustomerTableModel(library.getCustomers()));
+		customer_table.setModel(new CustomerTableModel(library));
 		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_table.getModel());
@@ -222,6 +224,9 @@ public class CustomerTab extends JPanel implements Observer{
 		
 		customer_loan_jtable = new JTable();
 		scrollPane.setViewportView(customer_loan_jtable);
+		customer_loan_jtable.setModel(new LendingTableModel(library));
+		
+		//TODO set here non matching filter, to clear list for the beginning
 		
 		JButton btnNewButton = new JButton("Return Loan");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -232,7 +237,6 @@ public class CustomerTab extends JPanel implements Observer{
 						warningWindow.setVisible();
 					}
 					getSelectedLoan().returnCopy();
-					customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(getSelectedCustomer())));
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please Select a Loan!");
 					warningWindow.setVisible();

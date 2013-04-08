@@ -23,7 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import components.MySearchField;
@@ -41,7 +40,6 @@ public class NewLoan extends JFrame implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
-	private NewCustomer newCustomerWindow;
 	private EditCustomer editCustomerWindow;
 	private JTextField txtSearchfield;
 	private JTable customer_table;
@@ -122,7 +120,8 @@ public class NewLoan extends JFrame implements Observer{
 				if (e.getClickCount() == 2) {
 					openEditCustomerWindow();
 				}
-				customer_loan_jtable.setModel(new LendingTableModel(library.getCustomerOngoingLoans(getSelectedCustomer())));
+				//TODO fix this
+				customer_loan_jtable.setModel(new LendingTableModel(library));
 				
 
 			}
@@ -138,7 +137,7 @@ public class NewLoan extends JFrame implements Observer{
 		});
 		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(customer_table);
-		customer_table.setModel(new CustomerTableModel(library.getCustomers()));
+		customer_table.setModel(new CustomerTableModel(library));
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter( customer_table.getModel());
 		

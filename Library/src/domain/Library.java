@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.sun.org.apache.xpath.internal.operations.And;
-
 import controll.LibraryEvent;
 
 public class Library extends Observable implements Observer{
@@ -48,7 +46,8 @@ public class Library extends Observable implements Observer{
 		return c;
 	}
 
-	public void createAndAddCustomer(Customer newCustomer) {
+	public void addCustomer(Customer newCustomer) {
+		newCustomer.addObserver(this);
 		customers.add(newCustomer);
 		newCustomer.fireChange(LibraryEvent.added);
 		fireChanged();
@@ -68,6 +67,7 @@ public class Library extends Observable implements Observer{
 	}
 
 	public void addBook(Book realBook) {
+		realBook.addObserver(this);
 		books.add(realBook);
 		realBook.fireChange(LibraryEvent.added);
 		fireChanged();

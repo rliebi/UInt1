@@ -12,7 +12,6 @@ import domain.Book;
 import domain.Library;
 
 
-
 public class BookTableModel extends AbstractTableModel implements Observer{
 	private static final String AVAILABLE = "Available";
 
@@ -23,16 +22,13 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Book> books;
-	Library lib;
 	String headerList[] = new String[] {AVAILABLE, TITEL, SHELF};
 
-	public BookTableModel(List<Book> list) {
-		books = list;
+	public BookTableModel(Library l) {
+		l.addObserver(this);
+		books = l.getBooks();
 	}
-	public BookTableModel(Library lib){
-		books = lib.getBooks();
-		this.lib = lib;
-	}
+	
 	@Override
 	public int getColumnCount() {
 		return headerList.length;

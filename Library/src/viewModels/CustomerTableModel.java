@@ -9,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import controll.LibraryEvent;
 
 import domain.Customer;
+import domain.Library;
 
 public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	private static final String ID = "ID";
@@ -23,11 +24,16 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	List<Customer> customers;
 	String headerList[] = new String[] {ID, Name, Surname, Street, City};
 
-	public CustomerTableModel(List<Customer> list) {
-		for(Customer c : list){
-			c.addObserver(this);
-		}
-		this.customers = list;
+//	public CustomerTableModel(List<Customer> list) {
+//		for(Customer c : list){
+//			c.addObserver(this);
+//		}
+//		this.customers = list;
+//	}
+	
+	public CustomerTableModel(Library l){
+		l.addObserver(this);
+		customers= l.getCustomers();
 	}
 
 	@Override
