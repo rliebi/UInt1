@@ -21,9 +21,10 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
+	private static final String Loans = "geliehen";
 	List<Customer> customers;
-	String headerList[] = new String[] {ID, Name, Surname, Street, City};
-
+	String headerList[] = new String[] {ID, Name, Surname, Street, City, Loans};
+	private Library lib;
 //	public CustomerTableModel(List<Customer> list) {
 //		for(Customer c : list){
 //			c.addObserver(this);
@@ -33,6 +34,7 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	
 	public CustomerTableModel(Library l){
 		l.addObserver(this);
+		lib = l;
 		customers= l.getCustomers();
 	}
 
@@ -62,6 +64,8 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 			return entity.getStreet();
 		case 4:
 			return entity.getCity();
+		case 5:
+			return lib.getCustomerOngoingLoans(entity).size();
 		default:
 			return "";
 		}

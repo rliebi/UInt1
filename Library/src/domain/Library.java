@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.RowFilter;
+
 import controll.LibraryEvent;
 
 public class Library extends Observable implements Observer{
@@ -207,6 +209,8 @@ public class Library extends Observable implements Observer{
 		}
 		fireChanged();
 	}
+
+
 
 
 }

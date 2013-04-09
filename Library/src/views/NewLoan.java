@@ -11,7 +11,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
 import components.MySearchField;
@@ -33,7 +37,6 @@ import domain.Book;
 import domain.Customer;
 import domain.Library;
 import domain.Loan;
-import javax.swing.JMenuBar;
 import java.awt.BorderLayout;
 
 public class NewLoan extends JFrame implements Observer{
@@ -46,6 +49,10 @@ public class NewLoan extends JFrame implements Observer{
 	private JTable customer_loan_jtable;
 	private WarningWindow warningWindow;
 	private Book book;
+	private java.util.List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
+			3);
+	private java.util.List<RowFilter<Object, Object>> filters_loans = new ArrayList<RowFilter<Object, Object>>(
+			3);
 	public NewLoan(){
 		super();
 		this.library = new Library();
@@ -120,10 +127,27 @@ public class NewLoan extends JFrame implements Observer{
 				if (e.getClickCount() == 2) {
 					openEditCustomerWindow();
 				}
-				//TODO fix this
-				customer_loan_jtable.setModel(new LendingTableModel(library));
-				
+				filterLoans();				
 
+			}
+			private void filterLoans() {
+				RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
+					public boolean include(
+							Entry<? extends Object, ? extends Object> entry) {
+						for (int i = 0; i < library.getCustomerOngoingLoans(
+								getSelectedCustomer()).size(); i++) {
+							if (entry.getValue(1).equals(
+									library.getCustomerOngoingLoans(
+											getSelectedCustomer()).get(i)
+											.getCopy().getInventoryNumber()))
+								return true;
+						}
+						return false;
+					}
+				};
+				System.out.println(getSelectedCustomer());
+				filters_loans.add(rf);
+				applyFilter(customer_loan_jtable, filters_loans);
 			}
 		});
 		customer_table.addKeyListener(new KeyAdapter() {
@@ -167,7 +191,7 @@ public class NewLoan extends JFrame implements Observer{
 		gbc_lblSearch.gridy = 1;
 		panel_1.add(lblSearch, gbc_lblSearch);
 		
-		txtSearchfield = new MySearchField(customer_table);
+		txtSearchfield = new MySearchField(customer_table,1,filters_customer);
 		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
 		gbc_txtSearchfield_1.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield_1.fill = GridBagConstraints.HORIZONTAL;
@@ -193,7 +217,6 @@ public class NewLoan extends JFrame implements Observer{
 		panel.setLayout(gbl_panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setEnabled(false);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridwidth = 3;
@@ -220,7 +243,7 @@ public class NewLoan extends JFrame implements Observer{
 				System.out.println(getSelectedCustomer());
 //				System.out.println(library.getAvailableCopiesOfBook(book).get(0).getTitle());
 				
-//				library.createAndAddLoan(getSelectedCustomer(), library.getAvailableCopiesOfBook(book).get(0));
+				library.createAndAddLoan(getSelectedCustomer(), library.getAvailableCopiesOfBook(book).get(0));
 				
 				System.out.println(loancount);
 			}
@@ -274,5 +297,16 @@ public class NewLoan extends JFrame implements Observer{
 		editCustomerWindow = new EditCustomer(getSelectedCustomer());
 		editCustomerWindow.setVisible();
 	}
+	private void applyFilter(JTable table,
+			List<RowFilter<Object, Object>> filters) {
+		@SuppressWarnings("unchecked")
+		TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) table.getRowSorter();
 
+		RowFilter<Object, Object> serviceFilter = RowFilter.andFilter(filters);
+
+		sorter.setRowFilter(serviceFilter);
+		table.setRowSorter(sorter);
+		AbstractTableModel t = (AbstractTableModel) table.getModel();
+		t.fireTableDataChanged();
+	}
 }

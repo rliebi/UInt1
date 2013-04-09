@@ -23,10 +23,11 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Book> books;
 	String headerList[] = new String[] {AVAILABLE, TITEL, SHELF};
-
+	Library lib;
 	public BookTableModel(Library l) {
 		l.addObserver(this);
 		books = l.getBooks();
+		lib = l;
 	}
 	
 	@Override
@@ -47,9 +48,9 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 		entity = books.get(row);
 		switch (column) {
 		case 0:
-//			return (lib.getLentCopiesOfBook(entity).size() < lib.getCopiesOfBook(entity).size())?"Ist da":"weg";
-//			return (>0)?"Ist da":"weg";
-			return "TODO";
+			return (lib.getLentCopiesOfBook(entity).size() < lib.getCopiesOfBook(entity).size())?"Ist da":"weg";
+//			return ()>0)?"Ist da":"weg";
+//			return "TODO";
 //			return null;
 		case 1:
 			

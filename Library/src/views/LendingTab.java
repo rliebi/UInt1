@@ -21,7 +21,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import viewModels.LendingTableModel;
@@ -31,8 +30,6 @@ import components.MySearchField;
 import domain.Library;
 import domain.Loan;
 
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -178,7 +175,6 @@ public class LendingTab extends JPanel implements Observer{
 		});
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lending_scrollPane.setViewportView(lending_table);
-		//TODO fix this
 		setLendingModel(new LendingTableModel(library));
 		
 		lblSearch = new JLabel("Search: ");
