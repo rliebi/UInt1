@@ -2,6 +2,8 @@ package components;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -13,14 +15,25 @@ public class MySearchField extends MyJTextField{
 	private static final long serialVersionUID = 4798414752488878629L;
 	private final JTable table_to_search;
 	private int rowToSort=0;
-	
+	private List<RowFilter<Object, Object>> filters;
+	private int currentfilter = -1;
+	@Deprecated
 	public MySearchField(JTable table_to_search){
 		this(table_to_search,0);
+		
 	}
+	@Deprecated
 	public MySearchField(JTable table_to_search, int rowToSort){
 		super("Search");
 		this.table_to_search=table_to_search;
 		this.rowToSort=rowToSort;
+		setSorter();
+	}
+	public MySearchField(JTable table_to_search, int rowToSort, List<RowFilter<Object,Object>> filters_to_apply){
+		super("Search");
+		this.table_to_search=table_to_search;
+		this.rowToSort=rowToSort;
+		this.filters = filters_to_apply;
 		setSorter();
 	}
 
@@ -46,13 +59,30 @@ public class MySearchField extends MyJTextField{
 			}
 			
 			private void newFilter() {
-				RowFilter<AbstractTableModel, Object> rf = null;
+				RowFilter<Object, Object> rf = null;
 				try {
+					System.out.println(currentfilter);
+
 					rf = RowFilter.regexFilter("(?i)"+getText());
+					if (currentfilter==-1)
+					{
+						filters.add(rf);  
+						currentfilter = filters.indexOf(rf);
+						System.out.println(currentfilter);
+
+					}
+					else
+					{
+						System.out.println(currentfilter);
+
+						filters.set(currentfilter, rf);
+					}
+	                RowFilter<Object,Object> serviceFilter = RowFilter.andFilter(filters); 
+					sorter.setRowFilter(serviceFilter);
 				} catch (java.util.regex.PatternSyntaxException e) {
 					return;
 				}
-				sorter.setRowFilter(rf);
+
 			}
 		});
 	}

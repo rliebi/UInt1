@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,6 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import viewModels.LendingTableModel;
@@ -49,7 +52,8 @@ public class LendingTab extends JPanel implements Observer{
 	private JCheckBox chckbxOverdue;
 	private JLabel display_number_of_lendings;
 	private JLabel display_overdue;
-	
+    private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
+
 	public LendingTab(){
 		super();
 		this.library = new Library();
@@ -176,7 +180,7 @@ public class LendingTab extends JPanel implements Observer{
 		lending_scrollPane.setViewportView(lending_table);
 		//TODO fix this
 		setLendingModel(new LendingTableModel(library));
-
+		
 		lblSearch = new JLabel("Search: ");
 		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
 		gbc_lblSearch.insets = new Insets(0, 0, 0, 5);
@@ -184,13 +188,8 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_lblSearch.gridy = 1;
 		panel.add(lblSearch, gbc_lblSearch);
 		
-		txtSearchfield = new MySearchField(lending_table,2);
-		txtSearchfield.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				chckbxOverdue.setSelected(false);
-			}
-		});
+		txtSearchfield = new MySearchField(lending_table,2,filters);
+
 		GridBagConstraints gbc_txtSearchfield = new GridBagConstraints();
 		gbc_txtSearchfield.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield.fill = GridBagConstraints.HORIZONTAL;
@@ -198,23 +197,25 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_txtSearchfield.gridy = 1;
 		panel.add(txtSearchfield, gbc_txtSearchfield);
 		txtSearchfield.setColumns(10);
-		
+		final RowFilter<Object, Object> DueFilter = RowFilter.regexFilter("(?i)due");
+	
 		chckbxOverdue = new JCheckBox("Only Overdue");
 		chckbxOverdue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				if(chckbxOverdue.getSelectedObjects()!=null){ //is selected
 					try {
-						@SuppressWarnings("unchecked")
-						TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) lending_table.getRowSorter();
-						sorter.setRowFilter(RowFilter.regexFilter("(?i)due"));
+						filters.add(DueFilter);
+						applyFilter(lending_table);
 					} catch (java.util.regex.PatternSyntaxException ee) {
 					}
 				} else {
-					@SuppressWarnings("unchecked")
-					TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) lending_table.getRowSorter();
-					sorter.setRowFilter(RowFilter.regexFilter("(?i)"));
+					filters.remove(DueFilter);
+					applyFilter(lending_table);
+					//					sorter.setRowFilter(RowFilter.regexFilter("(?i)"));
 				}
 			}
+
 		});
 		GridBagConstraints gbc_chckbxOverdue = new GridBagConstraints();
 		gbc_chckbxOverdue.insets = new Insets(0, 0, 0, 5);
@@ -252,7 +253,27 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_btnNew_rent.gridy = 1;
 		panel.add(btnNew_rent, gbc_btnNew_rent);
 
+		RowFilter<Object,Object> excludeEnded = new RowFilter<Object,Object>() {
+			  public boolean include(Entry<? extends Object, ? extends Object> entry) {
+				  if (entry.getValue(0) == "Ended")
+					  return false;
+				  return true;
+			 }
+			};
+			filters.add(excludeEnded);
+			applyFilter(lending_table);
+	}
 
+
+
+	private void applyFilter(JTable table) {
+		@SuppressWarnings("unchecked")
+		TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) table.getRowSorter();
+
+		RowFilter<Object,Object> serviceFilter = RowFilter.andFilter(filters);  
+
+		sorter.setRowFilter(serviceFilter);
+		table.setRowSorter(sorter);
 	}
 
 	private void setLendingModel(LendingTableModel model) {

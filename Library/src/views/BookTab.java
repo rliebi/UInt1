@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 
 
@@ -43,6 +45,8 @@ public class BookTab extends JPanel implements Observer{
 	private EditBook detailwindow;
 	private NewBook newBookDetailWindow;
 	private NewLoan newLoanWindow;
+    private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
+
 	public BookTab(){
 		super();
 		this.library = new Library();
@@ -179,7 +183,7 @@ public class BookTab extends JPanel implements Observer{
 			}
 		});
 		//------------Search Field --------------
-		txtSearch = new MySearchField(book_table);
+		txtSearch = new MySearchField(book_table,0,filters);
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;

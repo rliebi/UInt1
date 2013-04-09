@@ -220,7 +220,7 @@ public class NewLoan extends JFrame implements Observer{
 				System.out.println(getSelectedCustomer());
 //				System.out.println(library.getAvailableCopiesOfBook(book).get(0).getTitle());
 				
-				library.createAndAddLoan(getSelectedCustomer(), library.getAvailableCopiesOfBook(book).get(0));
+//				library.createAndAddLoan(getSelectedCustomer(), library.getAvailableCopiesOfBook(book).get(0));
 				
 				System.out.println(loancount);
 			}

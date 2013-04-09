@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,8 +21,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
+
 
 import components.MySearchField;
 
@@ -42,7 +46,9 @@ public class CustomerTab extends JPanel implements Observer{
 	private JLabel displayNrCustomer;
 	private JTable customer_loan_jtable;
 	private WarningWindow warningWindow;
-	
+    private java.util.List<RowFilter<Object,Object>> filters_customer = new ArrayList<RowFilter<Object,Object>>(3);  
+    private java.util.List<RowFilter<Object,Object>> filters_loans = new ArrayList<RowFilter<Object,Object>>(3);  
+
 	public CustomerTab(){
 		super();
 		this.library = new Library();
@@ -171,7 +177,7 @@ public class CustomerTab extends JPanel implements Observer{
 		gbc_lblSearch.gridy = 1;
 		panel_1.add(lblSearch, gbc_lblSearch);
 		
-		txtSearchfield = new MySearchField(customer_table);
+		txtSearchfield = new MySearchField(customer_table,0,filters_customer);
 		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
 		gbc_txtSearchfield_1.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield_1.fill = GridBagConstraints.HORIZONTAL;
@@ -227,7 +233,10 @@ public class CustomerTab extends JPanel implements Observer{
 		customer_loan_jtable.setModel(new LendingTableModel(library));
 		
 		//TODO set here non matching filter, to clear list for the beginning
-		
+		final TableRowSorter<AbstractTableModel> sorter =
+                new TableRowSorter<AbstractTableModel>((AbstractTableModel) customer_loan_jtable.getModel());
+		customer_loan_jtable.setRowSorter(sorter);
+//		sorter.setRowFilter(RowFilter.andFilter(arg0)
 		JButton btnNewButton = new JButton("Return Loan");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
