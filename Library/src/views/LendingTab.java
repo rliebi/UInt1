@@ -226,13 +226,7 @@ public class LendingTab extends JPanel implements Observer{
 		btnDisplayLoan = new JButton("Display Loan");
 		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
 					openEditLoanWindow();
-				} catch (IndexOutOfBoundsException e) {
-					warningWindow = new WarningWindow("Please select a Loan!");
-					warningWindow.setVisible();
-				}
-				
 			}
 		});
 		GridBagConstraints gbc_btnDisplay_selected = new GridBagConstraints();
@@ -241,17 +235,17 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_btnDisplay_selected.gridy = 1;
 		panel.add(btnDisplayLoan, gbc_btnDisplay_selected);
 		
-		JButton btnNew_rent = new JButton("New Rent");
-		btnNew_rent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				warningWindow= new WarningWindow("Not yet Implemented!");
-				warningWindow.setVisible();
-			}
-		});
-		GridBagConstraints gbc_btnNew_rent = new GridBagConstraints();
-		gbc_btnNew_rent.gridx = 5;
-		gbc_btnNew_rent.gridy = 1;
-		panel.add(btnNew_rent, gbc_btnNew_rent);
+//		JButton btnNew_rent = new JButton("New Rent");
+//		btnNew_rent.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				warningWindow= new WarningWindow("Not yet Implemented!");
+//				warningWindow.setVisible();
+//			}
+//		});
+//		GridBagConstraints gbc_btnNew_rent = new GridBagConstraints();
+//		gbc_btnNew_rent.gridx = 5;
+//		gbc_btnNew_rent.gridy = 1;
+//		panel.add(btnNew_rent, gbc_btnNew_rent);
 
 		RowFilter<Object,Object> excludeEnded = new RowFilter<Object,Object>() {
 			  public boolean include(Entry<? extends Object, ? extends Object> entry) {
@@ -261,7 +255,6 @@ public class LendingTab extends JPanel implements Observer{
 			 }
 			};
 			filters.add(excludeEnded);
-			applyFilter(lending_table);
 	}
 
 
@@ -274,6 +267,8 @@ public class LendingTab extends JPanel implements Observer{
 
 		sorter.setRowFilter(serviceFilter);
 		table.setRowSorter(sorter);
+		AbstractTableModel t = (AbstractTableModel) table.getModel();
+		t.fireTableDataChanged();
 	}
 
 	private void setLendingModel(LendingTableModel model) {
@@ -305,8 +300,15 @@ public class LendingTab extends JPanel implements Observer{
 	}
 
 	private void openEditLoanWindow() {
-		editLoanWindow = new EditLoan(getSelectedLoan());
-		editLoanWindow.setVisible();
+		try{
+			editLoanWindow = new EditLoan(getSelectedLoan());
+			editLoanWindow.setVisible();
+		}
+	 catch (IndexOutOfBoundsException e) {
+		warningWindow = new WarningWindow("Please select a Loan!");
+		warningWindow.setVisible();
+	}
+
 	}
 
 }

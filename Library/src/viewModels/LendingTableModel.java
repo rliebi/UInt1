@@ -25,7 +25,7 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 
 	public LendingTableModel(Library l) {
 		l.addObserver(this);
-		this.loans = l.getLoans();
+		this.loans = l.getOngoingLoans();
 	}
 
 	@Override
