@@ -183,6 +183,8 @@ public class CustomerTab extends JPanel implements Observer {
 		scrollPane_1.setViewportView(customer_table);
 		customer_table.setModel(new CustomerTableModel(library));
 		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
+		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
+
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter(
 				customer_table.getModel());
