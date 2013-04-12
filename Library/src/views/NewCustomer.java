@@ -251,10 +251,10 @@ public class NewCustomer extends AbstractStatefullForm{
 			txtStreetName.setTextReload();
 			myState.saveChangestoRealObject(this);
 			if(!is_saved){
-				library.createAndAddCustomer(realCustomer);
+				library.addCustomer(realCustomer);
 				setState(new UnchangedFormState(this));
 				is_saved=true;
-			}
+			}else {myState.saveChangestoRealObject(this);}
 		} catch (StateLogicException e) {
 			e.printStackTrace();
 		} catch (NumberFormatException ee){

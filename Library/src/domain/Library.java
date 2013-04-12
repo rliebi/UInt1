@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.RowFilter;
+
 import controll.LibraryEvent;
 
 public class Library extends Observable implements Observer{
@@ -21,6 +23,7 @@ public class Library extends Observable implements Observer{
 		loans = new ArrayList<Loan>();
 		books = new ArrayList<Book>();
 		onGoingLoans = new ArrayList<Loan>();
+		
 	}
 
 	public Loan createAndAddLoan(Customer customer, Copy copy) {
@@ -32,7 +35,7 @@ public class Library extends Observable implements Observer{
 			onGoingLoans.add(l);
 			return l;
 		} else {
-			fireChanged();
+//			fireChanged();
 			return null;
 		}
 	}
@@ -45,7 +48,8 @@ public class Library extends Observable implements Observer{
 		return c;
 	}
 
-	public void createAndAddCustomer(Customer newCustomer) {
+	public void addCustomer(Customer newCustomer) {
+		newCustomer.addObserver(this);
 		customers.add(newCustomer);
 		newCustomer.fireChange(LibraryEvent.added);
 		fireChanged();
@@ -65,6 +69,7 @@ public class Library extends Observable implements Observer{
 	}
 
 	public void addBook(Book realBook) {
+		realBook.addObserver(this);
 		books.add(realBook);
 		realBook.fireChange(LibraryEvent.added);
 		fireChanged();
@@ -111,7 +116,16 @@ public class Library extends Observable implements Observer{
 
 		return res;
 	}
+	public List<Copy> getAvailableCopiesOfBook(Book book) {
+		List<Copy> res = new ArrayList<Copy>();
+		for (Copy c : copies) {
+			if (c.getTitle().equals(book) && !isCopyLent(c)) {
+				res.add(c);
+			}
+		}
 
+		return res;
+	}
 	public List<Loan> getLentCopiesOfBook(Book book) {
 		List<Loan> lentCopies = new ArrayList<Loan>();
 		for (Loan l : loans) {
@@ -195,5 +209,8 @@ public class Library extends Observable implements Observer{
 		}
 		fireChanged();
 	}
+
+
+
 
 }

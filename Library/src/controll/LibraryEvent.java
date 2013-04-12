@@ -1,5 +1,5 @@
 package controll;
 
 public enum LibraryEvent {
-	added, deleted, updated, returned
+	added, deleted, updated, returned, lent
 }

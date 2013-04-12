@@ -12,7 +12,6 @@ import domain.Book;
 import domain.Library;
 
 
-
 public class BookTableModel extends AbstractTableModel implements Observer{
 	private static final String AVAILABLE = "Available";
 
@@ -23,16 +22,14 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	List<Book> books;
-	Library lib;
 	String headerList[] = new String[] {AVAILABLE, TITEL, SHELF};
-
-	public BookTableModel(List<Book> list) {
-		books = list;
+	Library lib;
+	public BookTableModel(Library l) {
+		l.addObserver(this);
+		books = l.getBooks();
+		lib = l;
 	}
-	public BookTableModel(Library lib){
-		books = lib.getBooks();
-		this.lib = lib;
-	}
+	
 	@Override
 	public int getColumnCount() {
 		return headerList.length;
@@ -52,6 +49,8 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 		switch (column) {
 		case 0:
 			return (lib.getLentCopiesOfBook(entity).size() < lib.getCopiesOfBook(entity).size())?"Ist da":"weg";
+//			return ()>0)?"Ist da":"weg";
+//			return "TODO";
 //			return null;
 		case 1:
 			
@@ -73,12 +72,18 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(books.indexOf(o),books.indexOf(o));
+				break;
 			case deleted:
 				fireTableRowsDeleted(books.indexOf(o), books.indexOf(o));
+				break;
 			case returned:
 				fireTableRowsDeleted(books.indexOf(o), books.indexOf(o));
+				break;
 			case updated:
 				fireTableRowsUpdated(books.indexOf(o),books.indexOf(o));
+				break;
+			default:
+				break;
 			}
 		} else {fireTableDataChanged();}
 	}

@@ -9,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import controll.LibraryEvent;
 
 import domain.Customer;
+import domain.Library;
 
 public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	private static final String ID = "ID";
@@ -20,14 +21,21 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
+	private static final String Loans = "#";
 	List<Customer> customers;
-	String headerList[] = new String[] {ID, Name, Surname, Street, City};
-
-	public CustomerTableModel(List<Customer> list) {
-		for(Customer c : list){
-			c.addObserver(this);
-		}
-		this.customers = list;
+	String headerList[] = new String[] {ID,Loans, Name, Surname, Street, City};
+	private Library lib;
+//	public CustomerTableModel(List<Customer> list) {
+//		for(Customer c : list){
+//			c.addObserver(this);
+//		}
+//		this.customers = list;
+//	}
+	
+	public CustomerTableModel(Library l){
+		l.addObserver(this);
+		lib = l;
+		customers= l.getCustomers();
 	}
 
 	@Override
@@ -47,15 +55,17 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 		entity = customers.get(row);
 		switch (column) {
 		case 0:
-			return row;
-		case 1:
-			return entity.getName();
+			return new Integer(row);
 		case 2:
-			return entity.getSurname();
+			return entity.getName();
 		case 3:
-			return entity.getStreet();
+			return entity.getSurname();
 		case 4:
+			return entity.getStreet();
+		case 5:
 			return entity.getCity();
+		case 1:
+			return lib.getCustomerOngoingLoans(entity).size();
 		default:
 			return "";
 		}
@@ -71,12 +81,18 @@ public class CustomerTableModel  extends AbstractTableModel implements Observer{
 			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(customers.indexOf(o),customers.indexOf(o));
+				break;
 			case deleted:
 				fireTableRowsDeleted(customers.indexOf(o), customers.indexOf(o));
+				break;
 			case returned:
 				fireTableRowsDeleted(customers.indexOf(o), customers.indexOf(o));
+				break;
 			case updated:
 				fireTableRowsUpdated(customers.indexOf(o),customers.indexOf(o));
+				break;
+			default:
+				break;
 			}
 		} else {fireTableDataChanged();}
 	}

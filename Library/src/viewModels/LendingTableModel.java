@@ -8,6 +8,7 @@ import java.util.Observer;
 import javax.swing.table.AbstractTableModel;
 
 import controll.LibraryEvent;
+import domain.Library;
 import domain.Loan;
 
 public class LendingTableModel extends AbstractTableModel implements Observer{
@@ -22,11 +23,9 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 	
 	String headerList[] = new String[] { Status, ID, Titel, Until, Customer};
 
-	public LendingTableModel(List<Loan> loans) {
-		for(Loan l : loans){
-			l.addObserver(this);
-		}
-		this.loans = loans;
+	public LendingTableModel(Library l) {
+		l.addObserver(this);
+		this.loans = l.getOngoingLoans();
 	}
 
 	@Override
@@ -69,16 +68,23 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 
 	@Override
 	public void update(Observable o, Object modelRowEvent) {
+		System.out.println("CHANGED");
 		if(modelRowEvent instanceof LibraryEvent){
 			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(loans.indexOf(o),loans.indexOf(o));
+				break;
 			case deleted:
 				fireTableRowsDeleted(loans.indexOf(o), loans.indexOf(o));
+				break;
 			case returned:
 				fireTableRowsDeleted(loans.indexOf(o), loans.indexOf(o));
+				break;
 			case updated:
 				fireTableRowsUpdated(loans.indexOf(o),loans.indexOf(o));
+				break;
+			default:
+				break;
 			}
 		} else {fireTableDataChanged();}
 	}

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 
 
@@ -42,7 +44,9 @@ public class BookTab extends JPanel implements Observer{
 	private JTextField txtSearch;
 	private EditBook detailwindow;
 	private NewBook newBookDetailWindow;
-	
+	private NewLoan newLoanWindow;
+    private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
+
 	public BookTab(){
 		super();
 		this.library = new Library();
@@ -145,9 +149,14 @@ public class BookTab extends JPanel implements Observer{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					openEditBookWindow();
+					openNewLoanWindow(getSelectedBook());
 					
 				}
+			}
+
+			private void openNewLoanWindow(Book book) {
+				newLoanWindow = new NewLoan(library,book);
+				newLoanWindow.setVisible(true);
 			}
 		});
 		book_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -174,7 +183,7 @@ public class BookTab extends JPanel implements Observer{
 			}
 		});
 		//------------Search Field --------------
-		txtSearch = new MySearchField(book_table);
+		txtSearch = new MySearchField(book_table,0,filters);
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
@@ -231,8 +240,8 @@ public class BookTab extends JPanel implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		BookTableModel model = new BookTableModel(library.getBooks());
-		setModel(model);
+		//BookTableModel model = new BookTableModel(library.getBooks());
+		//setModel(model);
 	}
 
 }
