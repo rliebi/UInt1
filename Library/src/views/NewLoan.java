@@ -13,47 +13,42 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
+import components.LibraryExcption;
 import components.MySearchField;
 
 import viewModels.CopiesTableModel;
 import viewModels.CustomerTableModel;
-import viewModels.LendingTableModel;
 import domain.Book;
 import domain.Copy;
 import domain.Customer;
 import domain.Library;
-import domain.Loan;
 import java.awt.BorderLayout;
 
 public class NewLoan extends JFrame implements Observer {
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
-	private EditCustomer editCustomerWindow;
 	private JTextField txtSearchfield;
 	private JTable customer_table;
-	private WarningWindow warningWindow;
 	private Book book;
 	private java.util.List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
 			3);
-	private java.util.List<RowFilter<Object, Object>> filters_loans = new ArrayList<RowFilter<Object, Object>>(
-			3);
+
 	private JTable copy_table;
 
 	public NewLoan() {
@@ -141,6 +136,7 @@ public class NewLoan extends JFrame implements Observer {
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					arg0.consume();
+
 					// openEditCustomerWindow();
 				}
 			}
@@ -247,7 +243,8 @@ public class NewLoan extends JFrame implements Observer {
 	private Copy getSelectedCopy() {
 		// return
 		// library.getCustomerOngoingLoans(getSelectedCustomer()).get(customer_loan_jtable.convertColumnIndexToModel(customer_loan_jtable.getSelectedRow()));
-		return library.getCopies().get( copy_table.convertRowIndexToModel(copy_table.getSelectedRow()));
+		return library.getCopiesOfBook(book).get(
+				copy_table.convertRowIndexToModel(copy_table.getSelectedRow()));
 	}
 
 	private Customer getSelectedCustomer() {
@@ -256,28 +253,20 @@ public class NewLoan extends JFrame implements Observer {
 						.getSelectedRow()));
 	}
 
-
 	private void applyLoan() {
 		try {
-			int loancount = library.getCustomerOngoingLoans(
-					getSelectedCustomer()).size();
-			if (loancount >= 3) {
-				warningWindow = new WarningWindow(
-						"Cannot have more than 3 Loans!");
-				notifyAll();
-			} else {
 
-
-			library.createAndAddLoan(getSelectedCustomer(), getSelectedCopy());
-
-			System.out.println(loancount);
+			Copy c = getSelectedCopy();
+			Customer cust = getSelectedCustomer();
+			library.tryCreateAndAddLoan(cust, c);
 			setVisible(false);
 			dispose();
-			}
-		} catch (Exception e) {
-			e.printStackTrace(System.err);
-		}finally{
-			
+		} catch (LibraryExcption e) {
+			JOptionPane.showMessageDialog(this, e.getLocalizedMessage());
+		}
+
+		finally {
+
 		}
 
 	}
