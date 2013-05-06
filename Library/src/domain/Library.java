@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.RowFilter;
+import components.LibraryExcption;
 
 import controll.LibraryEvent;
 
-public class Library extends Observable implements Observer{
+public class Library extends Observable implements Observer {
 
 	private List<Copy> copies;
 	private List<Customer> customers;
@@ -23,21 +23,30 @@ public class Library extends Observable implements Observer{
 		loans = new ArrayList<Loan>();
 		books = new ArrayList<Book>();
 		onGoingLoans = new ArrayList<Loan>();
-		
+
+	}
+
+	public Loan tryCreateAndAddLoan(Customer customer, Copy copy)
+			throws LibraryExcption {
+		if (isCopyLent(copy)) {
+			throw new LibraryExcption("Copy is already Lent");
+
+		}
+		if (getCustomerOngoingLoans(customer).size() >= 3) {
+			throw new LibraryExcption("Cannot have more than 3 Loans");
+		}
+		return createAndAddLoan(customer, copy);
 	}
 
 	public Loan createAndAddLoan(Customer customer, Copy copy) {
-		if (!isCopyLent(copy)) {
-			Loan l = new Loan(customer, copy);
-			l.addObserver(this);
-			loans.add(l);
-			fireChanged();
-			onGoingLoans.add(l);
-			return l;
-		} else {
-//			fireChanged();
-			return null;
-		}
+
+		Loan l = new Loan(customer, copy);
+		l.addObserver(this);
+		loans.add(l);
+		fireChanged();
+		onGoingLoans.add(l);
+		return l;
+
 	}
 
 	public Customer createAndAddCustomer(String name, String surname) {
@@ -82,7 +91,8 @@ public class Library extends Observable implements Observer{
 		fireChanged();
 		return c;
 	}
-	public void removeCopy(Copy c){
+
+	public void removeCopy(Copy c) {
 		copies.remove(c);
 		c.deleteObservers();
 		fireChanged();
@@ -116,6 +126,7 @@ public class Library extends Observable implements Observer{
 
 		return res;
 	}
+
 	public List<Copy> getAvailableCopiesOfBook(Book book) {
 		List<Copy> res = new ArrayList<Copy>();
 		for (Copy c : copies) {
@@ -126,6 +137,7 @@ public class Library extends Observable implements Observer{
 
 		return res;
 	}
+
 	public List<Loan> getLentCopiesOfBook(Book book) {
 		List<Loan> lentCopies = new ArrayList<Loan>();
 		for (Loan l : loans) {
@@ -145,34 +157,35 @@ public class Library extends Observable implements Observer{
 		}
 		return lentCopies;
 	}
-	public List<Loan> getCustomerOngoingLoans(Customer customer){
+
+	public List<Loan> getCustomerOngoingLoans(Customer customer) {
 		List<Loan> lentCopies = new ArrayList<Loan>();
 		for (Loan l : loans) {
-			if (l.getCustomer().equals(customer)&&l.isLent()) {
+			if (l.getCustomer().equals(customer) && l.isLent()) {
 				lentCopies.add(l);
 			}
 		}
 		return lentCopies;
 	}
-	
+
 	public List<Loan> getOngoingLoans() {
 		return onGoingLoans;
 	}
 
 	public List<Loan> getOverdueLoans() {
 		List<Loan> overdueLoans = new ArrayList<Loan>();
-		for ( Loan l : getLoans() ) {
+		for (Loan l : getLoans()) {
 			if (l.isOverdue())
 				overdueLoans.add(l);
 		}
 		return overdueLoans;
 	}
-	
-	public List<Copy> getAvailableCopies(){
+
+	public List<Copy> getAvailableCopies() {
 		return getCopies(false);
 	}
-	
-	public List<Copy> getLentOutCopies(){
+
+	public List<Copy> getLentOutCopies() {
 		return getCopies(true);
 	}
 
@@ -204,13 +217,10 @@ public class Library extends Observable implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o instanceof Loan && !((Loan) o).isLent()){
+		if (o instanceof Loan && !((Loan) o).isLent()) {
 			onGoingLoans.remove(onGoingLoans.indexOf(o));
 		}
 		fireChanged();
 	}
-
-
-
 
 }

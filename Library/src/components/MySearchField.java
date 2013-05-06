@@ -2,7 +2,6 @@ package components;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -61,19 +60,19 @@ public class MySearchField extends MyJTextField{
 			private void newFilter() {
 				RowFilter<Object, Object> rf = null;
 				try {
-					System.out.println(currentfilter);
+//					System.out.println(currentfilter);
 
 					rf = RowFilter.regexFilter("(?i)"+getText());
 					if (currentfilter==-1)
 					{
 						filters.add(rf);  
 						currentfilter = filters.indexOf(rf);
-						System.out.println(currentfilter);
+//						System.out.println(currentfilter);
 
 					}
 					else
 					{
-						System.out.println(currentfilter);
+//						System.out.println(currentfilter);
 
 						filters.set(currentfilter, rf);
 					}

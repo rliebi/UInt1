@@ -23,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.RowFilter.Entry;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
@@ -186,8 +185,7 @@ public class CustomerTab extends JPanel implements Observer {
 		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter(
-				customer_table.getModel());
+		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter(customer_table.getModel());
 		customer_table.setRowSorter(customerSorter);
 		customerSorter.setSortsOnUpdates(true);
 
