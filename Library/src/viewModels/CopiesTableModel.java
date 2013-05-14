@@ -1,28 +1,34 @@
 package viewModels;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 //import javax.swing.DefaultListCellRenderer;
 //import javax.swing.JComboBox;
 import javax.swing.table.AbstractTableModel;
+
+import controll.LibraryEvent;
 //import javax.swing.table.DefaultTableModel;
 
 import domain.Book;
 import domain.Copy;
 import domain.Library;
 
-public class CopiesTableModel extends AbstractTableModel {
+public class CopiesTableModel extends AbstractTableModel implements Observer {
 
-	String[] columnNames = {"Available","Condition","Titel","Nr"};
+	String[] columnNames = {"Titel","Condition","Available"};
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	private Library lib;
-	private List<Copy> wordList;
+	private List<Copy> copies;
 	public CopiesTableModel(Library lib, Book theBook) {
-		wordList = lib.getCopiesOfBook(theBook);
+		lib.addObserver(this);
+		copies = lib.getCopiesOfBook(theBook);
 		this.lib = lib;
+		
 	}  
 	 public Class<?> getColumnClass(int c) {
 	        return getValueAt(0, c).getClass();
@@ -34,24 +40,25 @@ public class CopiesTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return wordList.size();
+		return copies.size();
 	}
 	// this method is called to set the value of each cell
 	@Override
 	public Object getValueAt(int row, int column) {
 		Copy entity = null;
-		entity = wordList.get(row);
+		entity = copies.get(row);
 		switch (column) {
 
 		case 0:
-			return entity.getInventoryNumber();
+//			return entity.getInventoryNumber();
+			return entity.getTitle();
 
 		case 1:
-			return entity.getTitle();
-		case 2:
 			return entity.getCondition();
-		case 3:
-			return (lib.isCopyLent(entity))?"Ist vergriffen": "Ist verfügbar";
+
+		case 2:
+			return (lib.isCopyLent(entity))?"": "available";
+
 
 		default:
 			return "";
@@ -64,6 +71,28 @@ public class CopiesTableModel extends AbstractTableModel {
 	// This method will be used to display the name of columns
 	public String getColumnName(int col) {
 		return columnNames[col];
+	}
+	@Override
+	public void update(Observable o, Object modelRowEvent) {
+		if(modelRowEvent instanceof LibraryEvent){
+			switch((LibraryEvent)modelRowEvent){
+			case added:
+				fireTableRowsInserted(copies.indexOf(o),copies.indexOf(o));
+				
+				break;
+			case deleted:
+				fireTableRowsDeleted(copies.indexOf(o), copies.indexOf(o));
+				break;
+			case returned:
+				fireTableRowsDeleted(copies.indexOf(o), copies.indexOf(o));
+				break;
+			case updated:
+				fireTableRowsUpdated(copies.indexOf(o),copies.indexOf(o));
+				break;
+			default:
+				break;
+			}
+		} else {fireTableDataChanged();}
 	}
 
 

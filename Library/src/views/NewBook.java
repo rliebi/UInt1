@@ -68,7 +68,7 @@ public class NewBook extends AbstractStatefullForm implements Observer{
 		newBookWindow.setVisible();
 		newBookWindow.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+	@Deprecated
 	public NewBook(Library library, Book book) {
 		this.library = library;
 		is_saved=false;

@@ -58,7 +58,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 	private JComboBox conditionComboBox;
 	private JPanel book_panel;
 	private boolean is_saved=true;
-
+	
 	public static void main(String[] args) {
 		Library library = new Library();
 		Book b = new Book("");
@@ -69,8 +69,13 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 		EditBook editBookWindow = new EditBook(library,b);
 		editBookWindow.setVisible();
 		editBookWindow.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		BookEditor be = new BookEditor();
+		editBookWindow.frame.add(be);
+		be.show();
+		BookEditor br = new BookEditor(b);
+		br.show();
 	}
-
+	@Deprecated
 	public EditBook(Library library, Book book) {
 		this.library = library;
 		realBook = book;
@@ -83,6 +88,7 @@ public class EditBook extends AbstractStatefullForm implements Observer{
 	/**
 	 * @wbp.parser.constructor
 	 */
+	@Deprecated
 	public EditBook(Library library) {
 		this(library,new Book(""));
 		is_saved=false;

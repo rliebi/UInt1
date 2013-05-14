@@ -41,6 +41,7 @@ public class WarningWindow {
 	/**
 	 * Create the application.
 	 */
+	@Deprecated
 	public WarningWindow() {
 		initialize();
 		frame.getRootPane().setDefaultButton(btnOk);

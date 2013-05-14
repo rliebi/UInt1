@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.Color;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,6 +25,7 @@ import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 
 
+import components.LibraryExcption;
 import components.MySearchField;
 import viewModels.BookTableModel;
 import domain.Book;
@@ -42,11 +45,9 @@ public class BookTab extends JPanel implements Observer{
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
 	private JTextField txtSearch;
-	private EditBook detailwindow;
-	private NewBook newBookDetailWindow;
+	private BookViewer detailwindow;
 	private NewLoan newLoanWindow;
     private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
-
 	public BookTab(){
 		super();
 		this.library = new Library();
@@ -207,8 +208,7 @@ public class BookTab extends JPanel implements Observer{
 		panelBookInventory.add(btnAddNewBook, gbc_btnAddNewBook);
 		btnAddNewBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				newBookDetailWindow = new NewBook(library,new Book(""));
-				newBookDetailWindow.setVisible();
+				openNewBookWindow();
 			}
 		});
 		//------------Button Add new Book--------
@@ -231,17 +231,34 @@ public class BookTab extends JPanel implements Observer{
 		book_table.getColumnModel().getColumn(2).setMaxWidth(40);
 			
 	}
-
-	private void openEditBookWindow() {
-		detailwindow = new EditBook(library, getSelectedBook());
-		detailwindow.setVisible();
+	
+	private void openNewBookWindow() {
+		try {
+			this.detailwindow = new BookViewer(library);
+			openBookWindow(detailwindow);
+		} catch (LibraryExcption e) {
+			
+		}
+		
 	}
 	
+	private void openEditBookWindow() {
+		this.detailwindow = new BookViewer(library, getSelectedBook());		
+		openBookWindow(detailwindow);
+
+	}
+	private void openBookWindow(BookViewer detailwindow){
+		JDialog d = new JDialog();
+		d.setModal(true);
+		d.add(detailwindow);
+		d.setMinimumSize(detailwindow.getMinimumSize());
+		d.setTitle("EditBook");
+		d.setLocationRelativeTo(this);
+		d.setVisible(true);
+	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		//BookTableModel model = new BookTableModel(library.getBooks());
-		//setModel(model);
 	}
 
 }
