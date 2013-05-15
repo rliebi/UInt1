@@ -20,7 +20,7 @@ import javax.swing.KeyStroke;
 import components.MyJTextField;
 
 import controll.InterfaceFormState;
-
+@Deprecated
 public abstract class AbstractStatefullForm implements Observer{
 	protected static final Color myBlackColor = new Color(0, 0, 0);
 	protected static final Color myBadColor = new Color(255, 99, 71);
