@@ -5,6 +5,7 @@ import java.awt.LayoutManager;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -25,6 +26,7 @@ import domain.Copy.Condition;
 import domain.Library;
 
 import viewModels.CopiesTableModel;
+import views.BookViewer;
 
 
 import javax.swing.ListSelectionModel;
@@ -45,19 +47,21 @@ public class CopyPanel extends JPanel {
 	private Book book;
 	private Library library;
 	private JTable table;
-	private JPanel panel;
-	private JPanel panel_2;
+	private JPanel table_panel;
+	private JPanel south_panel;
 	private Stack<Copy>additions = new Stack<Copy>();
 	private Stack<Copy>deletions = new Stack<Copy>();
 	private Stack<Copy>changes = new Stack<Copy>();
-	private JPanel panel_3;
+	private JPanel button_panel;
+	private JDialog parent;
 
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public CopyPanel(Library lib, Book book) {
+	public CopyPanel(Library lib, Book book, JDialog p) {
 		this.library = lib;
 		this.book = book;
+		this.parent = p;
 		init();
 		// TODO Auto-generated constructor stub
 	}
@@ -70,66 +74,53 @@ public class CopyPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Copies", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 0;
-		add(panel_1, gbc_panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		JPanel north_panel = new JPanel();
+		north_panel.setBorder(new TitledBorder(null, "Copies", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_north_panel = new GridBagConstraints();
+		gbc_north_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_north_panel.fill = GridBagConstraints.BOTH;
+		gbc_north_panel.gridx = 0;
+		gbc_north_panel.gridy = 0;
+		add(north_panel, gbc_north_panel);
+		GridBagLayout gbl_north_panel = new GridBagLayout();
+		gbl_north_panel.columnWidths = new int[]{0, 0};
+		gbl_north_panel.rowHeights = new int[]{0, 0};
+		gbl_north_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_north_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		north_panel.setLayout(gbl_north_panel);
 		
-		panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		panel_1.add(panel, gbc_panel);
+		table_panel = new JPanel();
+		GridBagConstraints gbc_table_panel = new GridBagConstraints();
+		gbc_table_panel.fill = GridBagConstraints.BOTH;
+		gbc_table_panel.gridx = 0;
+		gbc_table_panel.gridy = 0;
+		north_panel.add(table_panel, gbc_table_panel);
 		
 		table = new JTable(new CopiesTableModel(library, book));
-		createtableScrollPane(panel).setViewportView(table);
+		createtableScrollPane(table_panel).setViewportView(table);
 		
-		panel_3 = new JPanel();
-		panel.add(panel_3, BorderLayout.NORTH);
+		button_panel = new JPanel();
+		table_panel.add(button_panel, BorderLayout.NORTH);
 		ButtonBarBuilder addRemoveCopy = new ButtonBarBuilder();
 		addRemoveCopy.addButton(new RemoveAction(),new AddAction());
-		panel_3.setLayout(new BorderLayout(0, 0));
-		panel_3.add(addRemoveCopy.build(),BorderLayout.EAST);
+		button_panel.setLayout(new BorderLayout(0, 0));
+		button_panel.add(addRemoveCopy.build(),BorderLayout.EAST);
 
-		panel_2 = new JPanel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 0;
-		gbc_panel_2.gridy = 1;
-		add(panel_2, gbc_panel_2);
-		panel_2.setLayout(new BorderLayout(0, 0));
+		south_panel = new JPanel();
+		GridBagConstraints gbc_south_panel = new GridBagConstraints();
+		gbc_south_panel.fill = GridBagConstraints.BOTH;
+		gbc_south_panel.gridx = 0;
+		gbc_south_panel.gridy = 1;
+		add(south_panel, gbc_south_panel);
+		south_panel.setLayout(new BorderLayout(0, 0));
 		
 		ButtonBarBuilder buttonBar = new ButtonBarBuilder();
 
 		buttonBar.addButton(new OkAction(), new CancelAction());
-		panel_2.add(buttonBar.build(),BorderLayout.EAST);
-//		panel_3 = new JPanel();
-//		FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
-//		flowLayout.setAlignment(FlowLayout.RIGHT);
-//		panel_2.add(panel_3, BorderLayout.NORTH);
-//		
-//		btnNewButton = new JButton("New button");
-//		panel_3.add(btnNewButton);
-//		
-//		btnNewButton_1 = new JButton("New button");
-//		panel_3.add(btnNewButton_1);
-//		TableColumn ConditionColumn = table_1.getColumnModel().getColumn(1);
-//		JComboBox<Condition> conditions = new JComboBox<Condition>(Condition.values());
-//		ConditionColumn.setCellEditor(new DefaultCellEditor(conditions));
+		south_panel.add(buttonBar.build(),BorderLayout.EAST);
 	}
 	private JScrollPane createtableScrollPane(JPanel panel_1) {
-		panel.setLayout(new BorderLayout(0, 0));
+		table_panel.setLayout(new BorderLayout(0, 0));
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -169,7 +160,8 @@ public class CopyPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+			deletions.add(getSelectedCopy());
+			library.removeCopy(getSelectedCopy());
 		}
 	}
 	private final class OkAction extends AbstractAction {
@@ -185,7 +177,7 @@ public class CopyPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			dispose();
 			
 		}
 	}
@@ -201,7 +193,7 @@ public class CopyPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			parent.dispose();
 			
 		}
 	}
@@ -222,5 +214,7 @@ public class CopyPanel extends JPanel {
 		super(layout, isDoubleBuffered);
 		// TODO Auto-generated constructor stub
 	}
-
+	private void dispose(){
+		parent.dispose();
+	}
 }

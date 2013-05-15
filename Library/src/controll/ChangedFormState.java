@@ -5,7 +5,7 @@ import java.util.Observable;
 import components.MyJTextField;
 
 import views.AbstractStatefullForm;
-
+@Deprecated
 public class ChangedFormState implements InterfaceFormState {
 
 	public ChangedFormState(AbstractStatefullForm FORM) {

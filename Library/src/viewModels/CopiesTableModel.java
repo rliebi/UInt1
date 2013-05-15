@@ -78,7 +78,6 @@ public class CopiesTableModel extends AbstractTableModel implements Observer {
 			switch((LibraryEvent)modelRowEvent){
 			case added:
 				fireTableRowsInserted(copies.indexOf(o),copies.indexOf(o));
-				
 				break;
 			case deleted:
 				fireTableRowsDeleted(copies.indexOf(o), copies.indexOf(o));

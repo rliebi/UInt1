@@ -14,7 +14,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,7 +44,6 @@ public class BookTab extends JPanel implements Observer{
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
 	private JTextField txtSearch;
-	private BookViewer detailwindow;
 	private NewLoan newLoanWindow;
     private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
 	public BookTab(){
@@ -227,15 +225,13 @@ public class BookTab extends JPanel implements Observer{
 	private void setModel(BookTableModel model) {
 		book_table.setModel(model);
 		book_table.getColumnModel().getColumn(0).setMaxWidth(60);
-
 		book_table.getColumnModel().getColumn(2).setMaxWidth(40);
 			
 	}
 	
 	private void openNewBookWindow() {
 		try {
-			this.detailwindow = new BookViewer(library);
-			openBookWindow(detailwindow);
+			openBookWindow( new BookViewer(library));
 		} catch (LibraryExcption e) {
 			
 		}
@@ -243,18 +239,10 @@ public class BookTab extends JPanel implements Observer{
 	}
 	
 	private void openEditBookWindow() {
-		this.detailwindow = new BookViewer(library, getSelectedBook());		
-		openBookWindow(detailwindow);
-
+		openBookWindow(new BookViewer(library, getSelectedBook()));
 	}
 	private void openBookWindow(BookViewer detailwindow){
-		JDialog d = new JDialog();
-		d.setModal(true);
-		d.add(detailwindow);
-		d.setMinimumSize(detailwindow.getMinimumSize());
-		d.setTitle("EditBook");
-		d.setLocationRelativeTo(this);
-		d.setVisible(true);
+
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {

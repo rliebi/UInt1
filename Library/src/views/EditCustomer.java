@@ -35,6 +35,7 @@ public class EditCustomer extends AbstractStatefullForm{
 	private MyJTextField txtLastName;
 	private Customer realCustomer;
 	private JPanel panel;
+	@Deprecated
 	public EditCustomer(Customer customer) {
 		setCustomer(customer);
 		customer.addObserver(this);
@@ -47,7 +48,7 @@ public class EditCustomer extends AbstractStatefullForm{
 
 	public static void main(String[] args) {
 		Customer testCustomer = new Customer("Senbony", "Tony");
-		testCustomer.setAdress("Adamstreet", 8000, "ZŸrich");
+		testCustomer.setAdress("Adamstreet", 8000, "Zï¿½rich");
 		EditCustomer editcustomer_window2 = new EditCustomer(testCustomer);
 		editcustomer_window2.setVisible();
 		EditCustomer editcustomer_window = new EditCustomer(testCustomer);

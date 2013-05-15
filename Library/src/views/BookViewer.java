@@ -11,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -24,7 +25,6 @@ import javax.swing.SwingConstants;
 import viewPanels.CopyPanel;
 
 import components.LibraryExcption;
-import javax.swing.JScrollPane;
 
 public class BookViewer extends JPanel implements Observer {
 
@@ -39,7 +39,7 @@ public class BookViewer extends JPanel implements Observer {
 	private Book book = new Book("Testbook");
 	private Library library = new Library();
 	private CopyPanel copyPanel;
-	private JScrollPane scrollPane;
+	private JDialog d = new JDialog();
 
 	/**
 	 * @throws LibraryExcption 
@@ -56,6 +56,7 @@ public class BookViewer extends JPanel implements Observer {
 		this.bookShelf.setText("");
 		
 		BookEditor();
+		createWindow();
 		if (book.equals(new Book("")))
 			throw new LibraryExcption();
 		else
@@ -73,8 +74,24 @@ public class BookViewer extends JPanel implements Observer {
 		book.addObserver(this);
 		init();
 		updateBookLabels();
+		createWindow();
 	}
 
+	/**
+	 * 
+	 */
+	private void createWindow() {
+//		d = 
+		d.setModal(true);
+		d.add(this);
+		d.setMinimumSize(this.getMinimumSize());
+		d.setTitle("Edit Book");
+		d.setLocationRelativeTo(this);
+		d.setVisible(true);
+	}
+	public void dispose(){
+		d.dispose();
+	}
 	private void updateBookLabels() {
 		this.bookPublisher.setText(book.getPublisher());
 		this.bookAuthor.setText(book.getAuthor());
@@ -87,7 +104,7 @@ public class BookViewer extends JPanel implements Observer {
 	}
 
 	private void init() {
-		this.setMinimumSize(new Dimension(500, 310));
+		this.setMinimumSize(new Dimension(500, 500));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 133, 0, 0 };
@@ -187,7 +204,7 @@ public class BookViewer extends JPanel implements Observer {
 		panel_1.setLayout(gbl_panel_1);
 
 		
-		copyPanel = new CopyPanel(library,book);
+		copyPanel = new CopyPanel(library,book,d);
 		GridBagConstraints gbc_copyPanel = new GridBagConstraints();
 		gbc_copyPanel.fill = GridBagConstraints.BOTH;
 		panel_1.add(copyPanel, gbc_copyPanel);
