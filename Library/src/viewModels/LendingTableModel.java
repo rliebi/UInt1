@@ -68,7 +68,6 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 
 	@Override
 	public void update(Observable o, Object modelRowEvent) {
-		System.out.println("CHANGED");
 		if(modelRowEvent instanceof LibraryEvent){
 			switch((LibraryEvent)modelRowEvent){
 			case added:

@@ -39,7 +39,7 @@ public class NewCustomer extends AbstractStatefullForm{
 	private boolean is_saved;
 	private Library library;
 	private WarningWindow warningWindow;
-	
+	@Deprecated
 	public NewCustomer(Customer customer, Library library) {
 		is_saved=false;
 		this.library=library;

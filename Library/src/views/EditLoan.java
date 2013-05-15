@@ -76,6 +76,7 @@ public class EditLoan extends AbstractStatefullForm{
 	/**
 	 * Create the application.
 	 */
+	@Deprecated
 	public EditLoan(Loan loan) {
 		realLoan=loan;
 		realLoan.addObserver(this);

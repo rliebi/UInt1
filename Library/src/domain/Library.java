@@ -39,14 +39,16 @@ public class Library extends Observable implements Observer {
 	}
 
 	public Loan createAndAddLoan(Customer customer, Copy copy) {
-
-		Loan l = new Loan(customer, copy);
-		l.addObserver(this);
-		loans.add(l);
-		fireChanged();
-		onGoingLoans.add(l);
-		return l;
-
+		if (!isCopyLent(copy)) {
+			Loan l = new Loan(customer, copy);
+			l.addObserver(this);
+			loans.add(l);
+			fireChanged();
+			onGoingLoans.add(l);
+			return l;
+		} else {
+			return null;
+		}
 	}
 
 	public Customer createAndAddCustomer(String name, String surname) {
@@ -88,7 +90,7 @@ public class Library extends Observable implements Observer {
 		Copy c = new Copy(title);
 		c.addObserver(this);
 		copies.add(c);
-		fireChanged();
+		c.fireChange(LibraryEvent.added);
 		return c;
 	}
 

@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.Color;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -23,6 +24,7 @@ import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 
 
+import components.LibraryExcption;
 import components.MySearchField;
 import viewModels.BookTableModel;
 import domain.Book;
@@ -42,11 +44,8 @@ public class BookTab extends JPanel implements Observer{
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
 	private JTextField txtSearch;
-	private EditBook detailwindow;
-	private NewBook newBookDetailWindow;
 	private NewLoan newLoanWindow;
     private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
-
 	public BookTab(){
 		super();
 		this.library = new Library();
@@ -207,8 +206,7 @@ public class BookTab extends JPanel implements Observer{
 		panelBookInventory.add(btnAddNewBook, gbc_btnAddNewBook);
 		btnAddNewBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				newBookDetailWindow = new NewBook(library,new Book(""));
-				newBookDetailWindow.setVisible();
+				openNewBookWindow();
 			}
 		});
 		//------------Button Add new Book--------
@@ -227,21 +225,28 @@ public class BookTab extends JPanel implements Observer{
 	private void setModel(BookTableModel model) {
 		book_table.setModel(model);
 		book_table.getColumnModel().getColumn(0).setMaxWidth(60);
-
 		book_table.getColumnModel().getColumn(2).setMaxWidth(40);
 			
 	}
-
-	private void openEditBookWindow() {
-		detailwindow = new EditBook(library, getSelectedBook());
-		detailwindow.setVisible();
+	
+	private void openNewBookWindow() {
+		try {
+			openBookWindow( new BookViewer(library));
+		} catch (LibraryExcption e) {
+			
+		}
+		
 	}
 	
+	private void openEditBookWindow() {
+		openBookWindow(new BookViewer(library, getSelectedBook()));
+	}
+	private void openBookWindow(BookViewer detailwindow){
+
+	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
-		//BookTableModel model = new BookTableModel(library.getBooks());
-		//setModel(model);
 	}
 
 }

@@ -183,7 +183,7 @@ public class CustomerTab extends JPanel implements Observer {
 		customer_table.setModel(new CustomerTableModel(library));
 		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
 		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
-
+		customer_table.setSurrendersFocusOnKeystroke(false);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter(customer_table.getModel());
 		customer_table.setRowSorter(customerSorter);
@@ -281,7 +281,9 @@ public class CustomerTab extends JPanel implements Observer {
 								"Ask for 3 CHF, book is late!");
 						warningWindow.setVisible();
 					}
+					int curentselection = customer_table.getSelectedRow();
 					getSelectedLoan().returnCopy();
+					customer_table.changeSelection(curentselection, 1, false, false);
 				} catch (IndexOutOfBoundsException e) {
 					warningWindow = new WarningWindow("Please Select a Loan!");
 					warningWindow.setVisible();

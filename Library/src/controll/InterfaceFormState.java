@@ -7,7 +7,7 @@ import components.MyJTextField;
 import components.StateLogicException;
 
 import views.AbstractStatefullForm;
-
+@Deprecated
 public interface InterfaceFormState{
 	static final Color myBlackColor = new Color(0, 0, 0);
 	static final Color myBadColor = new Color(255, 99, 71);

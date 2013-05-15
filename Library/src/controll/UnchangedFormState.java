@@ -5,9 +5,9 @@ import components.MyJTextField;
 import components.StateLogicException;
 
 import views.AbstractStatefullForm;
-
+@Deprecated
 public class UnchangedFormState implements InterfaceFormState{
-
+	
 	public UnchangedFormState(AbstractStatefullForm FORM) {
 		FORM.getSaveBtn().setEnabled(false);
 		FORM.getReloadBtn().setEnabled(false);

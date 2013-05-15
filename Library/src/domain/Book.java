@@ -11,6 +11,8 @@ public class Book extends Observable{
 	
 	public Book(String name) {
 		this.title = name;
+		this.author = "";
+		this.publisher = "";
 	}
 
 	public String getName() {
@@ -57,5 +59,19 @@ public class Book extends Observable{
 	public void fireChange(LibraryEvent libraryEvent) {
 		setChanged();
 		notifyObservers(libraryEvent);	
+	}
+	
+	public boolean equals(Book b){
+		boolean v = true;
+		if (b.author != this.author)
+			v = false;
+		if (b.publisher != this.publisher)
+			v = false;
+		if (b.shelf != this.shelf)
+			v = false;	
+		if (b.title != this.title)
+			v = false;
+		return v;
+		
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Observable;
 import components.MyJTextField;
 
 import views.AbstractStatefullForm;
-
+@Deprecated
 public class OldFormState implements InterfaceFormState {
 	public OldFormState(AbstractStatefullForm FORM){
 		FORM.getSaveBtn().setEnabled(false);
