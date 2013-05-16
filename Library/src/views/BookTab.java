@@ -24,6 +24,7 @@ import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 
 
+import components.IconCellRenderer;
 import components.LibraryExcption;
 import components.MySearchField;
 import viewModels.BookTableModel;
@@ -169,7 +170,6 @@ public class BookTab extends JPanel implements Observer{
 		gbc_lblSearch.gridx = 0;
 		gbc_lblSearch.gridy = 1;
 		panelBookInventory.add(lblSearch, gbc_lblSearch);
-		
 		JButton btnDisplayBook = new JButton("Edit Book");
 		btnDisplayBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -196,6 +196,7 @@ public class BookTab extends JPanel implements Observer{
 		gbc_btnDisplaySelected.gridx = 2;
 		gbc_btnDisplaySelected.gridy = 1;
 		panelBookInventory.add(btnDisplayBook, gbc_btnDisplaySelected);
+		
 		//------------Search Field --------------
 
 		//------------Button Add new Book--------		
@@ -224,9 +225,22 @@ public class BookTab extends JPanel implements Observer{
 
 	private void setModel(BookTableModel model) {
 		book_table.setModel(model);
-		book_table.getColumnModel().getColumn(0).setMaxWidth(60);
-		book_table.getColumnModel().getColumn(2).setMaxWidth(40);
-			
+		book_table.getColumnModel().getColumn(0).setMaxWidth(200);
+		book_table.getColumnModel().getColumn(0).setPreferredWidth(120);
+		book_table.getColumnModel().getColumn(0).setMinWidth(20);
+		book_table.getColumnModel().getColumn(0).setCellRenderer(new IconCellRenderer());
+
+//		book_table.getColumnModel().getColumn(1).setMaxWidth(200);
+//		book_table.getColumnModel().getColumn(1).setPreferredWidth(120);
+		book_table.getColumnModel().getColumn(1).setMinWidth(120);
+		
+		book_table.getColumnModel().getColumn(2).setMaxWidth(250);
+		book_table.getColumnModel().getColumn(2).setPreferredWidth(120);
+		book_table.getColumnModel().getColumn(2).setMinWidth(120);
+		
+		book_table.getColumnModel().getColumn(3).setMaxWidth(200);
+		book_table.getColumnModel().getColumn(3).setPreferredWidth(120);
+		book_table.getColumnModel().getColumn(3).setMinWidth(120);
 	}
 	
 	private void openNewBookWindow() {

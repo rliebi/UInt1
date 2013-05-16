@@ -90,14 +90,15 @@ public class Library extends Observable implements Observer {
 		Copy c = new Copy(title);
 		c.addObserver(this);
 		copies.add(c);
-		c.fireChange(LibraryEvent.added);
+//		c.fireChange(LibraryEvent.added);
+		fireChanged();
 		return c;
 	}
 
 	public void removeCopy(Copy c) {
 		copies.remove(c);
-		c.deleteObservers();
 		fireChanged();
+		c.deleteObservers();
 	}
 
 	public Book findByBookTitle(String title) {

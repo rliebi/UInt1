@@ -12,32 +12,20 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.List;
-
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import javax.swing.JTable;
 
 import domain.Book;
 import domain.Copy;
-import domain.Copy.Condition;
 import domain.Library;
 
 import viewModels.CopiesTableModel;
-import views.BookViewer;
-
-
-import javax.swing.ListSelectionModel;
 import java.awt.Insets;
-import javax.swing.JButton;
-
 import com.jgoodies.forms.builder.ButtonBarBuilder;
+import components.ComboBoxCellRenderer;
+import components.IconListCellRenderer;
 
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.util.Stack;
 
 public class CopyPanel extends JPanel {
 	/**
@@ -49,9 +37,7 @@ public class CopyPanel extends JPanel {
 	private JTable table;
 	private JPanel table_panel;
 	private JPanel south_panel;
-	private Stack<Copy>additions = new Stack<Copy>();
-	private Stack<Copy>deletions = new Stack<Copy>();
-	private Stack<Copy>changes = new Stack<Copy>();
+
 	private JPanel button_panel;
 	private JDialog parent;
 
@@ -98,8 +84,11 @@ public class CopyPanel extends JPanel {
 		
 		table = new JTable(new CopiesTableModel(library, book));
 		createtableScrollPane(table_panel).setViewportView(table);
-		
-		button_panel = new JPanel();
+		table.setRowHeight(30);
+		JComboBox<?> comboBoxCondition = new JComboBox(Copy.Condition.values());
+		comboBoxCondition.setRenderer(new IconListCellRenderer());
+		table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(comboBoxCondition));
+		table.getColumnModel().getColumn(2).setCellRenderer(new ComboBoxCellRenderer(Copy.Condition.values()));		button_panel = new JPanel();
 		table_panel.add(button_panel, BorderLayout.NORTH);
 		ButtonBarBuilder addRemoveCopy = new ButtonBarBuilder();
 		addRemoveCopy.addButton(new RemoveAction(),new AddAction());
@@ -116,7 +105,7 @@ public class CopyPanel extends JPanel {
 		
 		ButtonBarBuilder buttonBar = new ButtonBarBuilder();
 
-		buttonBar.addButton(new OkAction(), new CancelAction());
+		buttonBar.addButton(new CloseAction());
 		south_panel.add(buttonBar.build(),BorderLayout.EAST);
 	}
 	private JScrollPane createtableScrollPane(JPanel panel_1) {
@@ -143,7 +132,7 @@ public class CopyPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			additions.add(library.createAndAddCopy(book));
+			library.createAndAddCopy(book);
 		}
 	}
 	private final class RemoveAction extends AbstractAction {
@@ -159,19 +148,22 @@ public class CopyPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			deletions.add(getSelectedCopy());
-			library.removeCopy(getSelectedCopy());
+			
+			try {
+				library.removeCopy(getSelectedCopy());
+			} catch (ArrayIndexOutOfBoundsException e1) {
+				
+			}
 		}
 	}
-	private final class OkAction extends AbstractAction {
+	private final class CloseAction extends AbstractAction {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		private OkAction() {
-			super("Ok");
+		private CloseAction() {
+			super("Close");
 		}
 
 
@@ -181,24 +173,8 @@ public class CopyPanel extends JPanel {
 			
 		}
 	}
-	private final class CancelAction extends AbstractAction {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		private CancelAction() {
-			super("Cancel");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			parent.dispose();
-			
-		}
-	}
 	protected Copy getSelectedCopy() {
-		return library.getCopies().get(table.convertRowIndexToModel(table.getSelectedRow()));
+		return library.getCopiesOfBook(book).get(table.convertRowIndexToModel(table.getSelectedRow()));
 	}
 	public CopyPanel(LayoutManager layout) {
 		super(layout);

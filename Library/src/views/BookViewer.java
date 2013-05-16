@@ -81,7 +81,6 @@ public class BookViewer extends JPanel implements Observer {
 	 * 
 	 */
 	private void createWindow() {
-//		d = 
 		d.setModal(true);
 		d.add(this);
 		d.setMinimumSize(this.getMinimumSize());
