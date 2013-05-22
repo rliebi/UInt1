@@ -27,3 +27,5 @@ Library/src/application/.DS_Store
 *.class
 
 *.class
+
+Library/src/views/CustomerEditor.java

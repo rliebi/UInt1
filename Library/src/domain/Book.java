@@ -62,19 +62,6 @@ public class Book extends Observable{
 		notifyObservers(libraryEvent);	
 	}
 	
-	public boolean equals(Book b){
-		boolean v = true;
-		if (b.author != this.author)
-			v = false;
-		if (b.publisher != this.publisher)
-			v = false;
-		if (b.shelf != this.shelf)
-			v = false;	
-		if (b.title != this.title)
-			v = false;
-		return v;
-		
-	}
 
 	public void setInvalid() {
 		this.invalid  = true;
