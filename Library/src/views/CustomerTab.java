@@ -264,9 +264,9 @@ public class CustomerTab extends JPanel implements Observer {
 	}
 
 	private void openEditCustomerWindow() {
-		new CustomerEditor(library,getSelectedCustomer());
+		new CustomerEditor(library,getSelectedCustomer(),this);
 	}
 	private void newCustomer(){
-		new CustomerEditor(library);
+		new CustomerEditor(library,this);
 	}
 }

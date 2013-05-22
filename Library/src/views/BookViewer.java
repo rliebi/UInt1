@@ -57,8 +57,6 @@ public class BookViewer extends JPanel implements Observer {
 		
 		BookEditor();
 		
-		System.out.println(book.isInvalid());
-
 		if (book.isInvalid()){
 			dispose();
 			throw new LibraryExcption();
@@ -225,9 +223,8 @@ public class BookViewer extends JPanel implements Observer {
 	}
 
 	public void BookEditor() {
-		BookEditor be = new BookEditor(book);
-		be.dialog.setLocationRelativeTo(this);
-		be.show();
+		new BookEditor(library,book,this);
+
 	}
 
 	public BookViewer(LayoutManager layout) {

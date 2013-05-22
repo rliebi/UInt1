@@ -1,17 +1,19 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import localization.Messages;
 
 
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.validation.ValidationResult;
-import com.jgoodies.validation.util.ValidationUtils;
 
 import domain.Customer;
 import domain.Library;
@@ -26,15 +28,19 @@ public class CustomerEditor extends AbstractEditor {
 	private Library library;
 	private Customer customer;
 	private boolean newCustomer = false;
-	public CustomerEditor(Library l){
+	public CustomerEditor(Library l,Component p){
+		super(p);
 		this.library = l;
 		this.customer = new Customer("","");
 		newCustomer = true;
+		d.setTitle(Messages.getString("CreateNewCustomerTitle.title"));
 		createPanel();
 	}
-	public CustomerEditor(Library l,Customer c) {
+	public CustomerEditor(Library l,Customer c,Component p) {
+		super(p);
 		this.library = l;
 		this.customer = c;
+		d.setTitle(Messages.getString("EditCustomerTitle.title"));
 		firstName.setText(c.getName());
 		lastName.setText(c.getSurname());
 		street.setText(c.getStreet());
@@ -43,6 +49,7 @@ public class CustomerEditor extends AbstractEditor {
 		
 		createPanel();
 	}
+	
 	public void createPanel(){
 		DefaultFormBuilder builder = builder();
         CellConstraints cc = new CellConstraints();
@@ -56,9 +63,11 @@ public class CustomerEditor extends AbstractEditor {
         builder.add(city,        cc.xy (6, 6));
 		builder.add(buttonPanel(),cc.xyw(6, 9, 1));
 		d.getContentPane().add(builder.getPanel());
-		d.setVisible(true);
 		d.setPreferredSize(builder.getPanel().getPreferredSize());
 		d.setMinimumSize(new Dimension(400,200));
+		d.setModal(true);
+		d.setVisible(true);
+
 	}
 	
 	
@@ -81,14 +90,6 @@ public class CustomerEditor extends AbstractEditor {
 
 		}
 			
-	}
-	public void checkTxtField(JTextField t){
-		if (!ValidationUtils.hasMinimumLength(t.getText(),1)) {
-			t.setBackground(new Color(754909184,true));
-			validationResult.addError("Field must not be empty");
-		}else{
-			t.setBackground(new Color(255, 255, 255,255));
-		}
 	}
 	@Override
 	protected void saveTask() {
