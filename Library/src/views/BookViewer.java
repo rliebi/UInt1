@@ -56,32 +56,41 @@ public class BookViewer extends JPanel implements Observer {
 		this.bookShelf.setText("");
 		
 		BookEditor();
-		createWindow();
-		if (book.equals(new Book("")))
+		
+		if (book.isInvalid()){
+			dispose();
 			throw new LibraryExcption();
-		else
+		}
+
+		else{
+			createWindow();
 			library.addBook(book);
 
+		}
 	}
 
 	/**
+	 * @throws LibraryExcption 
 	 * @wbp.parser.constructor
 	 */
-	public BookViewer(Library lib, Book b) {
-		
+	public BookViewer(Library lib, Book b) throws LibraryExcption {
+
 		this.book = b;
 		this.library = lib;
 		book.addObserver(this);
 		init();
 		updateBookLabels();
 		createWindow();
+		if (book.isInvalid()){
+			dispose();
+			throw new LibraryExcption();
+		}
 	}
 
 	/**
 	 * 
 	 */
 	private void createWindow() {
-//		d = 
 		d.setModal(true);
 		d.add(this);
 		d.setMinimumSize(this.getMinimumSize());
@@ -104,7 +113,7 @@ public class BookViewer extends JPanel implements Observer {
 	}
 
 	private void init() {
-		this.setMinimumSize(new Dimension(500, 500));
+		this.setMinimumSize(new Dimension(900, 500));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 133, 0, 0 };
@@ -214,9 +223,8 @@ public class BookViewer extends JPanel implements Observer {
 	}
 
 	public void BookEditor() {
-		BookEditor be = new BookEditor(book);
-		be.dialog.setLocationRelativeTo(this);
-		be.show();
+		new BookEditor(library,book,this);
+
 	}
 
 	public BookViewer(LayoutManager layout) {

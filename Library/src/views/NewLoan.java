@@ -28,6 +28,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
+import components.IconCellRenderer;
 import components.LibraryExcption;
 import components.MySearchField;
 
@@ -77,9 +78,9 @@ public class NewLoan extends JFrame implements Observer {
 		this.setMinimumSize(new Dimension(416, 262));
 		GridBagLayout gbl_customerTab = new GridBagLayout();
 		gbl_customerTab.columnWidths = new int[] { 0, 0 };
-		gbl_customerTab.rowHeights = new int[] { 32, 150, 100, 0, 0 };
+		gbl_customerTab.rowHeights = new int[] { 32, 150, 144, 0 };
 		gbl_customerTab.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_customerTab.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0,
+		gbl_customerTab.rowWeights = new double[] { 0.0, 1.0, 0.0,
 				Double.MIN_VALUE };
 		getContentPane().setLayout(gbl_customerTab);
 
@@ -143,28 +144,17 @@ public class NewLoan extends JFrame implements Observer {
 		});
 		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(customer_table);
-		customer_table.setModel(new CustomerTableModel(library));
+		setModel();
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter(
 				customer_table.getModel());
 
-		class IntComparator implements Comparator<Integer> {
-			public boolean equals(Object o2) {
-				return this.equals(o2);
-			}
 
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				System.out.println(o1);
-				return o1.compareTo(o2);
-
-			}
-		}
 
 		customerSorter.setSortsOnUpdates(true);
-		customerSorter.setComparator(0, new IntComparator());
-		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
-		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
+//		customerSorter.setComparator(0, new IntComparator());
+//		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
+//		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
 
 		customer_table.setRowSorter(customerSorter);
 		JLabel lblSearch = new JLabel("Search: ");
@@ -188,17 +178,16 @@ public class NewLoan extends JFrame implements Observer {
 		panel.setBackground(background_Color);
 		panel.setBorder(null);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 2;
 		getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 254, 0, 0, 0 };
-		gbl_panel.rowHeights = new int[] { 78, 29, 0, 0 };
+		gbl_panel.rowHeights = new int[] { 78, 29, 0 };
 		gbl_panel.columnWeights = new double[] { 1.0, 0.0, 0.0,
 				Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -209,7 +198,7 @@ public class NewLoan extends JFrame implements Observer {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
 		panel.add(scrollPane, gbc_scrollPane);
-
+		
 		copy_table = new JTable();
 		scrollPane.setViewportView(copy_table);
 		copy_table.setModel(new CopiesTableModel(library, book));
@@ -222,8 +211,7 @@ public class NewLoan extends JFrame implements Observer {
 		});
 
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
+		gbc_btnNewButton.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 1;
 		panel.add(btnApplyLoan, gbc_btnNewButton);
@@ -241,12 +229,22 @@ public class NewLoan extends JFrame implements Observer {
 	}
 
 	private Copy getSelectedCopy() {
-		// return
-		// library.getCustomerOngoingLoans(getSelectedCustomer()).get(customer_loan_jtable.convertColumnIndexToModel(customer_loan_jtable.getSelectedRow()));
 		return library.getCopiesOfBook(book).get(
 				copy_table.convertRowIndexToModel(copy_table.getSelectedRow()));
 	}
+	private void setModel() {
+		customer_table.setModel(new CustomerTableModel(library));
+		customer_table.getColumnModel().getColumn(0).setPreferredWidth(50);
+		customer_table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(4).setPreferredWidth(1);
+		customer_table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(0).setCellRenderer(new IconCellRenderer());
 
+//		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
+//		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
+	}
 	private Customer getSelectedCustomer() {
 		return library.getCustomers().get(
 				customer_table.convertRowIndexToModel(customer_table

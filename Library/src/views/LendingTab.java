@@ -25,6 +25,7 @@ import javax.swing.table.TableRowSorter;
 
 import viewModels.LendingTableModel;
 
+import components.IconCellRenderer;
 import components.MySearchField;
 
 import domain.Library;
@@ -34,6 +35,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import localization.Messages;
 
 public class LendingTab extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
@@ -219,7 +222,7 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_chckbxOverdue.gridy = 1;
 		panel.add(chckbxOverdue, gbc_chckbxOverdue);
 		
-		btnDisplayLoan = new JButton("Display Loan");
+		btnDisplayLoan = new JButton(Messages.getString("LoansInventoryView.btnCloseLoan.text"));
 		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					openEditLoanWindow();
@@ -269,12 +272,14 @@ public class LendingTab extends JPanel implements Observer{
 
 	private void setLendingModel(LendingTableModel model) {
 		lending_table.setModel(model);
-		lending_table.getColumnModel().getColumn(0).setMinWidth(40);
-		lending_table.getColumnModel().getColumn(0).setPreferredWidth(40);
-		lending_table.getColumnModel().getColumn(0).setMaxWidth(60);
-		lending_table.getColumnModel().getColumn(1).setMaxWidth(40);
-		lending_table.getColumnModel().getColumn(3).setMinWidth(90);
-		lending_table.getColumnModel().getColumn(3).setMaxWidth(160);
+		lending_table.getColumnModel().getColumn(1).setMaxWidth(200);
+		lending_table.getColumnModel().getColumn(1).setPreferredWidth(120);
+		lending_table.getColumnModel().getColumn(1).setMinWidth(20);
+		lending_table.getColumnModel().getColumn(1).setCellRenderer(new IconCellRenderer());
+		
+		lending_table.getColumnModel().getColumn(0).setMaxWidth(30);
+		lending_table.getColumnModel().getColumn(2).setMinWidth(90);
+		lending_table.getColumnModel().getColumn(2).setMaxWidth(90);
 		lending_table.getColumnModel().getColumn(4).setMinWidth(100);
 		lending_table.getColumnModel().getColumn(4).setMaxWidth(160);
 	}

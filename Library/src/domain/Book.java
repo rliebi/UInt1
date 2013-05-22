@@ -8,6 +8,7 @@ public class Book extends Observable{
 	
 	private String title, author, publisher;
 	private Shelf shelf;
+	private boolean invalid = false;
 	
 	public Book(String name) {
 		this.title = name;
@@ -61,17 +62,14 @@ public class Book extends Observable{
 		notifyObservers(libraryEvent);	
 	}
 	
-	public boolean equals(Book b){
-		boolean v = true;
-		if (b.author != this.author)
-			v = false;
-		if (b.publisher != this.publisher)
-			v = false;
-		if (b.shelf != this.shelf)
-			v = false;	
-		if (b.title != this.title)
-			v = false;
-		return v;
+
+	public void setInvalid() {
+		this.invalid  = true;
 		
 	}
+
+	public boolean isInvalid() {
+		return invalid;
+	}
+
 }

@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,27 +23,22 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
+import components.IconCellRenderer;
 import components.MySearchField;
 
 import viewModels.CustomerTableModel;
-import viewModels.LendingTableModel;
 import domain.Customer;
 import domain.Library;
-import domain.Loan;
 
 public class CustomerTab extends JPanel implements Observer {
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
-	private NewCustomer newCustomerWindow;
-	private EditCustomer editCustomerWindow;
 	private JTextField txtSearchfield;
 	private JTable customer_table;
 	private JLabel displayNrCustomer;
-	private JTable customer_loan_jtable;
 	private WarningWindow warningWindow;
 	private java.util.List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
 			3);
@@ -67,9 +61,9 @@ public class CustomerTab extends JPanel implements Observer {
 	private void initialize() {
 		GridBagLayout gbl_customerTab = new GridBagLayout();
 		gbl_customerTab.columnWidths = new int[] { 0, 0 };
-		gbl_customerTab.rowHeights = new int[] { 48, 150, 100, 0 };
+		gbl_customerTab.rowHeights = new int[] { 48, 136, 0 };
 		gbl_customerTab.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_customerTab.rowWeights = new double[] { 0.0, 1.0, 0.0,
+		gbl_customerTab.rowWeights = new double[] { 0.0, 1.0,
 				Double.MIN_VALUE };
 		setLayout(gbl_customerTab);
 
@@ -113,7 +107,6 @@ public class CustomerTab extends JPanel implements Observer {
 		panel_1.setBackground(background_Color);
 		panel_1.setBorder(null);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 0;
 		gbc_panel_1.gridy = 1;
@@ -166,7 +159,6 @@ public class CustomerTab extends JPanel implements Observer {
 					}
 				};
 				filters_loans.add(rf);
-				applyFilter(customer_loan_jtable, filters_loans);
 			}
 		});
 		customer_table.addKeyListener(new KeyAdapter() {
@@ -180,9 +172,7 @@ public class CustomerTab extends JPanel implements Observer {
 		});
 		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(customer_table);
-		customer_table.setModel(new CustomerTableModel(library));
-		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
-		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
+		setModel();
 		customer_table.setSurrendersFocusOnKeystroke(false);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		TableRowSorter<CustomerTableModel> customerSorter = new TableRowSorter(customer_table.getModel());
@@ -228,9 +218,10 @@ public class CustomerTab extends JPanel implements Observer {
 		JButton btnNewCustomer = new JButton("New Customer");
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				newCustomerWindow = new NewCustomer(new Customer("Last",
-						"First"), library);
-				newCustomerWindow.setVisible();
+//				newCustomerWindow = new NewCustomer(new Customer("Last",
+//						"First"), library);
+//				newCustomerWindow.setVisible();
+				newCustomer();
 			}
 		});
 		GridBagConstraints gbc_btnNewCustomer = new GridBagConstraints();
@@ -238,85 +229,23 @@ public class CustomerTab extends JPanel implements Observer {
 		gbc_btnNewCustomer.gridy = 1;
 		panel_1.add(btnNewCustomer, gbc_btnNewCustomer);
 
-		JPanel panel = new JPanel();
-		panel.setBackground(background_Color);
-		panel.setBorder(null);
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 2;
-		add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 254, 0, 0, 0 };
-		gbl_panel.rowHeights = new int[] { 78, 29, 0 };
-		gbl_panel.columnWeights = new double[] { 1.0, 0.0, 0.0,
-				Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-		panel.setLayout(gbl_panel);
+	}
 
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridwidth = 3;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 0;
-		panel.add(scrollPane, gbc_scrollPane);
+	/**
+	 * 
+	 */
+	private void setModel() {
+		customer_table.setModel(new CustomerTableModel(library));
+		customer_table.getColumnModel().getColumn(0).setPreferredWidth(50);
+		customer_table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(4).setPreferredWidth(1);
+		customer_table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(0).setCellRenderer(new IconCellRenderer());
 
-		customer_loan_jtable = new JTable();
-		scrollPane.setViewportView(customer_loan_jtable);
-		customer_loan_jtable.setModel(new LendingTableModel(library));
-
-		// TODO set here non matching filter, to clear list for the beginning
-		final TableRowSorter<AbstractTableModel> sorter = new TableRowSorter<AbstractTableModel>(
-				(AbstractTableModel) customer_loan_jtable.getModel());
-		customer_loan_jtable.setRowSorter(sorter);
-		// sorter.setRowFilter(RowFilter.andFilter(arg0)
-		JButton btnNewButton = new JButton("Return Loan");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					if (getSelectedLoan().isOverdue()) {
-						warningWindow = new WarningWindow(
-								"Ask for 3 CHF, book is late!");
-						warningWindow.setVisible();
-					}
-					int curentselection = customer_table.getSelectedRow();
-					getSelectedLoan().returnCopy();
-					customer_table.changeSelection(curentselection, 1, false, false);
-				} catch (IndexOutOfBoundsException e) {
-					warningWindow = new WarningWindow("Please Select a Loan!");
-					warningWindow.setVisible();
-				}
-			}
-
-		});
-
-		JButton btnDisplayLoan = new JButton("Display Loan");
-		btnDisplayLoan.addActionListener(new ActionListener() {
-			private EditLoan editLoanWindow;
-
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					editLoanWindow = new EditLoan(getSelectedLoan());
-					editLoanWindow.setVisible();
-				} catch (IndexOutOfBoundsException e) {
-					warningWindow = new WarningWindow(
-							"Please Select a customer and Loan!");
-				}
-			}
-		});
-		GridBagConstraints gbc_btnDisplayLoan = new GridBagConstraints();
-		gbc_btnDisplayLoan.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDisplayLoan.gridx = 1;
-		gbc_btnDisplayLoan.gridy = 1;
-		panel.add(btnDisplayLoan, gbc_btnDisplayLoan);
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
-
+//		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
+//		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
 	}
 
 	public void updateFields() {
@@ -328,13 +257,6 @@ public class CustomerTab extends JPanel implements Observer {
 		updateFields();
 	}
 
-	private Loan getSelectedLoan() {
-		return library.getCustomerOngoingLoans(getSelectedCustomer()).get(
-				customer_loan_jtable
-						.convertColumnIndexToModel(customer_loan_jtable
-								.getSelectedRow()));
-	}
-
 	private Customer getSelectedCustomer() {
 		return library.getCustomers().get(
 				customer_table.convertRowIndexToModel(customer_table
@@ -342,21 +264,9 @@ public class CustomerTab extends JPanel implements Observer {
 	}
 
 	private void openEditCustomerWindow() {
-		editCustomerWindow = new EditCustomer(getSelectedCustomer());
-		editCustomerWindow.setVisible();
+		new CustomerEditor(library,getSelectedCustomer(),this);
 	}
-
-	private void applyFilter(JTable table,
-			List<RowFilter<Object, Object>> filters) {
-		@SuppressWarnings("unchecked")
-		TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) table
-				.getRowSorter();
-
-		RowFilter<Object, Object> serviceFilter = RowFilter.andFilter(filters);
-
-		sorter.setRowFilter(serviceFilter);
-		table.setRowSorter(sorter);
-		AbstractTableModel t = (AbstractTableModel) table.getModel();
-		t.fireTableDataChanged();
+	private void newCustomer(){
+		new CustomerEditor(library,this);
 	}
 }

@@ -19,7 +19,7 @@ public class BookMaster{
 
 
 	private static final int minimum_window_height = 700;
-	private static final int minimum_window_witdh = 600;
+	private static final int minimum_window_witdh = 1200;
 	private static final String TabLabel_LENDING = "Lending";
 	private static final String bookTabLabel = "Books";
 	private JFrame frame;
