@@ -8,6 +8,7 @@ public class Book extends Observable{
 	
 	private String title, author, publisher;
 	private Shelf shelf;
+	private boolean invalid = false;
 	
 	public Book(String name) {
 		this.title = name;
@@ -74,4 +75,14 @@ public class Book extends Observable{
 		return v;
 		
 	}
+
+	public void setInvalid() {
+		this.invalid  = true;
+		
+	}
+
+	public boolean isInvalid() {
+		return invalid;
+	}
+
 }

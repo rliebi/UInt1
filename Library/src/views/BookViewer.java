@@ -56,25 +56,38 @@ public class BookViewer extends JPanel implements Observer {
 		this.bookShelf.setText("");
 		
 		BookEditor();
-		createWindow();
-		if (book.equals(new Book("")))
+		
+		System.out.println(book.isInvalid());
+
+		if (book.isInvalid()){
+			dispose();
 			throw new LibraryExcption();
-		else
+		}
+
+		else{
+			createWindow();
 			library.addBook(book);
 
+		}
 	}
 
 	/**
+	 * @throws LibraryExcption 
 	 * @wbp.parser.constructor
 	 */
-	public BookViewer(Library lib, Book b) {
-		
+	public BookViewer(Library lib, Book b) throws LibraryExcption {
+
 		this.book = b;
 		this.library = lib;
+		System.out.println(book.isInvalid());
 		book.addObserver(this);
 		init();
 		updateBookLabels();
 		createWindow();
+		if (book.isInvalid()){
+			dispose();
+			throw new LibraryExcption();
+		}
 	}
 
 	/**
@@ -103,7 +116,7 @@ public class BookViewer extends JPanel implements Observer {
 	}
 
 	private void init() {
-		this.setMinimumSize(new Dimension(500, 500));
+		this.setMinimumSize(new Dimension(900, 500));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 133, 0, 0 };

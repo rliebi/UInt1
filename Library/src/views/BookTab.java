@@ -27,11 +27,14 @@ import javax.swing.border.TitledBorder;
 import components.IconCellRenderer;
 import components.LibraryExcption;
 import components.MySearchField;
+import settings.Icons;
 import viewModels.BookTableModel;
 import domain.Book;
 import domain.Library;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import localization.Messages;
 
 
 public class BookTab extends JPanel implements Observer{
@@ -45,8 +48,8 @@ public class BookTab extends JPanel implements Observer{
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
 	private JTextField txtSearch;
-	private NewLoan newLoanWindow;
-    private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
+    private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);
+	private JButton btnDisplayBook;  
 	public BookTab(){
 		super();
 		this.library = new Library();
@@ -143,6 +146,10 @@ public class BookTab extends JPanel implements Observer{
 					arg0.consume();
 					openEditBookWindow();
 				}
+				if (book_table.getSelectedRowCount()==1)
+					btnDisplayBook.setEnabled(true);
+				else
+					btnDisplayBook.setEnabled(false);
 			}
 		});
 		book_table.addMouseListener(new MouseAdapter() {
@@ -152,11 +159,14 @@ public class BookTab extends JPanel implements Observer{
 					openNewLoanWindow(getSelectedBook());
 					
 				}
+				if (book_table.getSelectedRowCount()==1)
+					btnDisplayBook.setEnabled(true);
+				else
+					btnDisplayBook.setEnabled(false);
 			}
 
 			private void openNewLoanWindow(Book book) {
-				newLoanWindow = new NewLoan(library,book);
-				newLoanWindow.setVisible(true);
+				openEditBookWindow();
 			}
 		});
 		book_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -170,7 +180,9 @@ public class BookTab extends JPanel implements Observer{
 		gbc_lblSearch.gridx = 0;
 		gbc_lblSearch.gridy = 1;
 		panelBookInventory.add(lblSearch, gbc_lblSearch);
-		JButton btnDisplayBook = new JButton("Edit Book");
+		btnDisplayBook = new JButton(Messages.getString("BooksAddView.BooksAddViewCenterTitle.title"));
+		btnDisplayBook.setIcon(Icons.IconEnum.EDITBOOK.getIcon(24));
+		btnDisplayBook.setEnabled(false);
 		btnDisplayBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -200,7 +212,8 @@ public class BookTab extends JPanel implements Observer{
 		//------------Search Field --------------
 
 		//------------Button Add new Book--------		
-		JButton btnAddNewBook = new JButton("Add new Book");
+		JButton btnAddNewBook = new JButton(Messages.getString("BooksAddView.BooksAddViewTabTitle.title"));
+		btnAddNewBook.setIcon(Icons.IconEnum.ADD.getIcon(24));
 		GridBagConstraints gbc_btnAddNewBook = new GridBagConstraints();
 		gbc_btnAddNewBook.gridx = 3;
 		gbc_btnAddNewBook.gridy = 1;
@@ -253,7 +266,12 @@ public class BookTab extends JPanel implements Observer{
 	}
 	
 	private void openEditBookWindow() {
-		openBookWindow(new BookViewer(library, getSelectedBook()));
+		try {
+			openBookWindow(new BookViewer(library, getSelectedBook()));
+		} catch (LibraryExcption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private void openBookWindow(BookViewer detailwindow){
 

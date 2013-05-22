@@ -158,6 +158,7 @@ public class BookEditor extends JPanel implements Observer {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			book.setInvalid();
 			dialog.dispose();
 		}
 	}

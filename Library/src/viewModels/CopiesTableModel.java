@@ -6,24 +6,26 @@ import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
+import localization.Messages;
+
 import domain.Book;
 import domain.Copy;
+import domain.Copy.Condition;
 import domain.Library;
+import domain.Loan;
 
 public class CopiesTableModel extends AbstractTableModel implements Observer {
 
-	String[] columnNames = {  "Available","Titel", "Condition" };
+	String[] columnNames = { "Available", "Titel", "Condition" };
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
 	private Library lib;
-	private List<Copy> copies;
 	private Book book;
 
 	public CopiesTableModel(Library lib, Book theBook) {
 		lib.addObserver(this);
-		copies = lib.getCopiesOfBook(theBook);
 		this.lib = lib;
 		this.book = theBook;
 	}
@@ -34,54 +36,85 @@ public class CopiesTableModel extends AbstractTableModel implements Observer {
 
 	@Override
 	public int getColumnCount() {
-		return columnNames.length;
+		return 4;
 	}
 
 	@Override
 	public int getRowCount() {
-		return copies.size();
+		if (lib == null) return 0; 
+		return lib.getCopiesOfBook(book).size();
 	}
+
 	public boolean isCellEditable(int row, int col) {
-		return true;
+		if (col == 3) {
+			return true;
+		} else {
+			return false;
+		}
 	}
+
 	// this method is called to set the value of each cell
 	@Override
 	public Object getValueAt(int row, int column) {
-		Copy entity = null;
-		entity = copies.get(row);
+		if(row == -1){
+			return "";
+		}
 		switch (column) {
 
 		case 1:
-			// return entity.getInventoryNumber();
-			return entity.getTitle();
+			if (lib.isCopyLent(lib.getCopiesOfBook(book).get(row))) {
+				return Messages.getString("Domain.Book.Unavailable") + " / " + Messages.getString("Domain.Book.Lent");
+			} else if (!lib.getCopiesOfBook(book).get(row).isInLendable()) {
+				return Messages.getString("Domain.Book.Unavailable") + " / " + Messages.getString("Domain.Book.BadCondition");
+			} else {
+				return Messages.getString("Domain.Book.Available");
+			}
 
+		case 3:
+			return lib.getCopiesOfBook(book).get(row).getCondition();
 		case 2:
-			return entity.getCondition();
-
+			for (Loan l: lib.getOpenLoans()) {
+				if (l.getCopy() == lib.getCopiesOfBook(book).get(row)) {
+					return  l.getCustomer().getName() + " " + l.getCustomer().getSurname();
+				}
+			}
+			return "";
 		case 0:
-			return (lib.isCopyLent(entity)) ? "" : "available";
+			return lib.getCopiesOfBook(book).get(row).getInventoryNumber();
 
 		default:
 			return "";
 		}
+		
 	}
 
-	public void setValueAt(Object value, int row, int col) {
-
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		if (columnIndex == 3) {
+			lib.getCopiesOfBook(book).get(rowIndex)
+					.setCondition((Condition) aValue);
+		}
 	}
 
 	// This method will be used to display the name of columns
 	public String getColumnName(int col) {
-		return columnNames[col];
+		switch (col) {
+		case 0:
+			return Messages.getString("Domain.Copy.inventoryNumber");
+		case 1:
+			return Messages.getString("Domain.Copy.Status");
+		case 2:
+			return Messages.getString("Domain.BookCopies.CustomerTitle");
+		case 3:
+			return Messages.getString("Domain.Copy.condition");
+		default:
+			return null;
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object modelRowEvent) {
-		if (!(o instanceof Library)) {
-			throw new IllegalStateException();
-		}
-		Library lib = (Library) o;
-		copies = lib.getCopiesOfBook(book);
+
 		fireTableDataChanged();
 	}
 

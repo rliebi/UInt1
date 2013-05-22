@@ -2,12 +2,27 @@ package domain;
 
 import java.util.Observable;
 
+import localization.Messages;
+
 import controll.LibraryEvent;
 
 public class Copy extends Observable {
 
 	public enum Condition {
-		NEW, GOOD, DAMAGED, WASTE, LOST
+		NEW(Messages.getString("Condition.NEW.title")), 
+		GOOD(Messages.getString("Condition.GOOD.title")), 
+		DAMAGED(Messages.getString("Condition.DAMAGED.title")), 
+		WASTE(Messages.getString("Condition.WASTE.title")), 
+		LOST(Messages.getString("Condition.LOST.title"));
+		private String conditionString;
+
+		public String toString() {
+			return conditionString;
+		}
+
+		private Condition(String titel) {
+			this.conditionString = titel;
+		}
 	}
 
 	public static long nextInventoryNumber = 1;
@@ -47,5 +62,9 @@ public class Copy extends Observable {
 
 	public long getInventoryNumber() {
 		return inventoryNumber;
+	}
+
+	public boolean isInLendable() {
+		return (condition != Condition.WASTE && condition != Condition.LOST);
 	}
 }

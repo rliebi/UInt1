@@ -16,11 +16,11 @@ public class ComboBoxCellRenderer extends JComboBox<Object> implements TableCell
    public Component getTableCellRendererComponent(JTable table, Object value,
            boolean isSelected, boolean hasFocus, int row, int column) {
        if (isSelected) {
-           setForeground(table.getSelectionForeground());
-           super.setBackground(table.getSelectionBackground());
+//           setForeground(table.getSelectionForeground());
+//           super.setBackground(table.getSelectionBackground());
        } else {
-           setForeground(table.getForeground());
-           setBackground(table.getBackground());
+//           setForeground(table.getForeground());
+//           setBackground(table.getBackground());
        }
 
        int modelRow = table.convertRowIndexToModel(row);

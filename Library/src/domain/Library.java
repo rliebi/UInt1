@@ -95,12 +95,18 @@ public class Library extends Observable implements Observer {
 		return c;
 	}
 
-	public void removeCopy(Copy c) {
-		copies.remove(c);
+	public boolean removeCopy(Copy c) {
+		boolean returnval = copies.remove(c);
 		fireChanged();
-		c.deleteObservers();
+		return returnval;
 	}
 
+	
+	public void removeCopies(List<Copy> c) {
+		for (Copy copy: c) {
+			removeCopy(copy);
+		}
+	}
 	public Book findByBookTitle(String title) {
 		for (Book b : books) {
 			if (b.getName().equals(title)) {
@@ -195,7 +201,7 @@ public class Library extends Observable implements Observer {
 	private List<Copy> getCopies(boolean isLent) {
 		List<Copy> retCopies = new ArrayList<Copy>();
 		for (Copy c : copies) {
-			if (isLent == isCopyLent(c)) {
+			if (isLent == isCopyLent(c)  && c.isInLendable()) {
 				retCopies.add(c);
 			}
 		}
@@ -224,6 +230,14 @@ public class Library extends Observable implements Observer {
 			onGoingLoans.remove(onGoingLoans.indexOf(o));
 		}
 		fireChanged();
+	}
+
+	public List<Loan> getOpenLoans() {
+		List<Loan> ret = new ArrayList<Loan>();
+		for(Loan l: loans) {
+			if (l.isLent()) ret.add(l);
+		}
+		return ret;
 	}
 
 }

@@ -16,10 +16,7 @@ import domain.Library;
 
 
 public class BookTableModel extends AbstractTableModel implements Observer{
-	private static final String AVAILABLE = Messages.getString("BookTab.tableHeaders.status.text");
 
-	private static final String SHELF = Messages.getString("BookTab.tableHeaders.shelf.text");
-	private static final String TITEL = Messages.getString("BookTab.tableHeaders.title.text");;
 	/**
 	 * 
 	 */
