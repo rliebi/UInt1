@@ -79,7 +79,6 @@ public class BookViewer extends JPanel implements Observer {
 
 		this.book = b;
 		this.library = lib;
-		System.out.println(book.isInvalid());
 		book.addObserver(this);
 		init();
 		updateBookLabels();

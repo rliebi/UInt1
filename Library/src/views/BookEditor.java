@@ -20,6 +20,8 @@ import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.util.ValidationUtils;
 import com.jgoodies.validation.view.ValidationResultViewFactory;
 
+import controll.ValidationListener;
+
 import domain.Book;
 import domain.Shelf;
 
@@ -129,7 +131,6 @@ public class BookEditor extends JPanel implements Observer {
             validationResultModel.setResult(validationResult);
             if (!validationResultModel.hasErrors()) {
             		saveToBook();
-            		System.out.println(book.getShelf());
                 dialog.dispose();
             }
 		}
@@ -177,22 +178,5 @@ public class BookEditor extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 
-	}
-
-	// display informative dialogs for specific validation events
-	private static final class ValidationListener implements
-			PropertyChangeListener {
-		public void propertyChange(PropertyChangeEvent evt) {
-			String property = evt.getPropertyName();
-			if (ValidationResultModel.PROPERTY_RESULT.equals(property)) {
-//				JOptionPane.showMessageDialog(null,
-//						"At least one validation result changed");
-			} else if (ValidationResultModel.PROPERTY_MESSAGES.equals(property)) {
-				if (Boolean.TRUE.equals(evt.getNewValue())) {
-//					JOptionPane.showMessageDialog(null,
-//							"Overall validation changed");
-				}
-			}
-		}
 	}
 }

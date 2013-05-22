@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,14 +23,12 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
 import components.IconCellRenderer;
 import components.MySearchField;
 
 import viewModels.CustomerTableModel;
-import viewModels.LendingTableModel;
 import domain.Customer;
 import domain.Library;
 
@@ -39,8 +36,6 @@ public class CustomerTab extends JPanel implements Observer {
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
-	private NewCustomer newCustomerWindow;
-	private EditCustomer editCustomerWindow;
 	private JTextField txtSearchfield;
 	private JTable customer_table;
 	private JLabel displayNrCustomer;
@@ -223,9 +218,10 @@ public class CustomerTab extends JPanel implements Observer {
 		JButton btnNewCustomer = new JButton("New Customer");
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				newCustomerWindow = new NewCustomer(new Customer("Last",
-						"First"), library);
-				newCustomerWindow.setVisible();
+//				newCustomerWindow = new NewCustomer(new Customer("Last",
+//						"First"), library);
+//				newCustomerWindow.setVisible();
+				newCustomer();
 			}
 		});
 		GridBagConstraints gbc_btnNewCustomer = new GridBagConstraints();
@@ -268,21 +264,9 @@ public class CustomerTab extends JPanel implements Observer {
 	}
 
 	private void openEditCustomerWindow() {
-		editCustomerWindow = new EditCustomer(getSelectedCustomer());
-		editCustomerWindow.setVisible();
+		new CustomerEditor(library,getSelectedCustomer());
 	}
-
-	private void applyFilter(JTable table,
-			List<RowFilter<Object, Object>> filters) {
-		@SuppressWarnings("unchecked")
-		TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) table
-				.getRowSorter();
-
-		RowFilter<Object, Object> serviceFilter = RowFilter.andFilter(filters);
-
-		sorter.setRowFilter(serviceFilter);
-		table.setRowSorter(sorter);
-		AbstractTableModel t = (AbstractTableModel) table.getModel();
-		t.fireTableDataChanged();
+	private void newCustomer(){
+		new CustomerEditor(library);
 	}
 }
