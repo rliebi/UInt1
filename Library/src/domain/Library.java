@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -238,6 +239,11 @@ public class Library extends Observable implements Observer {
 			if (l.isLent()) ret.add(l);
 		}
 		return ret;
+	}
+
+	public void returnCopy(Loan loan, GregorianCalendar date) throws IllegalLoanOperationException {
+		loan.returnCopy(date);
+		fireChanged();
 	}
 
 }
