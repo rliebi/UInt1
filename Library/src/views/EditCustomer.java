@@ -22,7 +22,7 @@ import java.util.Observable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-
+@Deprecated
 public class EditCustomer extends AbstractStatefullForm{
 	
 
@@ -48,7 +48,7 @@ public class EditCustomer extends AbstractStatefullForm{
 
 	public static void main(String[] args) {
 		Customer testCustomer = new Customer("Senbony", "Tony");
-		testCustomer.setAdress("Adamstreet", 8000, "Z�rich");
+		testCustomer.setAdress("Adamstreet", 8000, "Zürich");
 		EditCustomer editcustomer_window2 = new EditCustomer(testCustomer);
 		editcustomer_window2.setVisible();
 		EditCustomer editcustomer_window = new EditCustomer(testCustomer);

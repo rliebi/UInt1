@@ -1,8 +1,7 @@
 package views;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -18,9 +17,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
@@ -68,10 +65,6 @@ public class ReturnLoanView extends JDialog {
 		this.setModal(true);
 		this.setAlwaysOnTop(true);
 		// Center the window
-		int w = getSize().width;
-		int h = getSize().height;
-//		int x = (MasterView.SCREEN_SIZE.width-w)/2;
-//		int y = (MasterView.SCREEN_SIZE.height-h)/2;
 		
 //		CenterPanel
 		JPanel panel = new JPanel();

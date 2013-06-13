@@ -34,7 +34,7 @@ import domain.Customer;
 import domain.Loan;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+@Deprecated
 public class EditLoan extends AbstractStatefullForm{
 
 	protected JFrame frame;
