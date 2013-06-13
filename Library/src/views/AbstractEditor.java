@@ -65,6 +65,7 @@ public abstract class AbstractEditor{
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
+				System.out.println("CLOSING");
 				disposeWindow();
 			}
 			

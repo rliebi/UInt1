@@ -1,6 +1,6 @@
 package components;
 
-
+@Deprecated
 public class StateLogicException extends Exception {
 
 	private static final long serialVersionUID = 2348446652246880076L;

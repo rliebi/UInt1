@@ -2,6 +2,8 @@ package views;
 
 
 import java.awt.Dimension;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -17,19 +19,45 @@ public abstract class AbstractViewer extends JDialog {
 	public AbstractViewer() {
 		MasterView.setWindowOpen();
 		setFrontWindow();
+		this.addComponentListener(new ComponentListener() {
+			
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void componentResized(ComponentEvent e) {
+//				System.out.println(getSize());
+			}
+			
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		this.addWindowListener(new WindowListener() {
 			
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-
+				MasterView.setWindowClose();
+				MasterView.setFrontWindow(null);
 
 			}
 			
 			@Override
 			public void windowClosed(WindowEvent e) {
-
-				
+				MasterView.setWindowClose();
+				MasterView.setFrontWindow(null);
 			}
 			
 			@Override
@@ -56,9 +84,7 @@ public abstract class AbstractViewer extends JDialog {
 
 			@Override
 			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				MasterView.setWindowClose();
-				MasterView.setFrontWindow(null);
+
 				
 			}
 		});
@@ -72,8 +98,7 @@ public abstract class AbstractViewer extends JDialog {
 	
 	protected void createWindow() {
 		this.setMinimumSize(new Dimension(900, 500));
-		this.setLocationRelativeTo(MasterView.getInstance().getFrame());
-		this.setTitle("Edit Book");
+		this.setLocationRelativeTo(MasterView.getFrontWindow());
 		this.setVisible(true);
 	}
 	
@@ -81,10 +106,7 @@ public abstract class AbstractViewer extends JDialog {
 		MasterView.setFrontWindow(this);
 		
 	}
-	
-	public void unsetFrontWindow(){
-		
-	}
+
 
 	
 }

@@ -1,4 +1,4 @@
-package views;
+package viewPanels;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,6 +25,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
 import viewModels.LendingTableModel;
+import views.ReturnLoanView;
+import views.ReturnMultipleLoansView;
+import views.WarningWindow;
 
 import components.IconCellRenderer;
 import components.MySearchField;
@@ -38,14 +42,13 @@ import java.awt.event.MouseEvent;
 
 import localization.Messages;
 
-public class LendingTab extends JPanel implements Observer{
+public class LoanPanel extends JPanel implements Observer{
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
 	private JTextField txtSearchfield;
 	private JTable lending_table;
 	private JButton btnDisplayLoan;
-	private EditLoan editLoanWindow;
 	private JLabel display_number_of_rents;
 	private JLabel lblSearch;
 	private WarningWindow warningWindow;
@@ -54,13 +57,13 @@ public class LendingTab extends JPanel implements Observer{
 	private JLabel display_overdue;
     private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
 
-	public LendingTab(){
+	public LoanPanel(){
 		super();
 		this.library = new Library();
 		initialize();
 	}
 	
-	public LendingTab(Library library){
+	public LoanPanel(Library library){
 		super();
 		this.library = library;
 		this.library.addObserver(this);
@@ -176,7 +179,7 @@ public class LendingTab extends JPanel implements Observer{
 				}
 			}
 		});
-		lending_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		lending_table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		lending_scrollPane.setViewportView(lending_table);
 		setLendingModel(new LendingTableModel(library));
 		
@@ -233,19 +236,6 @@ public class LendingTab extends JPanel implements Observer{
 		gbc_btnDisplay_selected.gridx = 4;
 		gbc_btnDisplay_selected.gridy = 1;
 		panel.add(btnDisplayLoan, gbc_btnDisplay_selected);
-		
-//		JButton btnNew_rent = new JButton("New Rent");
-//		btnNew_rent.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				warningWindow= new WarningWindow("Not yet Implemented!");
-//				warningWindow.setVisible();
-//			}
-//		});
-//		GridBagConstraints gbc_btnNew_rent = new GridBagConstraints();
-//		gbc_btnNew_rent.gridx = 5;
-//		gbc_btnNew_rent.gridy = 1;
-//		panel.add(btnNew_rent, gbc_btnNew_rent);
-
 		RowFilter<Object,Object> excludeEnded = new RowFilter<Object,Object>() {
 			  public boolean include(Entry<? extends Object, ? extends Object> entry) {
 				  if (entry.getValue(0) == "Ended")
@@ -302,8 +292,20 @@ public class LendingTab extends JPanel implements Observer{
 
 	private void openEditLoanWindow() {
 		try{
-			editLoanWindow = new EditLoan(getSelectedLoan());
-			editLoanWindow.setVisible();
+//			new ReturnLoanView(library, getSelectedLoan()).setVisible(true);
+				if (lending_table.getSelectedRowCount()==1) {
+					new ReturnLoanView(library, getSelectedLoan()).setVisible(true);				}
+				if (lending_table.getSelectedRowCount()>1) {
+					List<Loan> loanList = new ArrayList<Loan>();
+					for (int i: lending_table.getSelectedRows()) {
+						loanList.add(library.getOpenLoans().get(lending_table.convertRowIndexToModel(i)));
+					}
+					new ReturnMultipleLoansView(library, loanList).setVisible(true);
+				}
+				
+			
+				
+			
 		}
 	 catch (IndexOutOfBoundsException e) {
 		warningWindow = new WarningWindow("Please select a Loan!");

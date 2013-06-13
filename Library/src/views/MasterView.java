@@ -4,6 +4,11 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
+
+import viewPanels.BookPanel;
+import viewPanels.CustomerPanel;
+import viewPanels.LoanPanel;
+
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -51,6 +56,11 @@ public class MasterView {
 									tabbedPane.setSelectedIndex(tabIndex + 1);
 								}
 							}
+							else{
+								if ( key.getKeyCode() == KeyEvent.VK_ESCAPE){
+									frontWindow.dispose();
+								}
+							}
 						}
 						return false;
 
@@ -92,25 +102,27 @@ public class MasterView {
 		gbc_tabbedPane.gridy = 0;
 		frame.getContentPane().add(tabbedPane, gbc_tabbedPane);
 
-		JPanel bookTab = new BookTab(library);
+		JPanel bookTab = new BookPanel(library);
 		tabbedPane.addTab(bookTabLabel, null, bookTab, null);
 
-		JPanel lendingTab = new LendingTab(library);
+		JPanel lendingTab = new LoanPanel(library);
 		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
 
-		CustomerTab customerTab = new CustomerTab(library);
+		CustomerPanel customerTab = new CustomerPanel(library);
 		tabbedPane.addTab("Customers", null, customerTab, null);
 
 	}
 
 	public static void setWindowOpen() {
 		windowOpen++;
+		System.out.println(windowOpen);
 	}
 
 	public static void setWindowClose() {
 
 		if (windowOpen > 0)
 			windowOpen--;
+		System.out.println(windowOpen);
 	}
 
 	public Point getLocation() {

@@ -49,7 +49,6 @@ public class BookViewer extends AbstractViewer implements Observer {
 		this.bookAuthor.setText("");
 		this.bookTitle.setText("");
 		this.bookShelf.setText("");
-		
 		BookEditor();
 		
 		if (book.isInvalid()){
@@ -59,6 +58,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 
 		else{
 			createWindow();
+			this.setTitle("Edit Book");
 			library.addBook(book);
 
 		}

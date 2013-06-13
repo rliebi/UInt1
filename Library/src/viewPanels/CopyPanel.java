@@ -27,7 +27,7 @@ import domain.Library;
 
 import settings.Icons;
 import viewModels.CopiesTableModel;
-import views.MasterView;
+import views.CopyAddLoanView;
 import views.ReturnLoanView;
 
 import java.awt.Insets;
@@ -260,6 +260,7 @@ public class CopyPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("ADD LOAN");
+			new CopyAddLoanView(library, getSelectedCopies().get(0));
 		}
 		
 	}
