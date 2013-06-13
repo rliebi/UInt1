@@ -211,7 +211,7 @@ public class ReturnLoanView extends AbstractViewer {
 	}
 	
 	private void closeDialog() {
-		dispose();
+		dispose(); 
 	}
 	
 	

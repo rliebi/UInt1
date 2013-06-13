@@ -14,6 +14,7 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,7 +25,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
+import settings.Icons;
 import viewModels.LendingTableModel;
+import views.MasterView;
 import views.ReturnLoanView;
 import views.ReturnMultipleLoansView;
 import views.WarningWindow;
@@ -215,6 +218,7 @@ public class LoanPanel extends JPanel implements Observer{
 					filters.remove(DueFilter);
 					applyFilter(lending_table);
 					//					sorter.setRowFilter(RowFilter.regexFilter("(?i)"));
+					
 				}
 			}
 
@@ -300,7 +304,11 @@ public class LoanPanel extends JPanel implements Observer{
 					for (int i: lending_table.getSelectedRows()) {
 						loanList.add(library.getOpenLoans().get(lending_table.convertRowIndexToModel(i)));
 					}
-					new ReturnMultipleLoansView(library, loanList).setVisible(true);
+//					new ReturnMultipleLoansView(library, loanList).setVisible(true);
+					JOptionPane.showMessageDialog(null,
+							"You cannot return Multiple Loans yet", "Feature in work",
+							JOptionPane.NO_OPTION,
+							Icons.IconEnum.ERROR.getIcon(24));
 				}
 				
 			
