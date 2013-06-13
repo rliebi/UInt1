@@ -118,6 +118,7 @@ public class CopyPanel extends JPanel {
 		removeBtn.setEnabled(false);
 
 		JButton addLoanBtn = new JButton();
+		addLoanBtn.setAction(new AddLoanAction());
 		addLoanBtn.setIcon(Icons.IconEnum.ADDLOAN.getIcon(16));
 		addLoanBtn.setText(Messages
 				.getString("BooksDetailView.btnAddloan.text"));
@@ -248,6 +249,19 @@ public class CopyPanel extends JPanel {
 			}
 		}
 	}
+	private final class AddLoanAction extends AbstractAction{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5190401524732242389L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("ADD LOAN");
+		}
+		
+	}
 	private final class RemoveAction extends AbstractAction {
 		/**
 		 * 
@@ -306,13 +320,6 @@ public class CopyPanel extends JPanel {
 			dispose();
 
 		}
-	}
-
-	@Deprecated
-	protected Copy getSelectedCopy() {
-
-		return library.getCopiesOfBook(book).get(
-				table.convertRowIndexToModel(table.getSelectedRow()));
 	}
 
 	protected Stack<Copy> getSelectedCopies() {
