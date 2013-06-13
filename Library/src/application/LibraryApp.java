@@ -28,7 +28,7 @@ public class LibraryApp {
 		Library library = new Library();
 		initLibrary(library);
 		@SuppressWarnings("unused")
-		MasterView bookmaster = new MasterView(library);
+		MasterView bookmaster = MasterView.getInstance(library);
 	}
 
 	private static void initLibrary(Library library)

@@ -1,18 +1,14 @@
 package views;
 
-import java.awt.LayoutManager;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import java.awt.Dialog.ModalityType;
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -27,7 +23,7 @@ import viewPanels.CopyPanel;
 
 import components.LibraryExcption;
 
-public class BookViewer extends JPanel implements Observer {
+public class BookViewer extends AbstractViewer implements Observer {
 
 	/**
 	 * 
@@ -40,13 +36,11 @@ public class BookViewer extends JPanel implements Observer {
 	private Book book = new Book("Testbook");
 	private Library library = new Library();
 	private CopyPanel copyPanel;
-	private JDialog d = new JDialog();
 
 	/**
 	 * @throws LibraryExcption 
 	 */
 	public BookViewer(Library lib) throws LibraryExcption {
-		
 		this.book = new Book("");
 		this.library = lib;
 		book.addObserver(this);
@@ -91,19 +85,8 @@ public class BookViewer extends JPanel implements Observer {
 	/**
 	 * 
 	 */
-	private void createWindow() {
-		d.setModal(true);
-		d.setAlwaysOnTop(true);
-		d.setModalityType(ModalityType.APPLICATION_MODAL);
-		d.add(this);
-		d.setMinimumSize(this.getMinimumSize());
-		d.setTitle("Edit Book");
-		d.setLocationRelativeTo(this);
-		d.setVisible(true);
-	}
-	public void dispose(){
-		d.dispose();
-	}
+
+
 	private void updateBookLabels() {
 		this.bookPublisher.setText(book.getPublisher());
 		this.bookAuthor.setText(book.getAuthor());
@@ -116,7 +99,6 @@ public class BookViewer extends JPanel implements Observer {
 	}
 
 	private void init() {
-		this.setMinimumSize(new Dimension(900, 500));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 133, 0, 0 };
@@ -216,33 +198,18 @@ public class BookViewer extends JPanel implements Observer {
 		panel_1.setLayout(gbl_panel_1);
 
 		
-		copyPanel = new CopyPanel(library,book,d);
+		copyPanel = new CopyPanel(library,book,this);
 		GridBagConstraints gbc_copyPanel = new GridBagConstraints();
 		gbc_copyPanel.fill = GridBagConstraints.BOTH;
 		panel_1.add(copyPanel, gbc_copyPanel);
 
 
-		this.setVisible(true);
+	
 	}
 
 	public void BookEditor() {
 		new BookEditor(library,book,this);
 
-	}
-
-	public BookViewer(LayoutManager layout) {
-		super(layout);
-		// TODO Auto-generated constructor stub
-	}
-
-	public BookViewer(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
-
-	public BookViewer(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

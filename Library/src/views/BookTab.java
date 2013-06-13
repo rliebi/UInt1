@@ -270,7 +270,7 @@ public class BookTab extends JPanel implements Observer{
 			openBookWindow(new BookViewer(library, getSelectedBook()));
 		} catch (LibraryExcption e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 	}
 	private void openBookWindow(BookViewer detailwindow){

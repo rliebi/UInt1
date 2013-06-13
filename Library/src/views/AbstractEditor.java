@@ -3,7 +3,10 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -22,17 +25,63 @@ import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.util.ValidationUtils;
 
-public abstract class AbstractEditor {
+public abstract class AbstractEditor{
 	protected final ValidationResultModel validationResultModel = new DefaultValidationResultModel();
 
 	protected JDialog d = new JDialog();
+	private Component p;
 	protected ValidationResult validationResult = new ValidationResult();
 	public AbstractEditor(Component p) {
 		super();
+		this.p = p;
 		d.setLocationRelativeTo(p);
-		d.setAlwaysOnTop(true);
+		MasterView.setWindowOpen();
+		MasterView.setFrontWindow(d);
+		d.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				disposeWindow();
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -94,6 +143,7 @@ public abstract class AbstractEditor {
             validationResultModel.setResult(validationResult);
             if (!validationResultModel.hasErrors()) {
             		saveTask();
+            		disposeWindow();
                 
             }
 		}
@@ -110,8 +160,16 @@ public abstract class AbstractEditor {
 
 		public void actionPerformed(ActionEvent e) {
 			cancelTask();
+			disposeWindow();
+			
 		}
 
+
+	}
+	
+	protected final void disposeWindow(){
+		MasterView.setWindowClose();
+		MasterView.setFrontWindow((Window) p);
 
 	}
 }

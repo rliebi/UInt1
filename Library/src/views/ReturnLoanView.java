@@ -16,7 +16,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -36,7 +35,7 @@ import domain.IllegalLoanOperationException;
 import domain.Library;
 import domain.Loan;
 
-public class ReturnLoanView extends JDialog {
+public class ReturnLoanView extends AbstractViewer {
 
 	/**
 	 * 
