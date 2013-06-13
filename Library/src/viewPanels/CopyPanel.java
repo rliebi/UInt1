@@ -21,11 +21,14 @@ import javax.swing.JTable;
 
 import domain.Book;
 import domain.Copy;
+import domain.Loan;
 import domain.Copy.Condition;
 import domain.Library;
 
 import settings.Icons;
 import viewModels.CopiesTableModel;
+import views.ReturnLoanView;
+
 import java.awt.Insets;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import components.ComboBoxCellRenderer;
@@ -115,11 +118,13 @@ public class CopyPanel extends JPanel {
 		removeBtn.setEnabled(false);
 
 		JButton addLoanBtn = new JButton();
+		addLoanBtn.setAction(new AddLoanAction());
 		addLoanBtn.setIcon(Icons.IconEnum.ADDLOAN.getIcon(16));
 		addLoanBtn.setText(Messages
 				.getString("BooksDetailView.btnAddloan.text"));
 		addLoanBtn.setEnabled(false);
 		JButton returnLoanBtn = new JButton();
+		returnLoanBtn.setAction(new ReturnAction());
 		returnLoanBtn.setIcon(Icons.IconEnum.CLOSELOAN.getIcon(16));
 		returnLoanBtn.setText(Messages
 				.getString("BooksDetailView.btnReturnLoan.text"));
@@ -219,7 +224,44 @@ public class CopyPanel extends JPanel {
 			library.createAndAddCopy(book);
 		}
 	}
+	private final class ReturnAction extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
+		private ReturnAction() {
+			super("Return Loan");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (table.getSelectedRowCount()==1) {
+				int rightNr =table. getSelectedRow();
+				new ReturnLoanView(library, library.getOpenLoans().get(rightNr)).setVisible(true);
+			}
+			if (table.getSelectedRowCount()>1) {
+				List<Loan> loanList = new ArrayList<Loan>();
+				for (int i: table.getSelectedRows()) {
+					loanList.add(library.getOpenLoans().get(i));
+				}
+//				new LoanCloseMultipleView(library, loanList).setVisible(true);
+			}
+		}
+	}
+	private final class AddLoanAction extends AbstractAction{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5190401524732242389L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("ADD LOAN");
+		}
+		
+	}
 	private final class RemoveAction extends AbstractAction {
 		/**
 		 * 
@@ -278,13 +320,6 @@ public class CopyPanel extends JPanel {
 			dispose();
 
 		}
-	}
-
-	@Deprecated
-	protected Copy getSelectedCopy() {
-
-		return library.getCopiesOfBook(book).get(
-				table.convertRowIndexToModel(table.getSelectedRow()));
 	}
 
 	protected Stack<Copy> getSelectedCopies() {

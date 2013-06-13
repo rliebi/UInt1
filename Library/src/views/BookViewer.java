@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -92,6 +93,8 @@ public class BookViewer extends JPanel implements Observer {
 	 */
 	private void createWindow() {
 		d.setModal(true);
+		d.setAlwaysOnTop(true);
+		d.setModalityType(ModalityType.APPLICATION_MODAL);
 		d.add(this);
 		d.setMinimumSize(this.getMinimumSize());
 		d.setTitle("Edit Book");
@@ -120,7 +123,7 @@ public class BookViewer extends JPanel implements Observer {
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Book Information",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));

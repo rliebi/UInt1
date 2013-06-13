@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="Frameworks/jgoodies-validation-2.5.0.jar"/>
 	<classpathentry kind="lib" path="Frameworks/jgoodies-forms-1.7.1.jar"/>
 	<classpathentry kind="lib" path="Frameworks/jgoodies-common-1.6.0.jar"/>
+	<classpathentry kind="lib" path="Frameworks/jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

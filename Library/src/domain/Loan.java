@@ -2,8 +2,12 @@ package domain;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Observable;
+
+import components.DateChooserComponent;
 
 import controll.LibraryEvent;
 
@@ -29,7 +33,19 @@ public class Loan extends Observable{
 		returnDate=null;
 		fireChanged(LibraryEvent.added);
 	}
-	
+	public int getDaysOverdue(DateChooserComponent returnDate) {
+		if ( !isOverdue() ) return 0;
+		
+		Date choosenReturnDate = returnDate.getDate();
+		Calendar c = Calendar.getInstance();
+		c.setTime(choosenReturnDate);
+		
+		
+		GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
+		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
+		
+		return (int) (c.getTimeInMillis() - dueDate.getTimeInMillis())/ 1000 /60 /60 /24 +1;
+	}
 	public boolean returnCopy() {
 		try {
 			returnCopy(new GregorianCalendar());

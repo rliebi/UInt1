@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -39,7 +38,7 @@ import domain.Copy;
 import domain.Customer;
 import domain.Library;
 import java.awt.BorderLayout;
-
+@Deprecated
 public class NewLoan extends JFrame implements Observer {
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);

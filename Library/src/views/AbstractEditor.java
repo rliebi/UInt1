@@ -30,6 +30,7 @@ public abstract class AbstractEditor {
 	public AbstractEditor(Component p) {
 		super();
 		d.setLocationRelativeTo(p);
+		d.setAlwaysOnTop(true);
 	}
 
 	/**

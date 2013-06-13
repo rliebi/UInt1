@@ -23,7 +23,7 @@ import java.util.Observable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-
+@Deprecated
 public class NewCustomer extends AbstractStatefullForm{
 	
 
