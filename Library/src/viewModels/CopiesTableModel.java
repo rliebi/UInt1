@@ -1,6 +1,5 @@
 package viewModels;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,7 +8,6 @@ import javax.swing.table.AbstractTableModel;
 import localization.Messages;
 
 import domain.Book;
-import domain.Copy;
 import domain.Copy.Condition;
 import domain.Library;
 import domain.Loan;

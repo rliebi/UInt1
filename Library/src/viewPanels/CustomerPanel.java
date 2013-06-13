@@ -1,4 +1,4 @@
-package views;
+package viewPanels;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -29,10 +29,12 @@ import components.IconCellRenderer;
 import components.MySearchField;
 
 import viewModels.CustomerTableModel;
+import views.CustomerEditor;
+import views.WarningWindow;
 import domain.Customer;
 import domain.Library;
 
-public class CustomerTab extends JPanel implements Observer {
+public class CustomerPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
@@ -45,13 +47,13 @@ public class CustomerTab extends JPanel implements Observer {
 	private java.util.List<RowFilter<Object, Object>> filters_loans = new ArrayList<RowFilter<Object, Object>>(
 			3);
 
-	public CustomerTab() {
+	public CustomerPanel() {
 		super();
 		this.library = new Library();
 		initialize();
 	}
 
-	public CustomerTab(Library library) {
+	public CustomerPanel(Library library) {
 		super();
 		this.library = library;
 		library.addObserver(this);

@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import views.BookMaster;
+import views.MasterView;
 
 import domain.Copy;
 import domain.Customer;
@@ -28,7 +28,7 @@ public class LibraryApp {
 		Library library = new Library();
 		initLibrary(library);
 		@SuppressWarnings("unused")
-		BookMaster bookmaster = new BookMaster(library);
+		MasterView bookmaster = MasterView.getInstance(library);
 	}
 
 	private static void initLibrary(Library library)

@@ -1,4 +1,4 @@
-package views;
+package viewPanels;
 
 import java.awt.Color;
 
@@ -29,6 +29,8 @@ import components.LibraryExcption;
 import components.MySearchField;
 import settings.Icons;
 import viewModels.BookTableModel;
+import views.BookViewer;
+import views.WarningWindow;
 import domain.Book;
 import domain.Library;
 import java.awt.event.KeyAdapter;
@@ -37,7 +39,7 @@ import java.awt.event.KeyEvent;
 import localization.Messages;
 
 
-public class BookTab extends JPanel implements Observer{
+public class BookPanel extends JPanel implements Observer{
 	private static final long serialVersionUID = 6736293912240376284L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
@@ -50,13 +52,13 @@ public class BookTab extends JPanel implements Observer{
 	private JTextField txtSearch;
     private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);
 	private JButton btnDisplayBook;  
-	public BookTab(){
+	public BookPanel(){
 		super();
 		this.library = new Library();
 		initialize();
 	}
 	
-	public BookTab(Library library){
+	public BookPanel(Library library){
 		super();
 		this.library = library;
 		library.addObserver(this);
@@ -270,7 +272,7 @@ public class BookTab extends JPanel implements Observer{
 			openBookWindow(new BookViewer(library, getSelectedBook()));
 		} catch (LibraryExcption e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 	}
 	private void openBookWindow(BookViewer detailwindow){

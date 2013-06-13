@@ -39,7 +39,7 @@ import domain.Customer;
 import domain.Library;
 import java.awt.BorderLayout;
 @Deprecated
-public class NewLoan extends JFrame implements Observer {
+public class NewLoanView extends JFrame implements Observer {
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
@@ -51,20 +51,20 @@ public class NewLoan extends JFrame implements Observer {
 
 	private JTable copy_table;
 
-	public NewLoan() {
+	public NewLoanView() {
 		super();
 		this.library = new Library();
 		initialize();
 	}
 
-	public NewLoan(Library library) {
+	public NewLoanView(Library library) {
 		super();
 		this.library = library;
 		library.addObserver(this);
 		initialize();
 	}
 
-	public NewLoan(Library library, Book book) {
+	public NewLoanView(Library library, Book book) {
 		super();
 		this.library = library;
 		this.book = book;

@@ -27,6 +27,7 @@ import domain.Library;
 
 import settings.Icons;
 import viewModels.CopiesTableModel;
+import views.CopyAddLoanView;
 import views.ReturnLoanView;
 
 import java.awt.Insets;
@@ -259,6 +260,7 @@ public class CopyPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("ADD LOAN");
+			new CopyAddLoanView(library, getSelectedCopies().get(0));
 		}
 		
 	}
@@ -284,8 +286,7 @@ public class CopyPanel extends JPanel {
 				confirmationTitle = Messages.getString("BooksDetailView.ConfirmationDeleteCopiesTitle");
 			}
 			try {
-				
-				if (JOptionPane.showConfirmDialog(null, confirmationMessage, confirmationTitle, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, Icons.IconEnum.QUESTION.getIcon(48)) == 0) {
+				if (JOptionPane.showConfirmDialog(getCopyPanel(), confirmationMessage, confirmationTitle, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, Icons.IconEnum.QUESTION.getIcon(48)) == 0) {
 					List<Copy> copiesToDelete = new ArrayList<Copy>();
 					for (int row: table.getSelectedRows()) {
 						if (library.getCopiesOfBook(book).get(row).isInLendable()) {
@@ -321,7 +322,9 @@ public class CopyPanel extends JPanel {
 
 		}
 	}
-
+	protected CopyPanel getCopyPanel(){
+		return this;
+	}
 	protected Stack<Copy> getSelectedCopies() {
 		Stack<Copy> copies = new Stack<Copy>();
 		if (table.getSelectedRowCount() > 1){

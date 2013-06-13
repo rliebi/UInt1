@@ -1,6 +1,8 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +18,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -36,7 +37,7 @@ import domain.IllegalLoanOperationException;
 import domain.Library;
 import domain.Loan;
 
-public class ReturnLoanView extends JDialog {
+public class ReturnLoanView extends AbstractViewer {
 
 	/**
 	 * 
@@ -47,26 +48,19 @@ public class ReturnLoanView extends JDialog {
 	private Library library;
 	private Loan loan;
 
-	public ReturnLoanView(Library u_library, final Loan u_loan) {
-//		super(MasterView.getMasterFrame(), Messages.getString("LoanCloseView.loanClose.title"), true);
-		loan = u_loan;
-		library = u_library;
+	public ReturnLoanView(Library lib, final Loan l) {
+		loan = l;
+		library = lib;
 		
-//		setIconImage(Toolkit.getDefaultToolkit().getImage(MasterView.class.getResource("/resources/images/logo_16.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MasterView.class.getResource("/resources/images/logo_16.png")));
 		
-//		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//		setBounds(100, 100, Dimension.LOANCLOSEVIEW_WIDTH.getLength(), Dimensions.LOANCLOSEVIEW_HEIGHT.getLength());
-//		setMinimumSize(new Dimension(Dimensions.LOANCLOSEVIEW_MINWIDTH.getLength(), Dimensions.LOANCLOSEVIEW_MINHEIGHT.getLength()));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setSize(666,204);
-		this.setModal(true);
-		this.setAlwaysOnTop(true);
-		// Center the window
+		setMinimumSize(new Dimension(666,204));
 		
-//		CenterPanel
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, Messages.getString("LoanCloseView.loanClose.title"), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -141,9 +135,7 @@ public class ReturnLoanView extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(!txtReturndatevalue.validateDate()){
-//					BalloonTipComponent.getNotification(btnSave, Messages.getString("Tooltip.DateValditionError"), BalloonTipComponent.STATE.ERROR);
-				}else{
+				if(txtReturndatevalue.validateDate()){
 					GregorianCalendar date = new GregorianCalendar();
 					date.setGregorianChange(txtReturndatevalue.getDate());
 					if(!checkDateBeforePickup(loan, txtReturndatevalue)){
@@ -177,13 +169,11 @@ public class ReturnLoanView extends JDialog {
 		
 		JButton btnCancel = new JButton(Messages.getString("Global.btnCancel.title"));
 		pnlButtons.add(btnCancel);
-//		btnCancel.setFont(Fonts.STANDARD_TEXT_BOLD.getFont());
 		btnCancel.setIcon(Icons.IconEnum.CANCEL.getIcon(24));
 		btnCancel.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-//				if (ballTipSave != null) ballTipSave.setVisible(false);
 				closeDialog();
 			}				
 		});
@@ -205,7 +195,6 @@ public class ReturnLoanView extends JDialog {
 			
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-//				MasterView.setModalWindowOpen(false);
 				System.out.println(contentPane.getWidth());
 			}
 			
@@ -222,8 +211,7 @@ public class ReturnLoanView extends JDialog {
 	}
 	
 	private void closeDialog() {
-		this.dispose();
-//		MasterView.setModalWindowOpen(false);
+		dispose();
 	}
 	
 	
