@@ -15,7 +15,7 @@ import domain.Library;
 
 
 
-public class BookMaster{
+public class MasterView{
 
 
 	private static final int minimum_window_height = 700;
@@ -26,7 +26,7 @@ public class BookMaster{
 
 	private Library library;
 
-	public BookMaster(Library library) {
+	public MasterView(Library library) {
 		this.library = library;
 		initialize();
 		frame.setVisible(true);
