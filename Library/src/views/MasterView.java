@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 
+import settings.Icons;
 import viewPanels.BookPanel;
 import viewPanels.CustomerPanel;
 import viewPanels.LoanPanel;
@@ -18,6 +19,8 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.KeyEvent;
+
+import localization.Messages;
 
 import domain.Library;
 
@@ -103,13 +106,13 @@ public class MasterView {
 		frame.getContentPane().add(tabbedPane, gbc_tabbedPane);
 
 		JPanel bookTab = new BookPanel(library);
-		tabbedPane.addTab(bookTabLabel, null, bookTab, null);
+		tabbedPane.addTab(Messages.getString("MasterView.pnlBooks.title"), Icons.IconEnum.BOOK.getIcon(72), bookTab, null);
 
 		JPanel lendingTab = new LoanPanel(library);
-		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
+		tabbedPane.addTab(Messages.getString("MasterView.pnlLoan.title"), Icons.IconEnum.LOAN.getIcon(72), lendingTab, null);
 
 		CustomerPanel customerTab = new CustomerPanel(library);
-		tabbedPane.addTab("Customers", null, customerTab, null);
+		tabbedPane.addTab(Messages.getString("MasterView.pnlCustomers.title"), Icons.IconEnum.CUSTOMER.getIcon(72), customerTab, null);
 
 	}
 
