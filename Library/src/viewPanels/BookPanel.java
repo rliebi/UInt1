@@ -260,7 +260,7 @@ public class BookPanel extends JPanel implements Observer{
 	
 	private void openNewBookWindow() {
 		try {
-			openBookWindow( new BookViewer(library));
+			new BookViewer(library);
 		} catch (LibraryExcption e) {
 			
 		}
@@ -269,15 +269,13 @@ public class BookPanel extends JPanel implements Observer{
 	
 	private void openEditBookWindow() {
 		try {
-			openBookWindow(new BookViewer(library, getSelectedBook()));
+			new BookViewer(library, getSelectedBook());
 		} catch (LibraryExcption e) {
 			// TODO Auto-generated catch block
 			
 		}
 	}
-	private void openBookWindow(BookViewer detailwindow){
 
-	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		updateFields();

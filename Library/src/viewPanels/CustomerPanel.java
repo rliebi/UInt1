@@ -26,10 +26,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import components.IconCellRenderer;
+import components.LibraryExcption;
 import components.MySearchField;
 
 import viewModels.CustomerTableModel;
-import views.CustomerEditor;
+import views.CustomerViewer;
 import views.WarningWindow;
 import domain.Customer;
 import domain.Library;
@@ -245,9 +246,6 @@ public class CustomerPanel extends JPanel implements Observer {
 		customer_table.getColumnModel().getColumn(4).setPreferredWidth(1);
 		customer_table.getColumnModel().getColumn(5).setPreferredWidth(100);
 		customer_table.getColumnModel().getColumn(0).setCellRenderer(new IconCellRenderer());
-
-//		customer_table.getColumnModel().getColumn(0).setMaxWidth(30);
-//		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
 	}
 
 	public void updateFields() {
@@ -266,9 +264,19 @@ public class CustomerPanel extends JPanel implements Observer {
 	}
 
 	private void openEditCustomerWindow() {
-		new CustomerEditor(library,getSelectedCustomer(),this);
+		try {
+			new CustomerViewer(library,getSelectedCustomer());
+		} catch (LibraryExcption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private void newCustomer(){
-		new CustomerEditor(library,this);
+		try {
+			new CustomerViewer(library);
+		} catch (LibraryExcption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

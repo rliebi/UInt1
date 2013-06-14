@@ -103,5 +103,6 @@ public class CustomerEditor extends AbstractEditor {
 	@Override
 	protected void cancelTask() {
 		d.dispose();
+		customer.setInvalid();
 	}
 }
