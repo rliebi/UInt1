@@ -304,11 +304,11 @@ public class LoanPanel extends JPanel implements Observer{
 					for (int i: lending_table.getSelectedRows()) {
 						loanList.add(library.getOpenLoans().get(lending_table.convertRowIndexToModel(i)));
 					}
-//					new ReturnMultipleLoansView(library, loanList).setVisible(true);
-					JOptionPane.showMessageDialog(null,
-							"You cannot return Multiple Loans yet", "Feature in work",
-							JOptionPane.NO_OPTION,
-							Icons.IconEnum.ERROR.getIcon(24));
+					new ReturnMultipleLoansView(library, loanList).setVisible(true);
+//					JOptionPane.showMessageDialog(null,
+//							"You cannot return Multiple Loans yet", "Feature in work",
+//							JOptionPane.NO_OPTION,
+//							Icons.IconEnum.ERROR.getIcon(24));
 				}
 				
 			

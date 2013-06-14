@@ -8,6 +8,7 @@ public class Customer extends Observable{
 	
 	private String name, surname, street, city;
 	private int zip;
+	private boolean invalid;
 
 	public Customer(String name, String surname) {
 		this.name = name;
@@ -73,6 +74,16 @@ public class Customer extends Observable{
 	@Override
 	public String toString() {
 		return name + " " + surname + " , " + street + " , " + zip + " " + city;
+	}
+
+	public boolean isInvalid() {
+		// TODO Auto-generated method stub
+		return invalid;
+	}
+
+	public void setInvalid() {
+		invalid = true;
+		
 	}
 
 }

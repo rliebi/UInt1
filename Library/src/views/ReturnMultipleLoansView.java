@@ -46,6 +46,7 @@ public class ReturnMultipleLoansView extends AbstractViewer {
 
 	public ReturnMultipleLoansView(Library lib,
 			final List<Loan> selectedLoanList) {
+		library = lib;
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));

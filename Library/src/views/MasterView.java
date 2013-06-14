@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 
+import settings.Icons;
 import viewPanels.BookPanel;
 import viewPanels.CustomerPanel;
 import viewPanels.LoanPanel;
@@ -19,14 +20,14 @@ import java.awt.Window;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.KeyEvent;
 
+import localization.Messages;
+
 import domain.Library;
 
 public class MasterView {
 
 	private static final int minimum_window_height = 700;
 	private static final int minimum_window_witdh = 1200;
-	private static final String TabLabel_LENDING = "Lending";
-	private static final String bookTabLabel = "Books";
 	private JFrame frame;
 	private static int windowOpen = 0;
 	private Library library;
@@ -103,26 +104,24 @@ public class MasterView {
 		frame.getContentPane().add(tabbedPane, gbc_tabbedPane);
 
 		JPanel bookTab = new BookPanel(library);
-		tabbedPane.addTab(bookTabLabel, null, bookTab, null);
+		tabbedPane.addTab(Messages.getString("MasterView.pnlBooks.title"), Icons.IconEnum.BOOK.getIcon(72), bookTab, null);
 
 		JPanel lendingTab = new LoanPanel(library);
-		tabbedPane.addTab(TabLabel_LENDING, null, lendingTab, null);
+		tabbedPane.addTab(Messages.getString("MasterView.pnlLoan.title"), Icons.IconEnum.LOAN.getIcon(72), lendingTab, null);
 
 		CustomerPanel customerTab = new CustomerPanel(library);
-		tabbedPane.addTab("Customers", null, customerTab, null);
+		tabbedPane.addTab(Messages.getString("MasterView.pnlCustomers.title"), Icons.IconEnum.CUSTOMER.getIcon(72), customerTab, null);
 
 	}
 
 	public static void setWindowOpen() {
 		windowOpen++;
-		System.out.println(windowOpen);
 	}
 
 	public static void setWindowClose() {
 
 		if (windowOpen > 0)
 			windowOpen--;
-		System.out.println(windowOpen);
 	}
 
 	public Point getLocation() {
