@@ -14,7 +14,6 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,7 +26,6 @@ import javax.swing.table.TableRowSorter;
 
 import settings.Icons;
 import viewModels.LendingTableModel;
-import views.MasterView;
 import views.ReturnLoanView;
 import views.ReturnMultipleLoansView;
 import views.WarningWindow;
@@ -229,7 +227,7 @@ public class LoanPanel extends JPanel implements Observer{
 		gbc_chckbxOverdue.gridy = 1;
 		panel.add(chckbxOverdue, gbc_chckbxOverdue);
 		
-		btnDisplayLoan = new JButton(Messages.getString("LoansInventoryView.btnCloseLoan.text"));
+		btnDisplayLoan = new JButton(Messages.getString("LoansInventoryView.btnCloseLoan.text"),Icons.IconEnum.OK.getIcon(24));
 		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					openEditLoanWindow();

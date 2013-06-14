@@ -23,6 +23,7 @@ public enum IconEnum {
         EDITBOOK("book"),
         CANCEL("cancel"),
         SAVE("save"),
+        DETAIL("detail"),
         DELETE("delete"),
         ADDLOAN("addloan"),
         CLOSELOAN("closeloan"),

@@ -25,10 +25,13 @@ import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
+import localization.Messages;
+
 import components.IconCellRenderer;
 import components.LibraryExcption;
 import components.MySearchField;
 
+import settings.Icons;
 import viewModels.CustomerTableModel;
 import views.CustomerViewer;
 import views.WarningWindow;
@@ -90,7 +93,7 @@ public class CustomerPanel extends JPanel implements Observer {
 				Double.MIN_VALUE };
 		panelCustomerStats.setLayout(gbl_panelCustomerStats);
 
-		JLabel lblNrCustomers = new JLabel("Nr. Customers");
+		JLabel lblNrCustomers = new JLabel(Messages.getString("CustomersInventoryView.lblNumberOfCustomersText.title"));
 		GridBagConstraints gbc_lblNrCustomers = new GridBagConstraints();
 		gbc_lblNrCustomers.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNrCustomers.anchor = GridBagConstraints.NORTHWEST;
@@ -138,10 +141,6 @@ public class CustomerPanel extends JPanel implements Observer {
 				if (e.getClickCount() == 2) {
 					openEditCustomerWindow();
 				}
-				// TODO Correctly implement search with library observe
-				// on selection, set correct filter instead of setting model
-				// customer_loan_jtable.setModel(new
-				// LendingTableModel(library));
 				filterLoans();
 
 			}
@@ -182,7 +181,7 @@ public class CustomerPanel extends JPanel implements Observer {
 		customer_table.setRowSorter(customerSorter);
 		customerSorter.setSortsOnUpdates(true);
 
-		JButton btnDisplayCustomer = new JButton("Display Customer");
+		JButton btnDisplayCustomer = new JButton(Messages.getString("CustomersAddView.CustomersAddViewCenterTitle.title"),Icons.IconEnum.DETAIL.getIcon(24));
 		btnDisplayCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -218,7 +217,7 @@ public class CustomerPanel extends JPanel implements Observer {
 		gbc_btnDisplaySelected_1.gridy = 1;
 		panel_1.add(btnDisplayCustomer, gbc_btnDisplaySelected_1);
 
-		JButton btnNewCustomer = new JButton("New Customer");
+		JButton btnNewCustomer = new JButton(Messages.getString("CustomersAddView.CustomersAddViewTabTitle.title"),Icons.IconEnum.ADD.getIcon(24));
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				newCustomerWindow = new NewCustomer(new Customer("Last",
