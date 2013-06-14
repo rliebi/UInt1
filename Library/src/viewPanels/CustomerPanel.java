@@ -34,7 +34,6 @@ import components.MySearchField;
 import settings.Icons;
 import viewModels.CustomerTableModel;
 import views.CustomerViewer;
-import views.WarningWindow;
 import domain.Customer;
 import domain.Library;
 
@@ -45,11 +44,11 @@ public class CustomerPanel extends JPanel implements Observer {
 	private JTextField txtSearchfield;
 	private JTable customer_table;
 	private JLabel displayNrCustomer;
-	private WarningWindow warningWindow;
 	private java.util.List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
 			3);
 	private java.util.List<RowFilter<Object, Object>> filters_loans = new ArrayList<RowFilter<Object, Object>>(
 			3);
+	private JButton btnDisplayCustomer;
 
 	public CustomerPanel() {
 		super();
@@ -141,6 +140,10 @@ public class CustomerPanel extends JPanel implements Observer {
 				if (e.getClickCount() == 2) {
 					openEditCustomerWindow();
 				}
+				if (customer_table.getSelectedRowCount()==1)
+					btnDisplayCustomer.setEnabled(true);
+				else
+					btnDisplayCustomer.setEnabled(false);
 				filterLoans();
 
 			}
@@ -181,16 +184,13 @@ public class CustomerPanel extends JPanel implements Observer {
 		customer_table.setRowSorter(customerSorter);
 		customerSorter.setSortsOnUpdates(true);
 
-		JButton btnDisplayCustomer = new JButton(Messages.getString("CustomersAddView.CustomersAddViewCenterTitle.title"),Icons.IconEnum.DETAIL.getIcon(24));
+		btnDisplayCustomer = new JButton(Messages.getString("CustomersAddView.CustomersAddViewCenterTitle.title"),Icons.IconEnum.DETAIL.getIcon(24));
+		btnDisplayCustomer.setEnabled(false);
 		btnDisplayCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					openEditCustomerWindow();
-				} catch (IndexOutOfBoundsException e) {
-					warningWindow = new WarningWindow(
-							"Please select a customer!");
-					warningWindow.setVisible();
-				}
+				
 			}
 		});
 

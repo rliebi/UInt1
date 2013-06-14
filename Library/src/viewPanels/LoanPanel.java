@@ -169,6 +169,11 @@ public class LoanPanel extends JPanel implements Observer{
 				if(e.getClickCount() == 2){
 					openEditLoanWindow();
 				}
+				
+				if (lending_table.getSelectedRowCount()==1)
+					btnDisplayLoan.setEnabled(true);
+				else
+					btnDisplayLoan.setEnabled(false);
 			}
 		});
 		lending_table.addKeyListener(new KeyAdapter() {
@@ -228,6 +233,7 @@ public class LoanPanel extends JPanel implements Observer{
 		panel.add(chckbxOverdue, gbc_chckbxOverdue);
 		
 		btnDisplayLoan = new JButton(Messages.getString("LoansInventoryView.btnCloseLoan.text"),Icons.IconEnum.OK.getIcon(24));
+		btnDisplayLoan.setEnabled(false);
 		btnDisplayLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					openEditLoanWindow();

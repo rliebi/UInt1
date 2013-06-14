@@ -34,7 +34,7 @@ import components.ComboBoxCellRenderer;
 import components.IconCellRenderer;
 import components.IconCustomerCellRenderer;
 import components.MyJTable;
-import controll.LoanTableSelectListener;
+import controller.LoanTableSelectListener;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;

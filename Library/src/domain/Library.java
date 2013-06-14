@@ -8,7 +8,7 @@ import java.util.Observer;
 
 import components.LibraryExcption;
 
-import controll.LibraryEvent;
+import controller.LibraryEvent;
 
 public class Library extends Observable implements Observer {
 

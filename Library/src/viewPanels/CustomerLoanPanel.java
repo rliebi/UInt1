@@ -28,7 +28,7 @@ import java.awt.Insets;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import components.IconCellRenderer;
 import components.MyJTable;
-import controll.TableSelectListener;
+import controller.TableSelectListener;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
