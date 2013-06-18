@@ -101,14 +101,14 @@ public class CustomerLoanPanel extends JPanel {
 		addLoanBtn.setAction(new AddLoanAction());
 		addLoanBtn.setIcon(Icons.IconEnum.ADDLOAN.getIcon(16));
 		addLoanBtn.setText(Messages
-				.getString("BooksDetailView.btnAddloan.text"));
+				.getString("CopyPanel.btnAddloan.text"));
 		addLoanBtn.setEnabled(true);
 		
 		JButton returnLoanBtn = new JButton();
 		returnLoanBtn.setAction(new ReturnAction());
 		returnLoanBtn.setIcon(Icons.IconEnum.CLOSELOAN.getIcon(16));
 		returnLoanBtn.setText(Messages
-				.getString("BooksDetailView.btnReturnLoan.text"));
+				.getString("CopyPanel.btnReturnLoan.text"));
 		returnLoanBtn.setEnabled(false);
 
 		table.getSelectionModel().addListSelectionListener(new TableSelectListener(table, returnLoanBtn, returnLoanBtn.getText(), false));

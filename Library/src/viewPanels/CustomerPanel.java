@@ -25,6 +25,8 @@ import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
+import localization.Messages;
+
 import components.IconCellRenderer;
 import components.LibraryExcption;
 import components.MySearchField;
@@ -90,7 +92,7 @@ public class CustomerPanel extends JPanel implements Observer {
 				Double.MIN_VALUE };
 		panelCustomerStats.setLayout(gbl_panelCustomerStats);
 
-		JLabel lblNrCustomers = new JLabel("Nr. Customers");
+		JLabel lblNrCustomers = new JLabel(Messages.getString("CustomerPanel.lblNumberOfCustomersText.title"));
 		GridBagConstraints gbc_lblNrCustomers = new GridBagConstraints();
 		gbc_lblNrCustomers.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNrCustomers.anchor = GridBagConstraints.NORTHWEST;

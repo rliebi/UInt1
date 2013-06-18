@@ -50,7 +50,6 @@ public class LoanPanel extends JPanel implements Observer{
 	private JTable lending_table;
 	private JButton btnDisplayLoan;
 	private JLabel display_number_of_rents;
-	private JLabel lblSearch;
 	private WarningWindow warningWindow;
 	private JCheckBox chckbxOverdue;
 	private JLabel display_number_of_lendings;
@@ -111,21 +110,8 @@ public class LoanPanel extends JPanel implements Observer{
 		gbc_display_number_of_rents.gridy = 0;
 		panelrentstatistics.add(display_number_of_rents, gbc_display_number_of_rents);
 		
-		JLabel lbl_number_of_lendings = new JLabel(Messages.getString("LoanPanel.pnlLoanCenter.title"));
-		GridBagConstraints gbc_lbl_number_of_lendings = new GridBagConstraints();
-		gbc_lbl_number_of_lendings.insets = new Insets(0, 0, 0, 5);
-		gbc_lbl_number_of_lendings.gridx = 3;
-		gbc_lbl_number_of_lendings.gridy = 0;
-		panelrentstatistics.add(lbl_number_of_lendings, gbc_lbl_number_of_lendings);
 		
-		display_number_of_lendings = new JLabel(library.getLoans().size()+"");
-		GridBagConstraints gbc_display_number_of_lendings = new GridBagConstraints();
-		gbc_display_number_of_lendings.insets = new Insets(0, 0, 0, 5);
-		gbc_display_number_of_lendings.gridx = 4;
-		gbc_display_number_of_lendings.gridy = 0;
-		panelrentstatistics.add(display_number_of_lendings, gbc_display_number_of_lendings);
-		
-		JLabel lblOverdue = new JLabel("Overdue: ");
+		JLabel lblOverdue = new JLabel(Messages.getString("LoanPanel.pnlLoanStats.overdues"));
 		GridBagConstraints gbc_lblOverdue = new GridBagConstraints();
 		gbc_lblOverdue.insets = new Insets(0, 0, 0, 5);
 		gbc_lblOverdue.gridx = 6;
@@ -183,12 +169,6 @@ public class LoanPanel extends JPanel implements Observer{
 		lending_scrollPane.setViewportView(lending_table);
 		setLendingModel(new LendingTableModel(library));
 		
-		lblSearch = new JLabel("Search: ");
-		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
-		gbc_lblSearch.insets = new Insets(0, 0, 0, 5);
-		gbc_lblSearch.gridx = 0;
-		gbc_lblSearch.gridy = 1;
-		panel.add(lblSearch, gbc_lblSearch);
 		
 		txtSearchfield = new MySearchField(lending_table,2,filters);
 
@@ -201,7 +181,7 @@ public class LoanPanel extends JPanel implements Observer{
 		txtSearchfield.setColumns(10);
 		final RowFilter<Object, Object> DueFilter = RowFilter.regexFilter("(?i)due");
 	
-		chckbxOverdue = new JCheckBox("Only Overdue");
+		chckbxOverdue = new JCheckBox(Messages.getString("LoansInventoryView.chckbxOnlyOverdue.text"));
 		chckbxOverdue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
