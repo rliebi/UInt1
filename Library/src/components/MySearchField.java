@@ -9,6 +9,8 @@ import javax.swing.RowFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
+import localization.Messages;
+
 public class MySearchField extends MyJTextField{
 
 	private static final long serialVersionUID = 4798414752488878629L;
@@ -16,20 +18,9 @@ public class MySearchField extends MyJTextField{
 	private int rowToSort=0;
 	private List<RowFilter<Object, Object>> filters;
 	private int currentfilter = -1;
-	@Deprecated
-	public MySearchField(JTable table_to_search){
-		this(table_to_search,0);
-		
-	}
-	@Deprecated
-	public MySearchField(JTable table_to_search, int rowToSort){
-		super("Search");
-		this.table_to_search=table_to_search;
-		this.rowToSort=rowToSort;
-		setSorter();
-	}
+	
 	public MySearchField(JTable table_to_search, int rowToSort, List<RowFilter<Object,Object>> filters_to_apply){
-		super("Search");
+		super(Messages.getString("Global.Search"));
 		this.table_to_search=table_to_search;
 		this.rowToSort=rowToSort;
 		this.filters = filters_to_apply;
@@ -60,19 +51,16 @@ public class MySearchField extends MyJTextField{
 			private void newFilter() {
 				RowFilter<Object, Object> rf = null;
 				try {
-//					System.out.println(currentfilter);
 
 					rf = RowFilter.regexFilter("(?i)"+getText());
 					if (currentfilter==-1)
 					{
 						filters.add(rf);  
 						currentfilter = filters.indexOf(rf);
-//						System.out.println(currentfilter);
 
 					}
 					else
 					{
-//						System.out.println(currentfilter);
 
 						filters.set(currentfilter, rf);
 					}

@@ -14,7 +14,6 @@ import domain.Loan;
 
 public class BookCopiesTableModel extends AbstractTableModel implements Observer {
 
-	String[] columnNames = { "Available", "Titel", "Condition" };
 	/**
 	 * 
 	 */

@@ -16,12 +16,6 @@ public class IconListCellRenderer extends JLabel implements ListCellRenderer<Obj
 
 	private static final long serialVersionUID = 6922884206824595356L;
 
-//	public IconListCellRenderer() {
-////		setOpaque(true);
-////		setHorizontalAlignment(CENTER);
-////		setVerticalAlignment(CENTER);
-//	}
-
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {

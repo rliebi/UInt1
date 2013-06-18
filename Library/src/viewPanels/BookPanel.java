@@ -44,8 +44,6 @@ public class BookPanel extends JPanel implements Observer{
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
 	private WarningWindow warningWindow;
-	private static final String label_NUMBER_OF_TITELS = "Number of Titels: ";
-	private static final String borderLabel_INVENTORY_STATISTICS = "Inventory Statistics";
 	private JTable book_table;
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
@@ -75,7 +73,7 @@ public class BookPanel extends JPanel implements Observer{
 		
 		JPanel panelInventoryStatistik = new JPanel();
 		panelInventoryStatistik.setBackground(background_Color);
-		panelInventoryStatistik.setBorder(new TitledBorder(null, borderLabel_INVENTORY_STATISTICS, TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelInventoryStatistik.setBorder(new TitledBorder(null, Messages.getString("BookPanel.InventoryStatistics.Title"), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panelLendingStatistik = new GridBagConstraints();
 		gbc_panelLendingStatistik.insets = new Insets(0, 0, 5, 0);
 		gbc_panelLendingStatistik.fill = GridBagConstraints.BOTH;
@@ -89,7 +87,7 @@ public class BookPanel extends JPanel implements Observer{
 		gbl_panelInventoryStatistik.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelInventoryStatistik.setLayout(gbl_panelInventoryStatistik);
 		
-		JLabel lblNumberOfTitles = new JLabel(label_NUMBER_OF_TITELS);
+		JLabel lblNumberOfTitles = new JLabel(Messages.getString("BookPanel.InventoryStatistics.Count"));
 		GridBagConstraints gbc_lblNumberOfBooks = new GridBagConstraints();
 		gbc_lblNumberOfBooks.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNumberOfBooks.gridx = 0;
@@ -103,7 +101,7 @@ public class BookPanel extends JPanel implements Observer{
 		gbc_lblNumber_2.gridy = 0;
 		panelInventoryStatistik.add(display_number_of_titles, gbc_lblNumber_2);
 		
-		JLabel lblNumberOfBooks_1 = new JLabel("Number of Books");
+		JLabel lblNumberOfBooks_1 = new JLabel(Messages.getString("BookPanel.InventoryStatistics.CopyCount"));
 		GridBagConstraints gbc_lblNumberOfBooks_1 = new GridBagConstraints();
 		gbc_lblNumberOfBooks_1.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNumberOfBooks_1.gridx = 3;
@@ -182,7 +180,7 @@ public class BookPanel extends JPanel implements Observer{
 		gbc_lblSearch.gridx = 0;
 		gbc_lblSearch.gridy = 1;
 		panelBookInventory.add(lblSearch, gbc_lblSearch);
-		btnDisplayBook = new JButton(Messages.getString("BooksAddView.BooksAddViewCenterTitle.title"));
+		btnDisplayBook = new JButton(Messages.getString("BooksPanel.DetailButton.title"));
 		btnDisplayBook.setIcon(Icons.IconEnum.EDITBOOK.getIcon(24));
 		btnDisplayBook.setEnabled(false);
 		btnDisplayBook.addActionListener(new ActionListener() {
@@ -190,7 +188,7 @@ public class BookPanel extends JPanel implements Observer{
 				try {
 					openEditBookWindow();
 				} catch (IndexOutOfBoundsException e) {
-					warningWindow = new WarningWindow("Please Select a Book");
+					warningWindow = new WarningWindow(Messages.getString("BooksPanel.WarningWindow.NoBookSelected.Message"));
 					warningWindow.setVisible();
 				}
 			}
@@ -214,7 +212,7 @@ public class BookPanel extends JPanel implements Observer{
 		//------------Search Field --------------
 
 		//------------Button Add new Book--------		
-		JButton btnAddNewBook = new JButton(Messages.getString("BooksAddView.BooksAddViewTabTitle.title"));
+		JButton btnAddNewBook = new JButton(Messages.getString("BooksPanel.DetailButton.title"));
 		btnAddNewBook.setIcon(Icons.IconEnum.ADD.getIcon(24));
 		GridBagConstraints gbc_btnAddNewBook = new GridBagConstraints();
 		gbc_btnAddNewBook.gridx = 3;

@@ -17,7 +17,6 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.JTable;
 
 import domain.Book;
 import domain.Copy;
@@ -60,7 +59,6 @@ public class CopyPanel extends JPanel {
 
 	private JPanel button_panel;
 	private JDialog parent;
-	private Customer customer;
 
 	/**
 	 * @wbp.parser.constructor
@@ -71,11 +69,9 @@ public class CopyPanel extends JPanel {
 		this.parent = p;
 		table = new MyJTable(new BookCopiesTableModel(library, book));
 		init();
-		// TODO Auto-generated constructor stub
 	}
 	public CopyPanel(Library library2, Customer customer, JDialog p) {
 		this.library = library2;
-		this.customer = customer;
 		this.parent = p;
 		table = new MyJTable(new CustomerCopiesTableModel(library, customer));
 		init();
@@ -90,7 +86,7 @@ public class CopyPanel extends JPanel {
 		setLayout(gridBagLayout);
 
 		JPanel north_panel = new JPanel();
-		north_panel.setBorder(new TitledBorder(null, "Copies",
+		north_panel.setBorder(new TitledBorder(null, Messages.getString("CopyPanel.Title"),
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_north_panel = new GridBagConstraints();
 		gbc_north_panel.insets = new Insets(0, 0, 5, 0);
@@ -122,25 +118,25 @@ public class CopyPanel extends JPanel {
 		JButton addBtn = new JButton();
 		addBtn.addActionListener(new AddAction());
 		addBtn.setIcon(Icons.IconEnum.ADD.getIcon(16));
-		addBtn.setText(Messages.getString("BooksDetailView.btnAddcopy.text"));
+		addBtn.setText(Messages.getString("CopyPanel.btnAddcopy.text"));
 		JButton removeBtn = new JButton();
 		removeBtn.addActionListener(new RemoveAction());
 		removeBtn.setIcon(Icons.IconEnum.DELETE.getIcon(16));
 		removeBtn
-				.setText(Messages.getString("BooksDetailView.btnDelbook.text"));
+				.setText(Messages.getString("CopyPanel.btnDelbook.text"));
 		removeBtn.setEnabled(false);
 
 		JButton addLoanBtn = new JButton();
 		addLoanBtn.setAction(new AddLoanAction());
 		addLoanBtn.setIcon(Icons.IconEnum.ADDLOAN.getIcon(16));
 		addLoanBtn.setText(Messages
-				.getString("BooksDetailView.btnAddloan.text"));
+				.getString("CopyPanel.btnAddloan.text"));
 		addLoanBtn.setEnabled(false);
 		JButton returnLoanBtn = new JButton();
 		returnLoanBtn.setAction(new ReturnAction());
 		returnLoanBtn.setIcon(Icons.IconEnum.CLOSELOAN.getIcon(16));
 		returnLoanBtn.setText(Messages
-				.getString("BooksDetailView.btnReturnLoan.text"));
+				.getString("CopyPanel.btnReturnLoan.text"));
 		returnLoanBtn.setEnabled(false);
 		table.getSelectionModel()
 				.addListSelectionListener(
@@ -228,7 +224,7 @@ public class CopyPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		private AddAction() {
-			super("Add new Copy");
+			super(Messages.getString("CopyPanel.btnAddcopy.text"));
 		}
 
 		@Override
@@ -244,7 +240,7 @@ public class CopyPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		private ReturnAction() {
-			super("Return Loan");
+			super("");
 		}
 
 		@Override
@@ -271,7 +267,7 @@ public class CopyPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("ADD LOAN");
+			System.out.println("");
 			new CopyAddLoanView(library, getSelectedCopies().get(0));
 		}
 		
@@ -291,11 +287,11 @@ public class CopyPanel extends JPanel {
 			String confirmationMessage;
 			String confirmationTitle;
 			if (table.getSelectedRowCount() == 1) {
-				confirmationMessage = Messages.getString("BooksDetailView.ConfirmationDeleteCopyMessage");
-				confirmationTitle = Messages.getString("BooksDetailView.ConfirmationDeleteCopyTitle");
+				confirmationMessage = Messages.getString("CopyPanel.ConfirmationDeleteCopyMessage");
+				confirmationTitle = Messages.getString("CopyPanel.ConfirmationDeleteCopyTitle");
 			} else {
-				confirmationMessage = Messages.getString("BooksDetailView.ConfirmationDeleteCopiesMessage");
-				confirmationTitle = Messages.getString("BooksDetailView.ConfirmationDeleteCopiesTitle");
+				confirmationMessage = Messages.getString("CopyPanel.ConfirmationDeleteCopiesMessage");
+				confirmationTitle = Messages.getString("CopyPanel.ConfirmationDeleteCopiesTitle");
 			}
 			try {
 				if (JOptionPane.showConfirmDialog(getCopyPanel(), confirmationMessage, confirmationTitle, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, Icons.IconEnum.QUESTION.getIcon(48)) == 0) {
@@ -356,17 +352,14 @@ public class CopyPanel extends JPanel {
 
 	public CopyPanel(LayoutManager layout) {
 		super(layout);
-		// TODO Auto-generated constructor stub
 	}
 
 	public CopyPanel(boolean isDoubleBuffered) {
 		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
 	}
 
 	public CopyPanel(LayoutManager layout, boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
 	}
 
 

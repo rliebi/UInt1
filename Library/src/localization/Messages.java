@@ -27,7 +27,7 @@ public class Messages {
                         ResourceBundle bundle = Beans.isDesignTime() ? loadBundle() : RESOURCE_BUNDLE;
                         return bundle.getString(key);
                 } catch (MissingResourceException e) {
-                        return "!" + key + "!";
+                        return "!" + key + "<<<<<<<<<<<<<<";
                 }
         }
 }

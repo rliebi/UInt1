@@ -77,7 +77,6 @@ public class Customer extends Observable{
 	}
 
 	public boolean isInvalid() {
-		// TODO Auto-generated method stub
 		return invalid;
 	}
 

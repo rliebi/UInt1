@@ -1,50 +1,43 @@
 package viewPanels;
 
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-
-import javax.swing.border.TitledBorder;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 
-import domain.Book;
-import domain.Copy;
-import domain.Customer;
-import domain.Loan;
-import domain.Library;
-
+import localization.Messages;
 import settings.Icons;
 import viewModels.CustomerCopiesTableModel;
 import views.ReturnLoanView;
 import views.ReturnMultipleLoansView;
 
-import java.awt.Insets;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import components.IconCellRenderer;
 import components.MyJTable;
+
 import controll.TableSelectListener;
-
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
-import localization.Messages;
+import domain.Customer;
+import domain.Library;
+import domain.Loan;
 
 public class CustomerLoanPanel extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6720768505050317833L;
-	private Book book;
 	private Library library;
 	private MyJTable table;
 	private JPanel table_panel;
@@ -246,17 +239,17 @@ public class CustomerLoanPanel extends JPanel {
 
 	public CustomerLoanPanel(LayoutManager layout) {
 		super(layout);
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public CustomerLoanPanel(boolean isDoubleBuffered) {
 		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public CustomerLoanPanel(LayoutManager layout, boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
+	
 	}
 
 

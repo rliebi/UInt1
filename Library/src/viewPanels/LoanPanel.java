@@ -14,7 +14,6 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,9 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
-import settings.Icons;
 import viewModels.LendingTableModel;
-import views.MasterView;
 import views.ReturnLoanView;
 import views.ReturnMultipleLoansView;
 import views.WarningWindow;
@@ -84,7 +81,7 @@ public class LoanPanel extends JPanel implements Observer{
 		
 		JPanel panelrentstatistics = new JPanel();
 		panelrentstatistics.setBackground(background_Color);
-		panelrentstatistics.setBorder(new TitledBorder(null, "Rent Statistics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelrentstatistics.setBorder(new TitledBorder(null, Messages.getString("LoanPanel.pnlLoanStats.title"), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panelrentstatistics = new GridBagConstraints();
 		gbc_panelrentstatistics.insets = new Insets(0, 0, 5, 0);
 		gbc_panelrentstatistics.fill = GridBagConstraints.BOTH;
@@ -98,7 +95,7 @@ public class LoanPanel extends JPanel implements Observer{
 		gbl_panelrentstatistics.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelrentstatistics.setLayout(gbl_panelrentstatistics);
 		
-		JLabel lblNumber_of_Rents = new JLabel("Books rented: ");
+		JLabel lblNumber_of_Rents = new JLabel(Messages.getString("LoanPanel.lblNrOfLoansText.text"));
 		GridBagConstraints gbc_lblNumber_of_Rents = new GridBagConstraints();
 		gbc_lblNumber_of_Rents.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNumber_of_Rents.anchor = GridBagConstraints.EAST;
@@ -114,7 +111,7 @@ public class LoanPanel extends JPanel implements Observer{
 		gbc_display_number_of_rents.gridy = 0;
 		panelrentstatistics.add(display_number_of_rents, gbc_display_number_of_rents);
 		
-		JLabel lbl_number_of_lendings = new JLabel("All Loans:");
+		JLabel lbl_number_of_lendings = new JLabel(Messages.getString("LoanPanel.pnlLoanCenter.title"));
 		GridBagConstraints gbc_lbl_number_of_lendings = new GridBagConstraints();
 		gbc_lbl_number_of_lendings.insets = new Insets(0, 0, 0, 5);
 		gbc_lbl_number_of_lendings.gridx = 3;
@@ -305,10 +302,7 @@ public class LoanPanel extends JPanel implements Observer{
 						loanList.add(library.getOpenLoans().get(lending_table.convertRowIndexToModel(i)));
 					}
 					new ReturnMultipleLoansView(library, loanList).setVisible(true);
-//					JOptionPane.showMessageDialog(null,
-//							"You cannot return Multiple Loans yet", "Feature in work",
-//							JOptionPane.NO_OPTION,
-//							Icons.IconEnum.ERROR.getIcon(24));
+
 				}
 				
 			

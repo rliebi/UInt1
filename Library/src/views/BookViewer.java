@@ -19,6 +19,9 @@ import domain.Book;
 import domain.Library;
 import javax.swing.SwingConstants;
 
+import localization.Messages;
+
+import settings.Icons;
 import viewPanels.CopyPanel;
 
 import components.LibraryExcption;
@@ -107,7 +110,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 		setLayout(gridBagLayout);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Book Information",
+		panel_2.setBorder(new TitledBorder(null, Messages.getString("BookViewer.BookInformation.Title"),
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
@@ -172,7 +175,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 		gbc_lblNewLabel_3.gridy = 4;
 		panel.add(bookShelf, gbc_lblNewLabel_3);
 
-		JButton editBookButton = new JButton("Edit");
+		JButton editBookButton = new JButton(Messages.getString("BookViewer.btnBookEdit.text"),Icons.IconEnum.EDITBOOK.getIcon());
 		editBookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BookEditor();
