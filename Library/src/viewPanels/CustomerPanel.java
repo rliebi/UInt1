@@ -31,9 +31,9 @@ import components.IconCellRenderer;
 import components.LibraryExcption;
 import components.MySearchField;
 
+import settings.Icons;
 import viewModels.CustomerTableModel;
 import views.CustomerViewer;
-import views.WarningWindow;
 import domain.Customer;
 import domain.Library;
 
@@ -44,11 +44,11 @@ public class CustomerPanel extends JPanel implements Observer {
 	private JTextField txtSearchfield;
 	private JTable customer_table;
 	private JLabel displayNrCustomer;
-	private WarningWindow warningWindow;
 	private java.util.List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
 			3);
 	private java.util.List<RowFilter<Object, Object>> filters_loans = new ArrayList<RowFilter<Object, Object>>(
 			3);
+	private JButton btnDisplayCustomer;
 
 	public CustomerPanel() {
 		super();
@@ -93,6 +93,7 @@ public class CustomerPanel extends JPanel implements Observer {
 		panelCustomerStats.setLayout(gbl_panelCustomerStats);
 
 		JLabel lblNrCustomers = new JLabel(Messages.getString("CustomerPanel.lblNumberOfCustomersText.title"));
+
 		GridBagConstraints gbc_lblNrCustomers = new GridBagConstraints();
 		gbc_lblNrCustomers.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNrCustomers.anchor = GridBagConstraints.NORTHWEST;
@@ -140,10 +141,10 @@ public class CustomerPanel extends JPanel implements Observer {
 				if (e.getClickCount() == 2) {
 					openEditCustomerWindow();
 				}
-				// TODO Correctly implement search with library observe
-				// on selection, set correct filter instead of setting model
-				// customer_loan_jtable.setModel(new
-				// LendingTableModel(library));
+				if (customer_table.getSelectedRowCount()==1)
+					btnDisplayCustomer.setEnabled(true);
+				else
+					btnDisplayCustomer.setEnabled(false);
 				filterLoans();
 
 			}
@@ -184,16 +185,13 @@ public class CustomerPanel extends JPanel implements Observer {
 		customer_table.setRowSorter(customerSorter);
 		customerSorter.setSortsOnUpdates(true);
 
-		JButton btnDisplayCustomer = new JButton("Display Customer");
+		btnDisplayCustomer = new JButton(Messages.getString("CustomersAddView.CustomersAddViewCenterTitle.title"),Icons.IconEnum.DETAIL.getIcon(24));
+		btnDisplayCustomer.setEnabled(false);
 		btnDisplayCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+				
 					openEditCustomerWindow();
-				} catch (IndexOutOfBoundsException e) {
-					warningWindow = new WarningWindow(
-							"Please select a customer!");
-					warningWindow.setVisible();
-				}
+				
 			}
 		});
 
@@ -220,7 +218,7 @@ public class CustomerPanel extends JPanel implements Observer {
 		gbc_btnDisplaySelected_1.gridy = 1;
 		panel_1.add(btnDisplayCustomer, gbc_btnDisplaySelected_1);
 
-		JButton btnNewCustomer = new JButton("New Customer");
+		JButton btnNewCustomer = new JButton(Messages.getString("CustomersAddView.CustomersAddViewTabTitle.title"),Icons.IconEnum.ADD.getIcon(24));
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				newCustomerWindow = new NewCustomer(new Customer("Last",

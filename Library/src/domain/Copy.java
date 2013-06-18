@@ -4,7 +4,7 @@ import java.util.Observable;
 
 import localization.Messages;
 
-import controll.LibraryEvent;
+import controller.LibraryEvent;
 
 public class Copy extends Observable {
 

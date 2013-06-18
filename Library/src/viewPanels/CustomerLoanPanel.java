@@ -18,7 +18,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
-import localization.Messages;
+
+import domain.Customer;
+import domain.Loan;
+import domain.Library;
+
 import settings.Icons;
 import viewModels.CustomerCopiesTableModel;
 import views.ReturnLoanView;
