@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Observable;
 
-import controll.LibraryEvent;
+import controller.LibraryEvent;
 
 public class Book extends Observable{
 	

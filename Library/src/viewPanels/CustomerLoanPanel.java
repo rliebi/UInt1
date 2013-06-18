@@ -15,8 +15,6 @@ import java.awt.GridBagConstraints;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTable;
 
-import domain.Book;
-import domain.Copy;
 import domain.Customer;
 import domain.Loan;
 import domain.Library;
@@ -30,7 +28,7 @@ import java.awt.Insets;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import components.IconCellRenderer;
 import components.MyJTable;
-import controll.TableSelectListener;
+import controller.TableSelectListener;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -44,7 +42,6 @@ public class CustomerLoanPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 6720768505050317833L;
-	private Book book;
 	private Library library;
 	private MyJTable table;
 	private JPanel table_panel;

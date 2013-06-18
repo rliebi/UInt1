@@ -1,4 +1,4 @@
-package controll;
+package controller;
 
 import javax.swing.JButton;
 import javax.swing.JTable;

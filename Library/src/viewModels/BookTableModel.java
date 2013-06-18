@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 
 import localization.Messages;
 
-import controll.LibraryEvent;
+import controller.LibraryEvent;
 import domain.Book;
 import domain.Copy;
 import domain.Library;

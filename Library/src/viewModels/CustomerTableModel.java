@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 
 import localization.Messages;
 
-import controll.LibraryEvent;
+import controller.LibraryEvent;
 
 import domain.Customer;
 import domain.Library;
