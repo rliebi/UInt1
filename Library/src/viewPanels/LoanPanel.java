@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
+import settings.Icons;
 import viewModels.LendingTableModel;
 import views.ReturnLoanView;
 import views.ReturnMultipleLoansView;

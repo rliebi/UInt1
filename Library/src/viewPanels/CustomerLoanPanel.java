@@ -18,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
+import localization.Messages;
+
 
 import domain.Customer;
 import domain.Loan;
@@ -32,10 +34,8 @@ import com.jgoodies.forms.builder.ButtonBarBuilder;
 import components.IconCellRenderer;
 import components.MyJTable;
 
-import controll.TableSelectListener;
-import domain.Customer;
-import domain.Library;
-import domain.Loan;
+import controller.TableSelectListener;
+
 
 public class CustomerLoanPanel extends JPanel {
 	/**
