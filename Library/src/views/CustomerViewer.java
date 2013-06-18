@@ -20,6 +20,7 @@ import domain.Library;
 import javax.swing.SwingConstants;
 
 import localization.Messages;
+import settings.Icons;
 import viewPanels.CustomerLoanPanel;
 
 import components.LibraryExcption;
@@ -175,7 +176,7 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 		gbc_lblNewLabel_3.gridy = 4;
 		panel.add(customerCity, gbc_lblNewLabel_3);
 
-		JButton editBookButton = new JButton("Edit");
+		JButton editBookButton = new JButton(Messages.getString("EditCustomerTitle.title"),Icons.IconEnum.EDITCUSTOMER.getIcon());
 		editBookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BookEditor();

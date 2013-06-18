@@ -195,13 +195,7 @@ public class CustomerPanel extends JPanel implements Observer {
 			}
 		});
 
-		JLabel lblSearch = new JLabel("Search: ");
-		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
-		gbc_lblSearch.insets = new Insets(0, 0, 0, 5);
-		gbc_lblSearch.anchor = GridBagConstraints.EAST;
-		gbc_lblSearch.gridx = 0;
-		gbc_lblSearch.gridy = 1;
-		panel_1.add(lblSearch, gbc_lblSearch);
+		
 
 		txtSearchfield = new MySearchField(customer_table, 0, filters_customer);
 		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
