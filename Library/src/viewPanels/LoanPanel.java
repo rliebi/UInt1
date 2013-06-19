@@ -53,15 +53,8 @@ public class LoanPanel extends JPanel implements Observer{
 	private JLabel display_number_of_rents;
 	private WarningWindow warningWindow;
 	private JCheckBox chckbxOverdue;
-	private JLabel display_number_of_lendings;
 	private JLabel display_overdue;
     private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
-
-	public LoanPanel(){
-		super();
-		this.library = new Library();
-		initialize();
-	}
 	
 	public LoanPanel(Library library){
 		super();
@@ -265,7 +258,6 @@ public class LoanPanel extends JPanel implements Observer{
 	
 	public void updateFields(){
 		display_number_of_rents.setText(library.getLentOutCopies().size()+"");
-		display_number_of_lendings.setText(library.getLoans().size()+"");
 		display_overdue.setText(library.getOverdueLoans().size()+"");
 	}
 
