@@ -111,7 +111,7 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 		setLayout(gridBagLayout);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Book Information",
+		panel_2.setBorder(new TitledBorder(null, Messages.getString("CustomerViewer.title"),
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.fill = GridBagConstraints.BOTH;

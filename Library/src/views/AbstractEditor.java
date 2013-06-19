@@ -25,7 +25,7 @@ import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.util.ValidationUtils;
 
-public abstract class AbstractEditor{
+public abstract class AbstractEditor {
 	protected final ValidationResultModel validationResultModel = new DefaultValidationResultModel();
 
 	protected JDialog d = new JDialog();

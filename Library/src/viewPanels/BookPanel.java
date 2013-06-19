@@ -7,21 +7,22 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 import components.IconCellRenderer;
@@ -30,7 +31,6 @@ import components.MySearchField;
 import settings.Icons;
 import viewModels.BookTableModel;
 import views.BookViewer;
-import views.WarningWindow;
 import domain.Book;
 import domain.Library;
 import java.awt.event.KeyAdapter;
@@ -39,22 +39,15 @@ import java.awt.event.KeyEvent;
 import localization.Messages;
 
 
-public class BookPanel extends JPanel implements Observer{
+public class BookPanel extends AbstractPanel{
 	private static final long serialVersionUID = 6736293912240376284L;
 	private static final Color background_Color = new Color(226, 226, 226);
-	private Library library;
-	private WarningWindow warningWindow;
 	private JTable book_table;
 	private JLabel display_number_of_titles;
 	private JLabel display_number_of_books;
-	private JTextField txtSearch;
     private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);
 	private JButton btnDisplayBook;  
-	public BookPanel(){
-		super();
-		this.library = new Library();
-		initialize();
-	}
+
 	
 	public BookPanel(Library library){
 		super();
@@ -159,17 +152,27 @@ public class BookPanel extends JPanel implements Observer{
 					openNewLoanWindow(getSelectedBook());
 					
 				}
-				if (book_table.getSelectedRowCount()==1)
-					btnDisplayBook.setEnabled(true);
-				else
-					btnDisplayBook.setEnabled(false);
+				
 			}
 
 			private void openNewLoanWindow(Book book) {
 				openEditBookWindow();
 			}
 		});
+
 		book_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		ListSelectionModel listSelectionModel = book_table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (book_table.getSelectedRowCount()==1)
+					btnDisplayBook.setEnabled(true);
+				else
+					btnDisplayBook.setEnabled(false);
+				
+			}
+		});
 		scrollPane.setViewportView(book_table);
 		BookTableModel tableModel = new BookTableModel(library);
 		setModel(tableModel);
@@ -179,23 +182,18 @@ public class BookPanel extends JPanel implements Observer{
 		btnDisplayBook.setEnabled(false);
 		btnDisplayBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					openEditBookWindow();
-				} catch (IndexOutOfBoundsException e) {
-					warningWindow = new WarningWindow(Messages.getString("BooksPanel.WarningWindow.NoBookSelected.Message"));
-					warningWindow.setVisible();
-				}
+				openEditBookWindow();
 			}
 		});
 		//------------Search Field --------------
-		txtSearch = new MySearchField(book_table,0,filters);
+		searchfield = new MySearchField(book_table,1,filters);
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearch.gridx = 1;
 		gbc_txtSearch.gridy = 1;
-		panelBookInventory.add(txtSearch, gbc_txtSearch);
-		txtSearch.setColumns(10);
+		panelBookInventory.add(searchfield, gbc_txtSearch);
+		searchfield.setColumns(10);
 		GridBagConstraints gbc_btnDisplaySelected = new GridBagConstraints();
 		gbc_btnDisplaySelected.anchor = GridBagConstraints.EAST;
 		gbc_btnDisplaySelected.insets = new Insets(0, 0, 0, 5);
@@ -272,5 +270,6 @@ public class BookPanel extends JPanel implements Observer{
 	public void update(Observable arg0, Object arg1) {
 		updateFields();
 	}
+
 
 }

@@ -9,13 +9,15 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JDialog;
 
+import components.MySearchField;
+
 public abstract class AbstractViewer extends JDialog {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3133936580146906508L;
-
+	protected MySearchField searchfield;
 	public AbstractViewer() {
 		MasterView.setWindowOpen();
 		setFrontWindow();

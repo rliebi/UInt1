@@ -58,10 +58,9 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 				}
 			}
 			if (counter > 0) {
-				String numberOfCopies = "(" + counter + " ";
-				numberOfCopies += (counter == 1) ? Messages.getString("Global.Copy") : Messages.getString("Global.Copies");
+				String numberOfCopies = "(" + counter ;
 				numberOfCopies += ")";
-				ret = Messages.getString("Domain.Book.Available") + " " + numberOfCopies;
+				ret = Messages.getString("Domain.Book.Available") +" "+ numberOfCopies;
 			}
 			break;
 		case 1: 

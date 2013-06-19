@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,10 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -43,11 +43,10 @@ import java.awt.event.MouseEvent;
 
 import localization.Messages;
 
-public class LoanPanel extends JPanel implements Observer{
+public class LoanPanel extends AbstractPanel{
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
-	private JTextField txtSearchfield;
 	private JTable lending_table;
 	private JButton btnDisplayLoan;
 	private JLabel display_number_of_rents;
@@ -149,10 +148,7 @@ public class LoanPanel extends JPanel implements Observer{
 					openEditLoanWindow();
 				}
 				
-				if (lending_table.getSelectedRowCount()==1)
-					btnDisplayLoan.setEnabled(true);
-				else
-					btnDisplayLoan.setEnabled(false);
+				
 			}
 		});
 		lending_table.addKeyListener(new KeyAdapter() {
@@ -165,19 +161,37 @@ public class LoanPanel extends JPanel implements Observer{
 			}
 		});
 		lending_table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		ListSelectionModel listSelectionModel = lending_table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (lending_table.getSelectedRowCount()>1)
+					btnDisplayLoan.setText(Messages.getString("LoansInventoryView.btnCloseLoans.text"));
+				if (lending_table.getSelectedRowCount()<=1)
+					btnDisplayLoan.setText(Messages.getString("LoansInventoryView.btnCloseLoan.text"));
+				if (lending_table.getSelectedRowCount()>=1)
+					btnDisplayLoan.setEnabled(true);
+				else
+					btnDisplayLoan.setEnabled(false);
+				
+			}
+		});
+		
+
 		lending_scrollPane.setViewportView(lending_table);
 		setLendingModel(new LendingTableModel(library));
 		
 		
-		txtSearchfield = new MySearchField(lending_table,2,filters);
+		searchfield = new MySearchField(lending_table,2,filters);
 
 		GridBagConstraints gbc_txtSearchfield = new GridBagConstraints();
 		gbc_txtSearchfield.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearchfield.gridx = 2;
 		gbc_txtSearchfield.gridy = 1;
-		panel.add(txtSearchfield, gbc_txtSearchfield);
-		txtSearchfield.setColumns(10);
+		panel.add(searchfield, gbc_txtSearchfield);
+		searchfield.setColumns(10);
 		final RowFilter<Object, Object> DueFilter = RowFilter.regexFilter("(?i)due");
 	
 		chckbxOverdue = new JCheckBox(Messages.getString("LoansInventoryView.chckbxOnlyOverdue.text"));
@@ -248,7 +262,7 @@ public class LoanPanel extends JPanel implements Observer{
 		lending_table.getColumnModel().getColumn(1).setMinWidth(20);
 		lending_table.getColumnModel().getColumn(1).setCellRenderer(new IconCellRenderer());
 		
-		lending_table.getColumnModel().getColumn(0).setMaxWidth(30);
+		lending_table.getColumnModel().getColumn(0).setMaxWidth(45);
 		lending_table.getColumnModel().getColumn(2).setMinWidth(90);
 		lending_table.getColumnModel().getColumn(2).setMaxWidth(90);
 		lending_table.getColumnModel().getColumn(4).setMinWidth(100);

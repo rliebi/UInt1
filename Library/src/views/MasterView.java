@@ -4,8 +4,13 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import components.MySearchField;
 
 import settings.Icons;
+import viewPanels.AbstractPanel;
 import viewPanels.BookPanel;
 import viewPanels.CustomerPanel;
 import viewPanels.LoanPanel;
@@ -19,6 +24,7 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.KeyEvent;
+import java.util.Stack;
 
 import localization.Messages;
 
@@ -34,7 +40,7 @@ public class MasterView {
 	private JTabbedPane tabbedPane;
 	private static MasterView m;
 	private static Window frontWindow;
-
+	private static MySearchField activeSearchField;
 	private MasterView(Library library) {
 		this.library = library;
 		initialize();
@@ -61,6 +67,15 @@ public class MasterView {
 								if ( key.getKeyCode() == KeyEvent.VK_ESCAPE){
 									frontWindow.dispose();
 								}
+							}
+
+						}
+						if(key.getKeyCode() >= KeyEvent.VK_A && key.getKeyCode() <= KeyEvent.VK_Z){
+							try {
+								System.out.println(activeSearchField);
+								activeSearchField.requestFocusInWindow();
+
+							} catch (NullPointerException e) {
 							}
 						}
 						return false;
@@ -103,10 +118,10 @@ public class MasterView {
 		gbc_tabbedPane.gridy = 0;
 		frame.getContentPane().add(tabbedPane, gbc_tabbedPane);
 
-		JPanel bookTab = new BookPanel(library);
+		BookPanel bookTab = new BookPanel(library);
 		tabbedPane.addTab(Messages.getString("MasterView.pnlBooks.title"), Icons.IconEnum.BOOK.getIcon(72), bookTab, null);
 
-		JPanel lendingTab = new LoanPanel(library);
+		LoanPanel lendingTab = new LoanPanel(library);
 		tabbedPane.addTab(Messages.getString("MasterView.pnlLoan.title"), Icons.IconEnum.LOAN.getIcon(72), lendingTab, null);
 
 		CustomerPanel customerTab = new CustomerPanel(library);
@@ -119,7 +134,6 @@ public class MasterView {
 	}
 
 	public static void setWindowClose() {
-
 		if (windowOpen > 0)
 			windowOpen--;
 	}
@@ -137,6 +151,9 @@ public class MasterView {
 			if (frontWindow instanceof JDialog) {
 				((JDialog) frontWindow).setModal(false);
 			}
+			if (frontWindow instanceof AbstractViewer) {
+//				((AbstractViewer) frontWindow).setSearchWindow();
+			}
 			frontWindow.setAlwaysOnTop(false);
 		}
 		
@@ -146,6 +163,9 @@ public class MasterView {
 				((JDialog) frontWindow).setModal(true);
 				((JDialog) frontWindow).setModalityType(ModalityType.APPLICATION_MODAL);
 			}
+			if (frontWindow instanceof AbstractViewer) {
+//				((AbstractViewer) frontWindow).setSearchWindow();
+			}
 			frontWindow.setAlwaysOnTop(true);
 		}
 	}
@@ -153,4 +173,11 @@ public class MasterView {
 	public static Window getFrontWindow() {
 		return frontWindow;
 	}
+
+
+	public static void setSearchfield(MySearchField searchfield) {
+		activeSearchField = searchfield;
+	}
+
+
 }

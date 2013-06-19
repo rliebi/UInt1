@@ -12,17 +12,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
 
 import localization.Messages;
@@ -37,24 +37,15 @@ import views.CustomerViewer;
 import domain.Customer;
 import domain.Library;
 
-public class CustomerPanel extends JPanel implements Observer {
+public class CustomerPanel extends AbstractPanel {
 	private static final long serialVersionUID = 6034035113335278353L;
 	private static final Color background_Color = new Color(226, 226, 226);
 	private Library library;
-	private JTextField txtSearchfield;
 	private JTable customer_table;
 	private JLabel displayNrCustomer;
 	private java.util.List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
 			3);
-	private java.util.List<RowFilter<Object, Object>> filters_loans = new ArrayList<RowFilter<Object, Object>>(
-			3);
 	private JButton btnDisplayCustomer;
-
-	public CustomerPanel() {
-		super();
-		this.library = new Library();
-		initialize();
-	}
 
 	public CustomerPanel(Library library) {
 		super();
@@ -141,31 +132,8 @@ public class CustomerPanel extends JPanel implements Observer {
 				if (e.getClickCount() == 2) {
 					openEditCustomerWindow();
 				}
-				if (customer_table.getSelectedRowCount()==1)
-					btnDisplayCustomer.setEnabled(true);
-				else
-					btnDisplayCustomer.setEnabled(false);
-				filterLoans();
-
 			}
 
-			private void filterLoans() {
-				RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-					public boolean include(
-							Entry<? extends Object, ? extends Object> entry) {
-						for (int i = 0; i < library.getCustomerOngoingLoans(
-								getSelectedCustomer()).size(); i++) {
-							if (entry.getValue(1).equals(
-									library.getCustomerOngoingLoans(
-											getSelectedCustomer()).get(i)
-											.getCopy().getInventoryNumber()))
-								return true;
-						}
-						return false;
-					}
-				};
-				filters_loans.add(rf);
-			}
 		});
 		customer_table.addKeyListener(new KeyAdapter() {
 			@Override
@@ -177,6 +145,18 @@ public class CustomerPanel extends JPanel implements Observer {
 			}
 		});
 		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		ListSelectionModel listSelectionModel = customer_table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (customer_table.getSelectedRowCount()==1)
+					btnDisplayCustomer.setEnabled(true);
+				else
+					btnDisplayCustomer.setEnabled(false);
+				
+			}
+		});
 		scrollPane_1.setViewportView(customer_table);
 		setModel();
 		customer_table.setSurrendersFocusOnKeystroke(false);
@@ -197,14 +177,14 @@ public class CustomerPanel extends JPanel implements Observer {
 
 		
 
-		txtSearchfield = new MySearchField(customer_table, 0, filters_customer);
+		searchfield = new MySearchField(customer_table, 1, filters_customer);
 		GridBagConstraints gbc_txtSearchfield_1 = new GridBagConstraints();
 		gbc_txtSearchfield_1.insets = new Insets(0, 0, 0, 5);
 		gbc_txtSearchfield_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearchfield_1.gridx = 1;
 		gbc_txtSearchfield_1.gridy = 1;
-		panel_1.add(txtSearchfield, gbc_txtSearchfield_1);
-		txtSearchfield.setColumns(10);
+		panel_1.add(searchfield, gbc_txtSearchfield_1);
+		searchfield.setColumns(10);
 		GridBagConstraints gbc_btnDisplaySelected_1 = new GridBagConstraints();
 		gbc_btnDisplaySelected_1.anchor = GridBagConstraints.EAST;
 		gbc_btnDisplaySelected_1.insets = new Insets(0, 0, 0, 5);
