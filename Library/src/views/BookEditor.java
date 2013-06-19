@@ -35,7 +35,7 @@ public class BookEditor extends AbstractEditor {
 		this.author.setText(book.getAuthor());
 		this.publisher.setText(book.getPublisher());
 		this.shelf.setSelectedItem(book.getShelf());
-		d.setTitle(Messages.getString("CreateNewBookTitle.title"));
+		d.setTitle(Messages.getString("CreateNewBook.title"));
 
 		createPanel();
 
@@ -46,7 +46,7 @@ public class BookEditor extends AbstractEditor {
 		this.book = new Book("");
 		newBook = true;
 		this.library = library;
-		d.setTitle(Messages.getString("EditBookTitle.title"));
+		d.setTitle(Messages.getString("EditBook.title"));
 
 		createPanel();
 
@@ -57,22 +57,22 @@ public class BookEditor extends AbstractEditor {
 		CellConstraints cc = new CellConstraints();
 		builder.add(
 				new JLabel(Messages
-						.getString("BooksAddView.lblBookTitleText.title")), cc
+						.getString("BookEditor.lblBookTitleText.title")), cc
 						.xy(2, 2));
 		builder.add(title, cc.xyw(4, 2, 3));
 		builder.add(
 				new JLabel(Messages
-						.getString("BooksAddView.lblBookAuthorText.title")), cc
+						.getString("BookEditor.lblBookAuthorText.title")), cc
 						.xy(2, 4));
 		builder.add(author, cc.xyw(4, 4, 3));
 		builder.add(
 				new JLabel(Messages
-						.getString("BooksAddView.lblBookPublisherText.title")),
+						.getString("BookEditor.lblBookPublisherText.title")),
 				cc.xy(2, 6));
 		builder.add(publisher, cc.xyw(4, 6, 3));
 		builder.add(
 				new JLabel(Messages
-						.getString("BooksAddView.lblBookShelfText.title")), cc
+						.getString("BookEditor.lblBookShelfText.title")), cc
 						.xy(2, 8));
 
 		builder.add(shelf, cc.xyw(4, 8, 3));

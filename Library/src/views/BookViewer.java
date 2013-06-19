@@ -102,6 +102,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 	}
 
 	private void init() {
+		setTitle(Messages.getString("BookViewer.title"));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 133, 0, 0 };

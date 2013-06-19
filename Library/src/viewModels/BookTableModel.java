@@ -85,7 +85,7 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 		String ret;
 		switch(column){
 		case 0: 
-			ret = Messages.getString("BooksInventoryView.tblBooksInventoryStatus.text");
+			ret = Messages.getString("BookTab.tableHeaders.status.text");
 			break;
 		case 1: 
 			ret = Messages.getString("Domain.Book.title");

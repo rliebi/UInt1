@@ -173,13 +173,7 @@ public class BookPanel extends JPanel implements Observer{
 		scrollPane.setViewportView(book_table);
 		BookTableModel tableModel = new BookTableModel(library);
 		setModel(tableModel);
-		JLabel lblSearch = new JLabel("Search: ");
-		GridBagConstraints gbc_lblSearch = new GridBagConstraints();
-		gbc_lblSearch.anchor = GridBagConstraints.WEST;
-		gbc_lblSearch.insets = new Insets(0, 0, 0, 5);
-		gbc_lblSearch.gridx = 0;
-		gbc_lblSearch.gridy = 1;
-		panelBookInventory.add(lblSearch, gbc_lblSearch);
+		
 		btnDisplayBook = new JButton(Messages.getString("BooksPanel.DetailButton.title"));
 		btnDisplayBook.setIcon(Icons.IconEnum.EDITBOOK.getIcon(24));
 		btnDisplayBook.setEnabled(false);
@@ -212,7 +206,7 @@ public class BookPanel extends JPanel implements Observer{
 		//------------Search Field --------------
 
 		//------------Button Add new Book--------		
-		JButton btnAddNewBook = new JButton(Messages.getString("BooksPanel.DetailButton.title"));
+		JButton btnAddNewBook = new JButton(Messages.getString("BooksPanel.AddButton.title"));
 		btnAddNewBook.setIcon(Icons.IconEnum.ADD.getIcon(24));
 		GridBagConstraints gbc_btnAddNewBook = new GridBagConstraints();
 		gbc_btnAddNewBook.gridx = 3;

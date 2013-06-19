@@ -51,7 +51,7 @@ public class ReturnLoanView extends AbstractViewer {
 	public ReturnLoanView(Library lib, final Loan l) {
 		loan = l;
 		library = lib;
-		
+		setTitle(Messages.getString("ReturnLoanView.title"));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MasterView.class.getResource("/resources/images/logo_16.png")));
 		
 		contentPane = new JPanel();

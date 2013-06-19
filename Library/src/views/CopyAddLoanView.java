@@ -50,16 +50,17 @@ public class CopyAddLoanView extends AbstractViewer {
 	public CopyAddLoanView(Library lib, Copy cop) {
 		library =lib;
 		copy = cop;
+		setTitle(Messages.getString("CopyAddLoanView.title"));
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		JPanel pnlBookPart = new JPanel();
-		pnlBookPart.setBorder(new TitledBorder(null, Messages.getString("MasterView.bookTab.title"),
+		pnlBookPart.setBorder(new TitledBorder(null, Messages.getString("MasterView.pnlBooks.title"),
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contentPanel.add(pnlBookPart, BorderLayout.NORTH);
-		JLabel lblSelectedBookTitleText = new JLabel(Messages.getString("BookAddLoanView.lblSelectedBookTitleText"));
-		JLabel lblSelectedBookCopyText = new JLabel(Messages.getString("BookAddLoanView.lblSelectedBookCopyText"));
+		JLabel lblSelectedBookTitleText = new JLabel(Messages.getString("CopyAddLoanView.lblSelectedBookTitleText"));
+		JLabel lblSelectedBookCopyText = new JLabel(Messages.getString("CopyAddLoanView.lblSelectedBookCopyText"));
 
 		String title = (copy.getTitle().getName().length() > 50) ? copy.getTitle().getName().substring(0, 50) : copy.getTitle().getName();
 		JLabel lblSelectedBookTitleValue = new JLabel(title);
@@ -141,7 +142,7 @@ public class CopyAddLoanView extends AbstractViewer {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		final JButton btnAddtoloan = new JButton(Messages.getString("BooksDetailView.btnAddloan.text"));
+		final JButton btnAddtoloan = new JButton(Messages.getString("CopyAddLoanView.btnAddloan.text"));
 		btnAddtoloan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(tblCustomers.getSelectedRowCount() < 1){
