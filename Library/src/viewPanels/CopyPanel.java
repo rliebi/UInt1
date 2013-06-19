@@ -190,7 +190,6 @@ public class CopyPanel extends JPanel {
 				.getColumn(3)
 				.setCellRenderer(
 						new ComboBoxCellRenderer(Copy.Condition.values()));
-		// table.setAutoResizeMode(JTableComponent.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
 		table.getColumnModel().getColumn(1).setPreferredWidth(50);
@@ -239,9 +238,15 @@ public class CopyPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (table.getSelectedRowCount() == 1) {
-				int rightNr = table.getSelectedRow();
-				new ReturnLoanView(library, library.getOpenLoans().get(rightNr))
-						.setVisible(true);
+				for (Loan l: library.getOpenLoans()) {
+					if (l.getCopy() == library.getCopiesOfBook(book).get(table.getSelectedRow())) {
+						System.out.println(l);
+						new ReturnLoanView(library, l).setVisible(true);
+
+					}
+				}
+
+//				new ReturnLoanView(library, library.getOpenLoans().get(rightNr)).setVisible(true);
 			}
 			if (table.getSelectedRowCount() > 1) {
 				List<Loan> loanList = new ArrayList<Loan>();
@@ -263,7 +268,6 @@ public class CopyPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("");
 			new CopyAddLoanView(library, getSelectedCopies().get(0));
 		}
 
