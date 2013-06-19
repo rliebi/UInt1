@@ -10,7 +10,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -153,7 +152,6 @@ public class CopyAddLoanView extends AbstractViewer {
 					} else {
 						library.createAndAddLoan(library.getCustomers().get(tblCustomers.getSelectedRow()), copy);
 						dispose();
-						JOptionPane.showMessageDialog(null, Messages.getString("Messages.saved"), Messages.getString("Messages.saved"), JOptionPane.NO_OPTION, Icons.IconEnum.OK.getIcon(48));
 					}
 				}
 				
