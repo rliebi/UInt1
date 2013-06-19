@@ -50,6 +50,7 @@ public class ReturnMultipleLoansView extends AbstractViewer {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setTitle(Messages.getString("ReturnMultipleLoansView.title"));
 		setContentPane(contentPane);
 		Dimension d = new Dimension(360,397);
 		this.setSize(d);

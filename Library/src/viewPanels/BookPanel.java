@@ -206,7 +206,7 @@ public class BookPanel extends JPanel implements Observer{
 		//------------Search Field --------------
 
 		//------------Button Add new Book--------		
-		JButton btnAddNewBook = new JButton(Messages.getString("BooksPanel.DetailButton.title"));
+		JButton btnAddNewBook = new JButton(Messages.getString("BooksPanel.AddButton.title"));
 		btnAddNewBook.setIcon(Icons.IconEnum.ADD.getIcon(24));
 		GridBagConstraints gbc_btnAddNewBook = new GridBagConstraints();
 		gbc_btnAddNewBook.gridx = 3;
