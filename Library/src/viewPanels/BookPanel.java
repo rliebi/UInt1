@@ -138,10 +138,7 @@ public class BookPanel extends AbstractPanel{
 					arg0.consume();
 					openEditBookWindow();
 				}
-				if (book_table.getSelectedRowCount()==1)
-					btnDisplayBook.setEnabled(true);
-				else
-					btnDisplayBook.setEnabled(false);
+			
 			}
 		});
 		book_table.addMouseListener(new MouseAdapter() {

@@ -3,9 +3,6 @@ package views;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import javax.swing.text.Highlighter;
-
-import apple.laf.JRSUIUtils.TabbedPane;
 import components.MySearchField;
 
 import settings.Icons;

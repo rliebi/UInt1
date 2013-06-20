@@ -1,6 +1,5 @@
 package viewPanels;
 
-
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -68,8 +67,6 @@ public class CopyPanel extends AbstractPanel {
 		init();
 	}
 
-
-
 	private void init() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
@@ -79,8 +76,9 @@ public class CopyPanel extends AbstractPanel {
 		setLayout(gridBagLayout);
 
 		JPanel north_panel = new JPanel();
-		north_panel.setBorder(new TitledBorder(null, Messages.getString("CopyPanel.Title"),
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		north_panel.setBorder(new TitledBorder(null, Messages
+				.getString("CopyPanel.Title"), TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_north_panel = new GridBagConstraints();
 		gbc_north_panel.insets = new Insets(0, 0, 5, 0);
 		gbc_north_panel.fill = GridBagConstraints.BOTH;
@@ -114,15 +112,13 @@ public class CopyPanel extends AbstractPanel {
 		JButton removeBtn = new JButton();
 		removeBtn.addActionListener(new RemoveAction());
 		removeBtn.setIcon(Icons.IconEnum.DELETE.getIcon(16));
-		removeBtn
-				.setText(Messages.getString("CopyPanel.btnDelbook.text"));
+		removeBtn.setText(Messages.getString("CopyPanel.btnDelbook.text"));
 		removeBtn.setEnabled(false);
 
 		JButton addLoanBtn = new JButton();
 		addLoanBtn.setAction(new AddLoanAction());
 		addLoanBtn.setIcon(Icons.IconEnum.ADDLOAN.getIcon(16));
-		addLoanBtn.setText(Messages
-				.getString("CopyPanel.btnAddloan.text"));
+		addLoanBtn.setText(Messages.getString("CopyPanel.btnAddloan.text"));
 		addLoanBtn.setEnabled(false);
 		JButton returnLoanBtn = new JButton();
 		returnLoanBtn.setAction(new ReturnAction());
@@ -170,6 +166,15 @@ public class CopyPanel extends AbstractPanel {
 		closeBtn.setText(Messages.getString("Global.btnClose.title"));
 		buttonBar.addButton(closeBtn);
 		south_panel.add(buttonBar.build(), BorderLayout.EAST);
+		for (int i = 0; i < table.getRowCount(); i++) {
+			int rightNr = (int) table.getModel().getValueAt(i, 0) -1;
+			if (library.isCopyLendable(library.getCopies().get(rightNr))){
+				table.setRowSelectionInterval(i, i);
+				System.out.println(library.getCopies().get(rightNr).getInventoryNumber() + " is Lendable");
+				break;
+			}
+			
+		}
 	}
 
 	/**
@@ -238,15 +243,17 @@ public class CopyPanel extends AbstractPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (table.getSelectedRowCount() == 1) {
-				for (Loan l: library.getOpenLoans()) {
-					if (l.getCopy() == library.getCopiesOfBook(book).get(table.getSelectedRow())) {
+				for (Loan l : library.getOpenLoans()) {
+					if (l.getCopy() == library.getCopiesOfBook(book).get(
+							table.getSelectedRow())) {
 						System.out.println(l);
 						new ReturnLoanView(library, l).setVisible(true);
 
 					}
 				}
 
-//				new ReturnLoanView(library, library.getOpenLoans().get(rightNr)).setVisible(true);
+				// new ReturnLoanView(library,
+				// library.getOpenLoans().get(rightNr)).setVisible(true);
 			}
 			if (table.getSelectedRowCount() > 1) {
 				List<Loan> loanList = new ArrayList<Loan>();
@@ -288,11 +295,15 @@ public class CopyPanel extends AbstractPanel {
 			String confirmationMessage;
 			String confirmationTitle;
 			if (table.getSelectedRowCount() == 1) {
-				confirmationMessage = Messages.getString("CopyPanel.ConfirmationDeleteCopyMessage");
-				confirmationTitle = Messages.getString("CopyPanel.ConfirmationDeleteCopyTitle");
+				confirmationMessage = Messages
+						.getString("CopyPanel.ConfirmationDeleteCopyMessage");
+				confirmationTitle = Messages
+						.getString("CopyPanel.ConfirmationDeleteCopyTitle");
 			} else {
-				confirmationMessage = Messages.getString("CopyPanel.ConfirmationDeleteCopiesMessage");
-				confirmationTitle = Messages.getString("CopyPanel.ConfirmationDeleteCopiesTitle");
+				confirmationMessage = Messages
+						.getString("CopyPanel.ConfirmationDeleteCopiesMessage");
+				confirmationTitle = Messages
+						.getString("CopyPanel.ConfirmationDeleteCopiesTitle");
 
 			}
 			try {
@@ -326,7 +337,7 @@ public class CopyPanel extends AbstractPanel {
 		private static final long serialVersionUID = 1L;
 
 		private CloseAction() {
-//			super("Close");
+			// super("Close");
 
 		}
 
@@ -358,16 +369,12 @@ public class CopyPanel extends AbstractPanel {
 		return copies;
 	}
 
-
 	private void dispose() {
 		parent.dispose();
 	}
 
-
-
 	@Override
 	public void update(Observable o, Object arg) {
-		
-		
+
 	}
 }

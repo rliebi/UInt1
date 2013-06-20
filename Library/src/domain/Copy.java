@@ -25,9 +25,9 @@ public class Copy extends Observable {
 		}
 	}
 
-	public static long nextInventoryNumber = 1;
+	public static int nextInventoryNumber = 1;
 
-	private final long inventoryNumber;
+	private final int inventoryNumber;
 	private final Book book;
 	private Condition condition;
 
@@ -60,7 +60,7 @@ public class Copy extends Observable {
 		notifyObservers(libraryEvent);
 	}
 
-	public long getInventoryNumber() {
+	public int getInventoryNumber() {
 		return inventoryNumber;
 	}
 

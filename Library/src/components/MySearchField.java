@@ -69,6 +69,12 @@ public class MySearchField extends MyJTextField{
 				} catch (java.util.regex.PatternSyntaxException e) {
 					return;
 				}
+				try {
+					if (table_to_search.getSelectedRowCount() <1)
+					table_to_search.setRowSelectionInterval(0, 0);
+				} catch (Exception e) {
+					
+				}
 
 			}
 		});

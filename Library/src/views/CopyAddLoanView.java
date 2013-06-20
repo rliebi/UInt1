@@ -7,6 +7,9 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
@@ -174,21 +177,22 @@ public class CopyAddLoanView extends AbstractViewer {
 				Messages.getString("CopyAddLoanView.btnAddloan.text"));
 		btnAddtoloan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (tblCustomers.getSelectedRowCount() == 1) {
-					int selection = tblCustomers.convertRowIndexToModel(tblCustomers.getSelectedRow());
-					Customer customer = library.getCustomers().get(selection);
-					if (library.getCustomerOngoingLoans(customer).size() >= 3) {
-					} else {
-						library.createAndAddLoan(
-								library.getCustomers().get(
-										selection), copy);
-						dispose();
-					}
-				}
+				createLoan();
 
 			}
 		});
+		tblCustomers.addMouseListener(new MouseAdapter() {
 
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					createLoan();
+					
+				}
+				
+			}
+		});
 		tblCustomers.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
 
@@ -233,6 +237,20 @@ public class CopyAddLoanView extends AbstractViewer {
 		btnCancel.setMnemonic(KeyEvent.VK_C);
 		btnAddtoloan.setMnemonic(KeyEvent.VK_S);
 		createWindow();
+	}
+
+	private void createLoan() {
+		if (tblCustomers.getSelectedRowCount() == 1) {
+			int selection = tblCustomers.convertRowIndexToModel(tblCustomers.getSelectedRow());
+			Customer customer = library.getCustomers().get(selection);
+			if (library.getCustomerOngoingLoans(customer).size() >= 3) {
+			} else {
+				library.createAndAddLoan(
+						library.getCustomers().get(
+								selection), copy);
+				dispose();
+			}
+		}
 	}
 
 }
