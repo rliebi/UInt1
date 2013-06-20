@@ -1,8 +1,10 @@
 package views;
 
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+
 import components.MySearchField;
 
 import settings.Icons;
@@ -26,8 +28,12 @@ import localization.Messages;
 
 import domain.Library;
 
-public class MasterView {
+public class MasterView extends JComponent {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3671450224427317456L;
 	private static final int minimum_window_height = 700;
 	private static final int minimum_window_witdh = 1200;
 	private JFrame frame;
@@ -43,6 +49,7 @@ public class MasterView {
 		openWindowStack = new Stack<Window>();
 		initialize();
 		frame.setVisible(true);
+
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventPostProcessor(new KeyEventPostProcessor() {
 					@Override
@@ -67,8 +74,8 @@ public class MasterView {
 							}
 
 						}
-						
-						//Set Focus automatically to searchfield
+
+						// Set Focus automatically to searchfield
 						if ((key.getKeyCode() >= KeyEvent.VK_A
 								&& key.getKeyCode() <= KeyEvent.VK_Z || key
 								.getKeyCode() >= KeyEvent.VK_0
@@ -80,7 +87,6 @@ public class MasterView {
 										.toString(key.getKeyChar()));
 								activeSearchField.requestFocusInWindow();
 
-								
 							}
 							if (key.getID() == KeyEvent.KEY_RELEASED) {
 								int end = activeSearchField.getSelectionEnd();
@@ -88,10 +94,13 @@ public class MasterView {
 								activeSearchField.setSelectionEnd(end);
 							}
 						}
+						
+
 						return false;
 
 					}
 				});
+
 	}
 
 	public static MasterView getInstance() {

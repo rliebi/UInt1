@@ -66,7 +66,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 					: overdueText;
 
 		case 1:
-			return row+ entity.getName();
+			return entity.getName();
 		case 2:
 			return entity.getSurname();
 		case 3:
