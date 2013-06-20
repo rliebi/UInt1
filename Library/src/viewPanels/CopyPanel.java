@@ -1,7 +1,5 @@
 package viewPanels;
 
-import java.awt.LayoutManager;
-
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -39,11 +37,12 @@ import controller.LoanTableSelectListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Stack;
 
 import localization.Messages;
 
-public class CopyPanel extends JPanel {
+public class CopyPanel extends AbstractPanel {
 	/**
 	 * 
 	 */
@@ -68,8 +67,6 @@ public class CopyPanel extends JPanel {
 		init();
 	}
 
-
-
 	private void init() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
@@ -79,8 +76,9 @@ public class CopyPanel extends JPanel {
 		setLayout(gridBagLayout);
 
 		JPanel north_panel = new JPanel();
-		north_panel.setBorder(new TitledBorder(null, Messages.getString("CopyPanel.Title"),
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		north_panel.setBorder(new TitledBorder(null, Messages
+				.getString("CopyPanel.Title"), TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_north_panel = new GridBagConstraints();
 		gbc_north_panel.insets = new Insets(0, 0, 5, 0);
 		gbc_north_panel.fill = GridBagConstraints.BOTH;
@@ -114,15 +112,13 @@ public class CopyPanel extends JPanel {
 		JButton removeBtn = new JButton();
 		removeBtn.addActionListener(new RemoveAction());
 		removeBtn.setIcon(Icons.IconEnum.DELETE.getIcon(16));
-		removeBtn
-				.setText(Messages.getString("CopyPanel.btnDelbook.text"));
+		removeBtn.setText(Messages.getString("CopyPanel.btnDelbook.text"));
 		removeBtn.setEnabled(false);
 
 		JButton addLoanBtn = new JButton();
 		addLoanBtn.setAction(new AddLoanAction());
 		addLoanBtn.setIcon(Icons.IconEnum.ADDLOAN.getIcon(16));
-		addLoanBtn.setText(Messages
-				.getString("CopyPanel.btnAddloan.text"));
+		addLoanBtn.setText(Messages.getString("CopyPanel.btnAddloan.text"));
 		addLoanBtn.setEnabled(false);
 		JButton returnLoanBtn = new JButton();
 		returnLoanBtn.setAction(new ReturnAction());
@@ -170,6 +166,15 @@ public class CopyPanel extends JPanel {
 		closeBtn.setText(Messages.getString("Global.btnClose.title"));
 		buttonBar.addButton(closeBtn);
 		south_panel.add(buttonBar.build(), BorderLayout.EAST);
+		for (int i = 0; i < table.getRowCount(); i++) {
+			int rightNr = (int) table.getModel().getValueAt(i, 0) -1;
+			if (library.isCopyLendable(library.getCopies().get(rightNr))){
+				table.setRowSelectionInterval(i, i);
+				System.out.println(library.getCopies().get(rightNr).getInventoryNumber() + " is Lendable");
+				break;
+			}
+			
+		}
 	}
 
 	/**
@@ -190,7 +195,6 @@ public class CopyPanel extends JPanel {
 				.getColumn(3)
 				.setCellRenderer(
 						new ComboBoxCellRenderer(Copy.Condition.values()));
-		// table.setAutoResizeMode(JTableComponent.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
 		table.getColumnModel().getColumn(1).setPreferredWidth(50);
@@ -239,9 +243,17 @@ public class CopyPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (table.getSelectedRowCount() == 1) {
-				int rightNr = table.getSelectedRow();
-				new ReturnLoanView(library, library.getOpenLoans().get(rightNr))
-						.setVisible(true);
+				for (Loan l : library.getOpenLoans()) {
+					if (l.getCopy() == library.getCopiesOfBook(book).get(
+							table.getSelectedRow())) {
+						System.out.println(l);
+						new ReturnLoanView(library, l).setVisible(true);
+
+					}
+				}
+
+				// new ReturnLoanView(library,
+				// library.getOpenLoans().get(rightNr)).setVisible(true);
 			}
 			if (table.getSelectedRowCount() > 1) {
 				List<Loan> loanList = new ArrayList<Loan>();
@@ -263,7 +275,6 @@ public class CopyPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("");
 			new CopyAddLoanView(library, getSelectedCopies().get(0));
 		}
 
@@ -284,11 +295,15 @@ public class CopyPanel extends JPanel {
 			String confirmationMessage;
 			String confirmationTitle;
 			if (table.getSelectedRowCount() == 1) {
-				confirmationMessage = Messages.getString("CopyPanel.ConfirmationDeleteCopyMessage");
-				confirmationTitle = Messages.getString("CopyPanel.ConfirmationDeleteCopyTitle");
+				confirmationMessage = Messages
+						.getString("CopyPanel.ConfirmationDeleteCopyMessage");
+				confirmationTitle = Messages
+						.getString("CopyPanel.ConfirmationDeleteCopyTitle");
 			} else {
-				confirmationMessage = Messages.getString("CopyPanel.ConfirmationDeleteCopiesMessage");
-				confirmationTitle = Messages.getString("CopyPanel.ConfirmationDeleteCopiesTitle");
+				confirmationMessage = Messages
+						.getString("CopyPanel.ConfirmationDeleteCopiesMessage");
+				confirmationTitle = Messages
+						.getString("CopyPanel.ConfirmationDeleteCopiesTitle");
 
 			}
 			try {
@@ -322,7 +337,7 @@ public class CopyPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		private CloseAction() {
-			super("Close");
+			// super("Close");
 
 		}
 
@@ -354,19 +369,12 @@ public class CopyPanel extends JPanel {
 		return copies;
 	}
 
-	public CopyPanel(LayoutManager layout) {
-		super(layout);
-	}
-
-	public CopyPanel(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-	}
-
-	public CopyPanel(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-	}
-
 	private void dispose() {
 		parent.dispose();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
 	}
 }

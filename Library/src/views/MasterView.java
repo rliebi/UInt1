@@ -3,9 +3,10 @@ package views;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import javax.swing.JPanel;
+import components.MySearchField;
 
 import settings.Icons;
+import viewPanels.AbstractPanel;
 import viewPanels.BookPanel;
 import viewPanels.CustomerPanel;
 import viewPanels.LoanPanel;
@@ -19,6 +20,7 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.KeyEvent;
+import java.util.Stack;
 
 import localization.Messages;
 
@@ -29,14 +31,16 @@ public class MasterView {
 	private static final int minimum_window_height = 700;
 	private static final int minimum_window_witdh = 1200;
 	private JFrame frame;
-	private static int windowOpen = 0;
 	private Library library;
 	private JTabbedPane tabbedPane;
 	private static MasterView m;
 	private static Window frontWindow;
+	private static MySearchField activeSearchField;
+	private static Stack<Window> openWindowStack;
 
 	private MasterView(Library library) {
 		this.library = library;
+		openWindowStack = new Stack<Window>();
 		initialize();
 		frame.setVisible(true);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
@@ -45,7 +49,7 @@ public class MasterView {
 					public boolean postProcessKeyEvent(KeyEvent key) {
 						if (key.getID() == KeyEvent.KEY_PRESSED) {
 
-							if (windowOpen == 0 || frontWindow == null) {
+							if (openWindowStack.size() == 1) {
 								if ((key.getKeyCode() == KeyEvent.VK_TAB || (key
 										.isControlDown() && key.getKeyCode() == KeyEvent.VK_W))) {
 
@@ -56,11 +60,32 @@ public class MasterView {
 										tabIndex = -1;
 									tabbedPane.setSelectedIndex(tabIndex + 1);
 								}
-							}
-							else{
-								if ( key.getKeyCode() == KeyEvent.VK_ESCAPE){
-									frontWindow.dispose();
+							} else {
+								if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
+									openWindowStack.peek().dispose();
 								}
+							}
+
+						}
+						
+						//Set Focus automatically to searchfield
+						if ((key.getKeyCode() >= KeyEvent.VK_A
+								&& key.getKeyCode() <= KeyEvent.VK_Z || key
+								.getKeyCode() >= KeyEvent.VK_0
+								&& key.getKeyCode() <= KeyEvent.VK_9)
+								&& activeSearchField != null) {
+
+							if (!activeSearchField.hasFocus()) {
+								activeSearchField.setText(Character
+										.toString(key.getKeyChar()));
+								activeSearchField.requestFocusInWindow();
+
+								
+							}
+							if (key.getID() == KeyEvent.KEY_RELEASED) {
+								int end = activeSearchField.getSelectionEnd();
+								activeSearchField.setSelectionStart(end);
+								activeSearchField.setSelectionEnd(end);
 							}
 						}
 						return false;
@@ -103,25 +128,45 @@ public class MasterView {
 		gbc_tabbedPane.gridy = 0;
 		frame.getContentPane().add(tabbedPane, gbc_tabbedPane);
 
-		JPanel bookTab = new BookPanel(library);
-		tabbedPane.addTab(Messages.getString("MasterView.pnlBooks.title"), Icons.IconEnum.BOOK.getIcon(72), bookTab, null);
+		BookPanel bookTab = new BookPanel(library);
+		tabbedPane.addTab(Messages.getString("MasterView.pnlBooks.title"),
+				Icons.IconEnum.BOOK.getIcon(72), bookTab, null);
 
-		JPanel lendingTab = new LoanPanel(library);
-		tabbedPane.addTab(Messages.getString("MasterView.pnlLoan.title"), Icons.IconEnum.LOAN.getIcon(72), lendingTab, null);
+		LoanPanel lendingTab = new LoanPanel(library);
+		tabbedPane.addTab(Messages.getString("MasterView.pnlLoan.title"),
+				Icons.IconEnum.LOAN.getIcon(72), lendingTab, null);
 
 		CustomerPanel customerTab = new CustomerPanel(library);
-		tabbedPane.addTab(Messages.getString("MasterView.pnlCustomers.title"), Icons.IconEnum.CUSTOMER.getIcon(72), customerTab, null);
-
+		tabbedPane.addTab(Messages.getString("MasterView.pnlCustomers.title"),
+				Icons.IconEnum.CUSTOMER.getIcon(72), customerTab, null);
+		openWindowStack.add(frame);
 	}
 
-	public static void setWindowOpen() {
-		windowOpen++;
+	public static void setWindowOpen(Window w) {
+		openWindowStack.add(w);
+		setWindowBehaviour(w, true);
 	}
 
 	public static void setWindowClose() {
+		Window w = openWindowStack.pop();
+		setWindowBehaviour(w, false);
+		if (openWindowStack.size() > 1) {
+			w = openWindowStack.peek();
+			setWindowBehaviour(w, true);
+		} else {
+			AbstractPanel a = (AbstractPanel) MasterView.getInstance().tabbedPane
+					.getSelectedComponent();
+			a.setSearchField();
+		}
 
-		if (windowOpen > 0)
-			windowOpen--;
+	}
+
+	private static void setWindowBehaviour(Window w, boolean b) {
+		if (w instanceof JDialog) {
+			((JDialog) w).setModal(b);
+			((JDialog) w).setModalityType(ModalityType.APPLICATION_MODAL);
+		}
+		w.setAlwaysOnTop(b);
 	}
 
 	public Point getLocation() {
@@ -132,25 +177,12 @@ public class MasterView {
 		return frame;
 	}
 
-	public static void setFrontWindow(Window w) {
-		if (frontWindow!= null){
-			if (frontWindow instanceof JDialog) {
-				((JDialog) frontWindow).setModal(false);
-			}
-			frontWindow.setAlwaysOnTop(false);
-		}
-		
-		frontWindow = w;
-		if (frontWindow!= null){
-			if (frontWindow instanceof JDialog) {
-				((JDialog) frontWindow).setModal(true);
-				((JDialog) frontWindow).setModalityType(ModalityType.APPLICATION_MODAL);
-			}
-			frontWindow.setAlwaysOnTop(true);
-		}
-	}
-
 	public static Window getFrontWindow() {
 		return frontWindow;
 	}
+
+	public static void setSearchfield(MySearchField searchfield) {
+		activeSearchField = searchfield;
+	}
+
 }

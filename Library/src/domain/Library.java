@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
 import components.LibraryExcption;
 
 import controller.LibraryEvent;
@@ -245,5 +244,14 @@ public class Library extends Observable implements Observer {
 		loan.returnCopy(date);
 		fireChanged();
 	}
-
+	
+	public boolean isCopyLendable(Copy c){
+		if (isCopyLent(c)) {
+			return false;
+		} else if (!c.isInLendable()) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

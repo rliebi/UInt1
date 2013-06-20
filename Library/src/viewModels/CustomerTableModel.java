@@ -64,8 +64,9 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 			return (numberOfLoans == 0 || overdueLoansCounter != numberOfLoans) ? numberOfLoans
 					+ " " + loanText + " " + overdueTextWithBrakets
 					: overdueText;
+
 		case 1:
-			return entity.getName();
+			return row+ entity.getName();
 		case 2:
 			return entity.getSurname();
 		case 3:

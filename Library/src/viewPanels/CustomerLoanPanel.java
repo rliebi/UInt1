@@ -101,12 +101,7 @@ public class CustomerLoanPanel extends JPanel {
 		table_panel.add(button_panel, BorderLayout.NORTH);
 		ButtonBarBuilder addRemoveCopy = new ButtonBarBuilder();
 		
-		JButton addLoanBtn = new JButton();
-		addLoanBtn.setAction(new AddLoanAction());
-		addLoanBtn.setIcon(Icons.IconEnum.ADDLOAN.getIcon(16));
-		addLoanBtn.setText(Messages
-				.getString("CopyPanel.btnAddloan.text"));
-		addLoanBtn.setEnabled(true);
+		
 		
 		JButton returnLoanBtn = new JButton();
 		returnLoanBtn.setAction(new ReturnAction());
@@ -117,7 +112,7 @@ public class CustomerLoanPanel extends JPanel {
 
 		table.getSelectionModel().addListSelectionListener(new TableSelectListener(table, returnLoanBtn, returnLoanBtn.getText(), false));
 		
-		addRemoveCopy.addButton(returnLoanBtn, addLoanBtn);
+		addRemoveCopy.addButton(returnLoanBtn);
 		button_panel.setLayout(new BorderLayout(0, 0));
 		button_panel.add(addRemoveCopy.build(), BorderLayout.EAST);
 
@@ -189,20 +184,7 @@ public class CustomerLoanPanel extends JPanel {
 			}
 		}
 	}
-	private final class AddLoanAction extends AbstractAction{
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -5190401524732242389L;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-//			new CAddLoanView(library, getSelectedCopies().get(0));
-			System.err.println("Not yet implemented");
-		}
-		
-	}
+	
 	
 	private final class CloseLoanAction extends AbstractAction {
 		/**
