@@ -174,15 +174,14 @@ public class CopyAddLoanView extends AbstractViewer {
 				Messages.getString("CopyAddLoanView.btnAddloan.text"));
 		btnAddtoloan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (tblCustomers.getSelectedRowCount() < 1) {
-				} else {
-					int selection = tblCustomers.getSelectedRow();
+				if (tblCustomers.getSelectedRowCount() == 1) {
+					int selection = tblCustomers.convertRowIndexToModel(tblCustomers.getSelectedRow());
 					Customer customer = library.getCustomers().get(selection);
 					if (library.getCustomerOngoingLoans(customer).size() >= 3) {
 					} else {
 						library.createAndAddLoan(
 								library.getCustomers().get(
-										tblCustomers.getSelectedRow()), copy);
+										selection), copy);
 						dispose();
 					}
 				}

@@ -1,6 +1,5 @@
 package viewPanels;
 
-import java.awt.LayoutManager;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
@@ -39,11 +38,12 @@ import controller.LoanTableSelectListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Stack;
 
 import localization.Messages;
 
-public class CopyPanel extends JPanel {
+public class CopyPanel extends AbstractPanel {
 	/**
 	 * 
 	 */
@@ -326,7 +326,7 @@ public class CopyPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		private CloseAction() {
-			super("Close");
+//			super("Close");
 
 		}
 
@@ -358,19 +358,16 @@ public class CopyPanel extends JPanel {
 		return copies;
 	}
 
-	public CopyPanel(LayoutManager layout) {
-		super(layout);
-	}
-
-	public CopyPanel(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-	}
-
-	public CopyPanel(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-	}
 
 	private void dispose() {
 		parent.dispose();
+	}
+
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		
+		
 	}
 }

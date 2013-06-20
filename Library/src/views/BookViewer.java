@@ -36,8 +36,8 @@ public class BookViewer extends AbstractViewer implements Observer {
 	private JLabel bookAuthor;
 	private JLabel bookTitle;
 	private JLabel bookShelf;
-	private Book book = new Book("Testbook");
-	private Library library = new Library();
+	private Book book;
+	private Library library;
 	private CopyPanel copyPanel;
 
 	/**
@@ -141,7 +141,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 				Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		bookTitle = new JLabel("New label");
+		bookTitle = new JLabel();
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
@@ -149,7 +149,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 		gbc_lblNewLabel.gridy = 1;
 		panel.add(bookTitle, gbc_lblNewLabel);
 
-		bookAuthor = new JLabel("New label");
+		bookAuthor = new JLabel();
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
 
@@ -158,7 +158,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 		gbc_lblNewLabel_1.gridy = 2;
 		panel.add(bookAuthor, gbc_lblNewLabel_1);
 
-		bookPublisher = new JLabel("New label");
+		bookPublisher = new JLabel();
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
 
@@ -167,7 +167,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 		gbc_lblNewLabel_2.gridy = 3;
 		panel.add(bookPublisher, gbc_lblNewLabel_2);
 
-		bookShelf = new JLabel("New label");
+		bookShelf = new JLabel();
 		bookShelf.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;

@@ -3,7 +3,6 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -29,14 +28,11 @@ public abstract class AbstractEditor {
 	protected final ValidationResultModel validationResultModel = new DefaultValidationResultModel();
 
 	protected JDialog d = new JDialog();
-	private Component p;
 	protected ValidationResult validationResult = new ValidationResult();
 	public AbstractEditor(Component p) {
 		super();
-		this.p = p;
 		d.setLocationRelativeTo(p);
-		MasterView.setWindowOpen();
-		MasterView.setFrontWindow(d);
+		MasterView.setWindowOpen(d);
 		d.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -170,7 +166,6 @@ public abstract class AbstractEditor {
 	
 	protected final void disposeWindow(){
 		MasterView.setWindowClose();
-		MasterView.setFrontWindow((Window) p);
 
 	}
 }

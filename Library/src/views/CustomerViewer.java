@@ -50,7 +50,7 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 		this.customerStreet.setText("");
 		this.customerLastName.setText("");
 		this.customerCity.setText("");
-		BookEditor();
+		openCustomerEditor();
 
 		if (customer.isInvalid()) {
 			dispose();
@@ -179,7 +179,7 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 		JButton editBookButton = new JButton(Messages.getString("EditCustomerTitle.title"),Icons.IconEnum.EDITCUSTOMER.getIcon());
 		editBookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BookEditor();
+				openCustomerEditor();
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -208,7 +208,7 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 
 	}
 
-	public void BookEditor() {
+	public void openCustomerEditor() {
 		new CustomerEditor(library, customer, this);
 
 	}
