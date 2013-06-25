@@ -225,10 +225,10 @@ public class CustomerLoanPanel extends JPanel {
 	}
 
 	private void setAddLoanButtonState(final JButton addLoanBtn) {
-		if (table.getRowCount() >= Setting.getMaxBorrowsPerCustomer())
-			addLoanBtn.setEnabled(false);
-		else
+		if (library.isCustomerTrustworthy(customer))
 			addLoanBtn.setEnabled(true);
+		else
+			addLoanBtn.setEnabled(false);
 	}
 
 	private final class AddLoanAction extends AbstractAction {

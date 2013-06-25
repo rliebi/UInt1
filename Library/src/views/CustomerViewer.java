@@ -178,6 +178,7 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 		GridBagConstraints gbc_copyPanel = new GridBagConstraints();
 		gbc_copyPanel.fill = GridBagConstraints.BOTH;
 		panel_1.add(copyPanel, gbc_copyPanel);
+		
 
 	}
 

@@ -35,6 +35,7 @@ import domain.Copy;
 import domain.Customer;
 import domain.Library;
 import domain.Loan;
+import domain.Setting;
 
 public class CustomerAddLoanView extends AbstractViewer {
 
@@ -50,6 +51,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 	private List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
 			3);
 	private Stack<Loan> newLoanList = new Stack<Loan>();
+	private JButton btnAddLoan;
 
 	/**
 	 * Create the dialog.
@@ -60,6 +62,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 		this.library = library;
 		createView();
 		setVisible(true);
+		// filters_customer.add();
 	}
 
 	private void createView() {
@@ -69,22 +72,25 @@ public class CustomerAddLoanView extends AbstractViewer {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 153, 70, 0};
-		gbl_contentPanel.columnWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWidths = new int[] { 0, 0, 0, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 0, 0, 153, 70, 0 };
+		gbl_contentPanel.columnWeights = new double[] { 1.0, 1.0, 0.0,
+				Double.MIN_VALUE };
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0,
+				Double.MIN_VALUE };
 
 		contentPanel.setLayout(gbl_contentPanel);
-//		{
-//			JLabel lblCustomer = new JLabel("");
-//			GridBagConstraints gbc_lblCustomer = new GridBagConstraints();
-//			gbc_lblCustomer.insets = new Insets(0, 0, 5, 5);
-//			gbc_lblCustomer.gridx = 0;
-//			gbc_lblCustomer.gridy = 0;
-//			contentPanel.add(lblCustomer, gbc_lblCustomer);
-//		}
+		// {
+		// JLabel lblCustomer = new JLabel("");
+		// GridBagConstraints gbc_lblCustomer = new GridBagConstraints();
+		// gbc_lblCustomer.insets = new Insets(0, 0, 5, 5);
+		// gbc_lblCustomer.gridx = 0;
+		// gbc_lblCustomer.gridy = 0;
+		// contentPanel.add(lblCustomer, gbc_lblCustomer);
+		// }
 		{
-			JLabel lblcustomername = new JLabel(customer.getName() + " " + customer.getSurname());
+			JLabel lblcustomername = new JLabel(customer.getName() + " "
+					+ customer.getSurname());
 			GridBagConstraints gbc_lblcustomername = new GridBagConstraints();
 			gbc_lblcustomername.insets = new Insets(0, 0, 5, 5);
 			gbc_lblcustomername.gridx = 1;
@@ -93,7 +99,9 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 
 		{
-			JButton btnAddLoan = new JButton(Messages.getString("CopyPanel.btnAddloan.text"),Icons.IconEnum.ADD.getIcon(24));
+			btnAddLoan = new JButton(
+					Messages.getString("CopyPanel.btnAddloan.text"),
+					Icons.IconEnum.ADD.getIcon(24));
 			btnAddLoan.addActionListener(new AddAction());
 
 			GridBagConstraints gbc_btnAdd = new GridBagConstraints();
@@ -197,11 +205,17 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			// if(library.)
+
 			newLoanList.add(library.createAndAddLoan(
 					customer,
 					library.getCopies().get(
 							copiesTable.convertRowIndexToModel(copiesTable
 									.getSelectedRow()))));
+			if (!library.isCustomerTrustworthy(customer)) {
+				btnAddLoan.setEnabled(false);
+			}
+
 		}
 	}
 
@@ -216,19 +230,20 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			while (!newLoanList.empty()){
+			while (!newLoanList.empty()) {
 				newLoanList.pop().returnCopy();
 			}
 			dispose();
 
 		}
 
-
 	}
-	private void setModel(){
-		copiesTable.getColumnModel()
-		.getColumn(1)
-		.setCellRenderer(
-				new ComboBoxCellRenderer(Copy.Condition.values()));
+
+	private void setModel() {
+		copiesTable
+				.getColumnModel()
+				.getColumn(1)
+				.setCellRenderer(
+						new ComboBoxCellRenderer(Copy.Condition.values()));
 	}
 }
