@@ -26,12 +26,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-
 import components.IconCellRenderer;
 import components.LibraryExcption;
 import components.MySearchField;
 import settings.Icons;
 import viewModels.BookTableModel;
+import views.BookEditor;
 import views.BookViewer;
 import domain.Book;
 import domain.Library;
@@ -157,16 +157,16 @@ public class BookPanel extends AbstractPanel {
 
 		book_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		ListSelectionModel listSelectionModel = book_table.getSelectionModel();
-//		book_table.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyPressed(KeyEvent arg0) {
-//				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-//					arg0.consume();
-//					
-//				}
-//
-//			}
-//		});
+		// book_table.addKeyListener(new KeyAdapter() {
+		// @Override
+		// public void keyPressed(KeyEvent arg0) {
+		// if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+		// arg0.consume();
+		//
+		// }
+		//
+		// }
+		// });
 		listSelectionModel
 				.addListSelectionListener(new ListSelectionListener() {
 
@@ -188,7 +188,8 @@ public class BookPanel extends AbstractPanel {
 		btnDisplayBook.setIcon(Icons.IconEnum.EDITBOOK.getIcon(24));
 		btnDisplayBook.setEnabled(false);
 		btnDisplayBook.addActionListener(new BookInfoAction());
-		btnDisplayBook.registerKeyboardAction(new BookInfoAction(), KeyStroke.getKeyStroke("ENTER"), WHEN_IN_FOCUSED_WINDOW);
+		btnDisplayBook.registerKeyboardAction(new BookInfoAction(),
+				KeyStroke.getKeyStroke("ENTER"), WHEN_IN_FOCUSED_WINDOW);
 		// ------------Search Field --------------
 		searchfield = new MySearchField(book_table, 1, filters);
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
@@ -259,11 +260,15 @@ public class BookPanel extends AbstractPanel {
 	}
 
 	private void openNewBookWindow() {
-		try {
-			new BookViewer(library);
-		} catch (LibraryExcption e) {
+		BookEditor be = new BookEditor(library, this);
 
-		}
+		if (be.isValid())
+			try {
+				new BookViewer(library, be.getBook());
+			} catch (LibraryExcption e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 	}
 

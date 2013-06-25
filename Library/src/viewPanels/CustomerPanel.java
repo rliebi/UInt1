@@ -33,6 +33,7 @@ import components.MySearchField;
 
 import settings.Icons;
 import viewModels.CustomerTableModel;
+import views.CustomerEditor;
 import views.CustomerViewer;
 import domain.Customer;
 import domain.Library;
@@ -247,8 +248,14 @@ public class CustomerPanel extends AbstractPanel {
 		}
 	}
 	private void newCustomer(){
+		CustomerEditor ce = new CustomerEditor(library, this);
+		
+		if (!ce.isValid()){
+			System.out.println("Cancelled");
+		}
+		else
 		try {
-			new CustomerViewer(library);
+			new CustomerViewer(library, ce.getCustomer());
 		} catch (LibraryExcption e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

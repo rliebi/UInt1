@@ -40,33 +40,7 @@ public class BookViewer extends AbstractViewer implements Observer {
 	private Library library;
 	private CopyPanel copyPanel;
 
-	/**
-	 * @throws LibraryExcption 
-	 */
-	public BookViewer(Library lib) throws LibraryExcption {
-		this.book = new Book("");
-		this.library = lib;
-		book.addObserver(this);
-		init();
-		this.bookPublisher.setText("");
-		this.bookAuthor.setText("");
-		this.bookTitle.setText("");
-		this.bookShelf.setText("");
-		BookEditor();
-		
-		if (book.isInvalid()){
-			dispose();
-			throw new LibraryExcption();
-		}
-
-		else{
-			createWindow();
-			this.setTitle("Edit Book");
-			library.addBook(book);
-
-		}
-	}
-
+	
 	/**
 	 * @throws LibraryExcption 
 	 * @wbp.parser.constructor

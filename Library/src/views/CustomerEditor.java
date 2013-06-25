@@ -31,7 +31,7 @@ public class CustomerEditor extends AbstractEditor {
 	public CustomerEditor(Library l,Component p){
 		super(p);
 		this.library = l;
-		this.customer = new Customer("","");
+		customer = new Customer("", "");
 		newCustomer = true;
 		d.setTitle(Messages.getString("CreateNewCustomerTitle.title"));
 		createPanel();
@@ -102,6 +102,8 @@ public class CustomerEditor extends AbstractEditor {
 	@Override
 	protected void cancelTask() {
 		d.dispose();
-		customer.setInvalid();
+	}
+	public Customer getCustomer() {
+		return customer;
 	}
 }

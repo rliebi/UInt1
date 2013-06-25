@@ -41,33 +41,6 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 
 	/**
 	 * @throws LibraryExcption
-	 */
-	public CustomerViewer(Library lib) throws LibraryExcption {
-		library = lib;
-		customer.addObserver(this);
-		init();
-		this.customerFirstName.setText("");
-		this.customerStreet.setText("");
-		this.customerLastName.setText("");
-		this.customerCity.setText("");
-		openCustomerEditor();
-
-		if (customer.isInvalid()) {
-			dispose();
-			throw new LibraryExcption("Customer creation got cancelled. Everything is fine.");
-		}
-
-		else {
-			this.setTitle(Messages.getString("CustomersAddView.CustomersAddViewCenterTitle.title"));
-
-			createWindow();
-			library.addCustomer(customer);
-
-		}
-	}
-
-	/**
-	 * @throws LibraryExcption
 	 * @wbp.parser.constructor
 	 */
 	public CustomerViewer(Library lib, Customer c) throws LibraryExcption {
