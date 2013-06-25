@@ -10,11 +10,13 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+@SuppressWarnings("unused")
 public class MyJTable extends JTable {
 
 	/**
@@ -38,12 +40,12 @@ public class MyJTable extends JTable {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				//Print the Table width
-				JTableHeader th = getTableHeader();
-				TableColumnModel tcm = th.getColumnModel();
-				for (int x = 0, y = tcm.getColumnCount(); x < y; x++) {
-					 TableColumn tc = tcm.getColumn(x);
-					 System.out.println("Column name = "+tc.getHeaderValue()+", width = "+tc.getWidth());
-				}
+//				JTableHeader th = getTableHeader();
+//				TableColumnModel tcm = th.getColumnModel();
+//				for (int x = 0, y = tcm.getColumnCount(); x < y; x++) {
+//					 TableColumn tc = tcm.getColumn(x);
+//					 System.out.println("Column name = "+tc.getHeaderValue()+", width = "+tc.getWidth());
+//				}
 
 			}
 

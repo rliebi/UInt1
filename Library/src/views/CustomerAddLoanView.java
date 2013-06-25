@@ -66,7 +66,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-
+		setTitle(Messages.getString("CopyPanel.btnAddloan.text"));
 		gbl_contentPanel.columnWidths = new int[] { 0, 0, 0, 0 };
 		gbl_contentPanel.rowHeights = new int[] { 0, 0, 153, 70, 0 };
 		gbl_contentPanel.columnWeights = new double[] { 1.0, 1.0, 0.0,
@@ -75,7 +75,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 				Double.MIN_VALUE };
 
 		contentPanel.setLayout(gbl_contentPanel);
-
+		
 		{
 			btnAddLoan = new JButton(
 					Messages.getString("CopyPanel.btnAddloan.text"),
@@ -222,7 +222,6 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			// if(library.)
 
 			newLoanList.add(library.createAndAddLoan(
 					customer,

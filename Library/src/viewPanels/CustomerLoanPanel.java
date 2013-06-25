@@ -238,7 +238,6 @@ public class CustomerLoanPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			new CustomerAddLoanView(customer, library);
-			System.err.println("Not yet implemented");
 		}
 
 	}

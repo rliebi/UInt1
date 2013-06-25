@@ -323,7 +323,6 @@ public class CopyPanel extends AbstractPanel {
 				}
 
 			} catch (ArrayIndexOutOfBoundsException e1) {
-				// System.err.println();
 				e1.printStackTrace();
 			}
 		}

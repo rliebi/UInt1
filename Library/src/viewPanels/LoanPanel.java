@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -148,15 +149,16 @@ public class LoanPanel extends AbstractPanel{
 				
 			}
 		});
-		lending_table.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
-					arg0.consume();
-					openEditLoanWindow();
-				}
-			}
-		});
+//		lending_table.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyPressed(KeyEvent arg0) {
+//				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
+//					arg0.consume();
+//					openEditLoanWindow();
+//				}
+//			}
+//		});
+
 		lending_table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		ListSelectionModel listSelectionModel = lending_table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
