@@ -20,6 +20,7 @@ public abstract class AbstractViewer extends JDialog {
 	private boolean windowClosed = false;
 	public AbstractViewer() {
 		MasterView.setWindowOpen(this);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addComponentListener(new ComponentListener() {
 
 			@Override
