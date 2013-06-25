@@ -77,7 +77,7 @@ public class BookCopiesTableModel extends AbstractTableModel implements
 			for (Loan l : lib.getOpenLoans()) {
 				if (l.getCopy() == lib.getCopiesOfBook(book).get(row)) {
 					return l.getCustomer().getName() + " "
-							+ l.getCustomer().getSurname() + " Due:" + l.getdueDatetoString();
+							+ l.getCustomer().getSurname() + " (" + l.getdueDatetoString() + ")";
 				}
 			}
 			return "";
