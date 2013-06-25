@@ -20,9 +20,9 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
+	private static final DecimalFormat myFormat = new DecimalFormat("000");
 	List<Customer> customers;
 	private Library lib;
-	DecimalFormat myFormat = new DecimalFormat("000");
 
 	public CustomerTableModel(Library l) {
 		l.addObserver(this);
