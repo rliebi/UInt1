@@ -1,5 +1,6 @@
 package viewModels;
 
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,6 +20,7 @@ public class BookCopiesTableModel extends AbstractTableModel implements
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
+	private static final DecimalFormat myFormat = new DecimalFormat("000");
 	private Library lib;
 	private Book book;
 
@@ -82,7 +84,7 @@ public class BookCopiesTableModel extends AbstractTableModel implements
 			}
 			return "";
 		case 0:
-			return lib.getCopiesOfBook(book).get(row).getInventoryNumber();
+			return myFormat.format(lib.getCopiesOfBook(book).get(row).getInventoryNumber());
 
 		default:
 			return "";
