@@ -29,7 +29,6 @@ import components.MySearchField;
 import domain.Customer;
 import domain.Library;
 import domain.Loan;
-import domain.Setting;
 
 public class CustomerAddLoanView extends AbstractViewer {
 
@@ -60,7 +59,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 	}
 
 	private void createView() {
-		setBounds(100, 100, 450, 420);
+		setBounds(100, 100, 746, 420);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -74,29 +73,30 @@ public class CustomerAddLoanView extends AbstractViewer {
 				Double.MIN_VALUE };
 
 		contentPanel.setLayout(gbl_contentPanel);
-		// {
-		// JLabel lblCustomer = new JLabel("");
-		// GridBagConstraints gbc_lblCustomer = new GridBagConstraints();
-		// gbc_lblCustomer.insets = new Insets(0, 0, 5, 5);
-		// gbc_lblCustomer.gridx = 0;
-		// gbc_lblCustomer.gridy = 0;
-		// contentPanel.add(lblCustomer, gbc_lblCustomer);
-		// }
-		{
-			JLabel lblcustomername = new JLabel(customer.getName() + " "
-					+ customer.getSurname());
-			GridBagConstraints gbc_lblcustomername = new GridBagConstraints();
-			gbc_lblcustomername.insets = new Insets(0, 0, 5, 5);
-			gbc_lblcustomername.gridx = 1;
-			gbc_lblcustomername.gridy = 0;
-			contentPanel.add(lblcustomername, gbc_lblcustomername);
-		}
 
 		{
 			btnAddLoan = new JButton(
 					Messages.getString("CopyPanel.btnAddloan.text"),
 					Icons.IconEnum.ADD.getIcon(24));
 			btnAddLoan.addActionListener(new AddAction());
+			// {
+			// JLabel lblCustomer = new JLabel("");
+			// GridBagConstraints gbc_lblCustomer = new GridBagConstraints();
+			// gbc_lblCustomer.insets = new Insets(0, 0, 5, 5);
+			// gbc_lblCustomer.gridx = 0;
+			// gbc_lblCustomer.gridy = 0;
+			// contentPanel.add(lblCustomer, gbc_lblCustomer);
+			// }
+			{
+				JLabel lblcustomername = new JLabel(customer.getName() + " "
+						+ customer.getSurname());
+				GridBagConstraints gbc_lblcustomername = new GridBagConstraints();
+				gbc_lblcustomername.anchor = GridBagConstraints.WEST;
+				gbc_lblcustomername.insets = new Insets(0, 0, 5, 5);
+				gbc_lblcustomername.gridx = 0;
+				gbc_lblcustomername.gridy = 0;
+				contentPanel.add(lblcustomername, gbc_lblcustomername);
+			}
 
 			GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 			gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
@@ -236,6 +236,12 @@ public class CustomerAddLoanView extends AbstractViewer {
 	private void setModel(){
 		copiesTable.getColumnModel().getColumn(0).setMaxWidth(40);
 		copiesTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+		
+		copiesTable.getColumnModel().getColumn(1).setMaxWidth(80);
+		copiesTable.getColumnModel().getColumn(1).setPreferredWidth(80);
+		
+		copiesTable.getColumnModel().getColumn(3).setMaxWidth(80);
+		copiesTable.getColumnModel().getColumn(3).setPreferredWidth(80);
 
 	}
 }
