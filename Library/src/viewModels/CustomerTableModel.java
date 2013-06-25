@@ -1,5 +1,6 @@
 package viewModels;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -19,6 +20,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
+	private static final DecimalFormat myFormat = new DecimalFormat("000");
 	List<Customer> customers;
 	private Library lib;
 
@@ -30,7 +32,7 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 
 	@Override
 	public int getColumnCount() {
-		return 6;
+		return 7;
 	}
 
 	@Override
@@ -66,14 +68,16 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 					: overdueText;
 
 		case 1:
-			return entity.getName();
+			return myFormat.format(row);
 		case 2:
-			return entity.getSurname();
+			return entity.getName();
 		case 3:
+			return entity.getSurname();
+		case 4:
 			return entity.getStreet();
 		case 5:
 			return entity.getCity();
-		case 4:
+		case 6:
 			return entity.getZip();
 		default:
 			return "";
@@ -86,14 +90,16 @@ public class CustomerTableModel extends AbstractTableModel implements Observer {
 		case 0:
 			return Messages.getString("Domain.Customer.status");
 		case 1:
-			return Messages.getString("Domain.Customer.name");
+			return Messages.getString("Domain.Customer.id");
 		case 2:
-			return Messages.getString("Domain.Customer.surname");
+			return Messages.getString("Domain.Customer.name");
 		case 3:
-			return Messages.getString("Domain.Customer.street");
+			return Messages.getString("Domain.Customer.surname");
 		case 4:
-			return Messages.getString("Domain.Customer.zip");
+			return Messages.getString("Domain.Customer.street");
 		case 5:
+			return Messages.getString("Domain.Customer.zip");
+		case 6:
 			return Messages.getString("Domain.Customer.city");
 		}
 		return null;

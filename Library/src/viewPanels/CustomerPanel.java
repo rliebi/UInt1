@@ -33,6 +33,7 @@ import components.MySearchField;
 
 import settings.Icons;
 import viewModels.CustomerTableModel;
+import views.CustomerEditor;
 import views.CustomerViewer;
 import domain.Customer;
 import domain.Library;
@@ -214,12 +215,14 @@ public class CustomerPanel extends AbstractPanel {
 	 */
 	private void setModel() {
 		customer_table.setModel(new CustomerTableModel(library));
-		customer_table.getColumnModel().getColumn(0).setPreferredWidth(50);
-		customer_table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(0).setMaxWidth(90);
+		customer_table.getColumnModel().getColumn(0).setPreferredWidth(90);
+		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
 		customer_table.getColumnModel().getColumn(2).setPreferredWidth(100);
 		customer_table.getColumnModel().getColumn(3).setPreferredWidth(100);
-		customer_table.getColumnModel().getColumn(4).setPreferredWidth(1);
-		customer_table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		customer_table.getColumnModel().getColumn(5).setPreferredWidth(1);
+		customer_table.getColumnModel().getColumn(6).setPreferredWidth(100);
 		customer_table.getColumnModel().getColumn(0).setCellRenderer(new IconCellRenderer());
 	}
 
@@ -247,8 +250,14 @@ public class CustomerPanel extends AbstractPanel {
 		}
 	}
 	private void newCustomer(){
+		CustomerEditor ce = new CustomerEditor(library, this);
+		
+		if (!ce.isValid()){
+			System.out.println("Cancelled");
+		}
+		else
 		try {
-			new CustomerViewer(library);
+			new CustomerViewer(library, ce.getCustomer());
 		} catch (LibraryExcption e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -157,7 +157,7 @@ public class LoanPanel extends AbstractPanel{
 				}
 			}
 		});
-		lending_table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		lending_table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		ListSelectionModel listSelectionModel = lending_table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			

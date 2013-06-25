@@ -30,6 +30,8 @@ public abstract class AbstractEditor {
 	protected JDialog d = new JDialog();
 	protected ValidationResult validationResult = new ValidationResult();
 
+	private boolean valid = true;
+
 	public AbstractEditor(Component p) {
 		super();
 		d.setLocationRelativeTo(p);
@@ -136,6 +138,11 @@ public abstract class AbstractEditor {
 		}
 	}
 
+	public boolean isValid() {
+		
+		return valid;
+	}
+
 	protected final class OkAction extends AbstractAction {
 		/**
 		 * 
@@ -152,7 +159,7 @@ public abstract class AbstractEditor {
 			validationResultModel.setResult(validationResult);
 			if (!validationResultModel.hasErrors()) {
 				saveTask();
-				disposeWindow();
+				
 
 			}
 		}
@@ -169,15 +176,18 @@ public abstract class AbstractEditor {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			setInvalid();
 			cancelTask();
-			disposeWindow();
 
+
+		}
+
+		private void setInvalid() {
+			valid = false;
+			
 		}
 
 	}
 
-	protected final void disposeWindow() {
-		MasterView.setWindowClose();
 
-	}
 }

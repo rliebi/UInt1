@@ -26,7 +26,6 @@ public class BookEditor extends AbstractEditor {
 	private final JComboBox<Shelf> shelf = new JComboBox<Shelf>(Shelf.values());
 	private boolean newBook = false;
 	private Library library;
-
 	public BookEditor(Library library, Book book, Component p) {
 		super(p);
 		this.book = book;
@@ -111,11 +110,13 @@ public class BookEditor extends AbstractEditor {
 
 	@Override
 	protected void cancelTask() {
-		book.setInvalid();
+		
 		d.dispose();
 
 	}
-
+	public Book getBook() {
+		return book;
+	}
 	private void saveToBook() {
 		book.setAuthor(author.getText());
 		book.setName(title.getText());

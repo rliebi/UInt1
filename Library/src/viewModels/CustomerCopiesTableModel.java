@@ -1,5 +1,6 @@
 package viewModels;
 
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,6 +19,7 @@ public class CustomerCopiesTableModel extends AbstractTableModel implements Obse
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
+	private static final DecimalFormat myFormat = new DecimalFormat("000");
 	private Library lib;
 	private Customer customer;
 
@@ -33,7 +35,7 @@ public class CustomerCopiesTableModel extends AbstractTableModel implements Obse
 
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -55,7 +57,7 @@ public class CustomerCopiesTableModel extends AbstractTableModel implements Obse
 		}
 		switch (column) {
 		case 1:
-			return lib.getCustomerOngoingLoans(customer).get(row).getCopy().getInventoryNumber();
+			return myFormat.format(lib.getCustomerOngoingLoans(customer).get(row).getCopy().getInventoryNumber());
 		case 0:
 			if (lib.getCustomerOngoingLoans(customer).get(row).isOverdue() == false) {
 				return Messages.getString("Domain.Loan.OK");
@@ -65,10 +67,12 @@ public class CustomerCopiesTableModel extends AbstractTableModel implements Obse
 				daysOverdue += ")";
 				return Messages.getString("Domain.Loan.Overdue") + " " + daysOverdue;
 			}
-		case 3:
-			return lib.getCustomerOngoingLoans(customer).get(row).getCopy().getTitle().getName();
 		case 2:
 			return lib.getCustomerOngoingLoans(customer).get(row).getPickupDate().getTime();
+		case 3:
+			return lib.getCustomerOngoingLoans(customer).get(row).getdueDatetoString();
+		case 4:
+			return lib.getCustomerOngoingLoans(customer).get(row).getCopy().getTitle().getName();
 
 
 		default:
@@ -95,6 +99,8 @@ public class CustomerCopiesTableModel extends AbstractTableModel implements Obse
 		case 2:
 			return Messages.getString("Domain.Loan.pickupDate");
 		case 3:
+			return Messages.getString("Domain.Loan.dueDate");
+		case 4:
 			return Messages.getString("Domain.Book.title");
 		default:
 			return null;

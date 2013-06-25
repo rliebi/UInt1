@@ -144,7 +144,8 @@ public class CustomerLoanPanel extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(40);
 		table.getColumnModel().getColumn(1).setMaxWidth(40);
 		table.getColumnModel().getColumn(2).setPreferredWidth(100);
-		table.getColumnModel().getColumn(3).setPreferredWidth(500);
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(500);
 	}
 
 	private JScrollPane createtableScrollPane(JPanel panel_1) {

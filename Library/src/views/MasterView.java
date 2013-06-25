@@ -49,7 +49,6 @@ public class MasterView extends JComponent {
 		openWindowStack = new Stack<Window>();
 		initialize();
 		frame.setVisible(true);
-
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventPostProcessor(new KeyEventPostProcessor() {
 					@Override
@@ -87,7 +86,7 @@ public class MasterView extends JComponent {
 								activeSearchField.requestFocusInWindow();
 
 							}
-							if (key.getID() == KeyEvent.KEY_RELEASED) {
+							if (key.getID() == KeyEvent.KEY_PRESSED) {
 								int end = activeSearchField.getSelectionEnd();
 								activeSearchField.setSelectionStart(end);
 								activeSearchField.setSelectionEnd(end);
@@ -152,11 +151,11 @@ public class MasterView extends JComponent {
 
 	public static void setWindowOpen(Window w) {
 		openWindowStack.add(w);
-		setWindowBehaviour(w, true);
-		
+		setWindowBehaviour(w, true);		
 	}
 
 	public static void setWindowClose() {
+		
 		Window w = openWindowStack.pop();
 		setWindowBehaviour(w, false);
 		if (openWindowStack.size() > 1) {
@@ -167,7 +166,6 @@ public class MasterView extends JComponent {
 					.getSelectedComponent();
 			a.setSearchField();
 		}
-
 	}
 
 	private static void setWindowBehaviour(Window w, boolean b) {
