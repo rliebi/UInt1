@@ -37,7 +37,7 @@ public class BookCopiesTableModel extends AbstractTableModel implements
 		return 4;
 	}
 
-	@Override
+	@Override 
 	public int getRowCount() {
 		if (lib == null)
 			return 0;
