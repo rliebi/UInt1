@@ -4,14 +4,15 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.Observer;
 
-import javax.swing.JPanel;
+import javax.swing.JRootPane;
+
 import views.MasterView;
 
 import components.MySearchField;
 
 import domain.Library;
 
-public abstract class AbstractPanel extends JPanel implements Observer {
+public abstract class AbstractPanel extends JRootPane implements Observer {
 
 	/**
 	 * 

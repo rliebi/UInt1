@@ -1,6 +1,7 @@
 package viewModels;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -34,7 +35,7 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 	}
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -72,6 +73,14 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 		case 3: 
 			ret = bookList.get(arg0).getPublisher();
 			break;
+		case 4:
+			List<String> l = new ArrayList<String>();
+			for (Copy copy : library.getCopiesOfBook(bookList.get(arg0))) {
+				String s = copy.getInventoryNumber() + "";
+				l.add(s);
+			}
+			ret = l.toString();
+			break;
 		default:
 			ret = 0;
 		}
@@ -95,6 +104,8 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 		case 3: 
 			ret = Messages.getString("Domain.Book.publisher");
 			break;
+		case 4:
+			ret = "";
 		default:
 			ret = null;
 		}
