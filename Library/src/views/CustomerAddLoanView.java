@@ -12,10 +12,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import javax.swing.AbstractAction;
 
-import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
 
@@ -23,12 +23,15 @@ import localization.Messages;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 
+import components.ComboBoxCellRenderer;
+import components.MyJTable;
 import components.MySearchField;
 
 import settings.Icons;
 import viewModels.CopiesTableModel;
 import viewModels.CustomerCopiesTableModel;
 
+import domain.Copy;
 import domain.Customer;
 import domain.Library;
 import domain.Loan;
@@ -40,13 +43,13 @@ public class CustomerAddLoanView extends AbstractViewer {
 	 */
 	private static final long serialVersionUID = 4364856647691500471L;
 	private final JPanel contentPanel = new JPanel();
-	private JTable copiesTable;
-	private JTable loanTable;
+	private MyJTable copiesTable;
+	private MyJTable loanTable;
 	private Library library;
 	private Customer customer;
 	private List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
 			3);
-	private List<Loan> newLoanList = new ArrayList<Loan>();
+	private Stack<Loan> newLoanList = new Stack<Loan>();
 
 	/**
 	 * Create the dialog.
@@ -72,16 +75,16 @@ public class CustomerAddLoanView extends AbstractViewer {
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 
 		contentPanel.setLayout(gbl_contentPanel);
+//		{
+//			JLabel lblCustomer = new JLabel("");
+//			GridBagConstraints gbc_lblCustomer = new GridBagConstraints();
+//			gbc_lblCustomer.insets = new Insets(0, 0, 5, 5);
+//			gbc_lblCustomer.gridx = 0;
+//			gbc_lblCustomer.gridy = 0;
+//			contentPanel.add(lblCustomer, gbc_lblCustomer);
+//		}
 		{
-			JLabel lblCustomer = new JLabel("Customer:");
-			GridBagConstraints gbc_lblCustomer = new GridBagConstraints();
-			gbc_lblCustomer.insets = new Insets(0, 0, 5, 5);
-			gbc_lblCustomer.gridx = 0;
-			gbc_lblCustomer.gridy = 0;
-			contentPanel.add(lblCustomer, gbc_lblCustomer);
-		}
-		{
-			JLabel lblcustomername = new JLabel("%customer_name");
+			JLabel lblcustomername = new JLabel(customer.getName() + " " + customer.getSurname());
 			GridBagConstraints gbc_lblcustomername = new GridBagConstraints();
 			gbc_lblcustomername.insets = new Insets(0, 0, 5, 5);
 			gbc_lblcustomername.gridx = 1;
@@ -90,7 +93,8 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 
 		{
-			JButton btnAddLoan = new JButton(new AddAction());
+			JButton btnAddLoan = new JButton(Messages.getString("CopyPanel.btnAddloan.text"),Icons.IconEnum.ADD.getIcon(24));
+			btnAddLoan.addActionListener(new AddAction());
 
 			GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 			gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
@@ -108,7 +112,8 @@ public class CustomerAddLoanView extends AbstractViewer {
 			gbc_scrollPane.gridy = 2;
 			contentPanel.add(copiesScrollPane, gbc_scrollPane);
 			{
-				copiesTable = new JTable(new CopiesTableModel(library));
+				copiesTable = new MyJTable();
+				copiesTable.setModel(new CopiesTableModel(library));
 				copiesScrollPane.setViewportView(copiesTable);
 
 			}
@@ -123,7 +128,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 			gbc_scrollPane.gridy = 3;
 			contentPanel.add(loanScrollPane, gbc_scrollPane);
 			{
-				loanTable = new JTable(new CustomerCopiesTableModel(library,
+				loanTable = new MyJTable(new CustomerCopiesTableModel(library,
 						customer));
 				loanScrollPane.setViewportView(loanTable);
 			}
@@ -144,6 +149,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 			contentPanel.add(searchfield, gbc_txtSearchfield);
 			searchfield.setColumns(10);
 		}
+		setModel();
 	}
 
 	protected final JPanel buttonPanel() {
@@ -176,7 +182,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			// don't close the frame on OK unless it validates
+			dispose();
 		}
 	}
 
@@ -210,12 +216,19 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			for (Loan l : newLoanList) {
-				l.unreturnCopy();
+			while (!newLoanList.empty()){
+				newLoanList.pop().returnCopy();
 			}
+			dispose();
 
 		}
 
 
+	}
+	private void setModel(){
+		copiesTable.getColumnModel()
+		.getColumn(1)
+		.setCellRenderer(
+				new ComboBoxCellRenderer(Copy.Condition.values()));
 	}
 }

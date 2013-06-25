@@ -151,6 +151,10 @@ public class MasterView extends JComponent {
 	}
 
 	public static void setWindowOpen(Window w) {
+		if (openWindowStack.size() > 1) {
+			
+			setWindowBehaviour(openWindowStack.peek(), false);
+		}
 		openWindowStack.add(w);
 		setWindowBehaviour(w, true);		
 	}
