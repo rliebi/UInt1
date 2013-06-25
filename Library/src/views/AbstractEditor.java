@@ -29,63 +29,70 @@ public abstract class AbstractEditor {
 
 	protected JDialog d = new JDialog();
 	protected ValidationResult validationResult = new ValidationResult();
+
 	public AbstractEditor(Component p) {
 		super();
 		d.setLocationRelativeTo(p);
 		MasterView.setWindowOpen(d);
+		d.setResizable(false);
 		d.addWindowListener(new WindowListener() {
-			
+			private boolean windowClosed;
+
 			@Override
 			public void windowOpened(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowDeiconified(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowDeactivated(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void windowClosing(WindowEvent e) {
-				System.out.println("CLOSING");
-				disposeWindow();
+				if (!windowClosed) {
+					MasterView.setWindowClose();
+					windowClosed = true;
+				}
+
 			}
-			
+
 			@Override
 			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
+				if (!windowClosed) {
+					MasterView.setWindowClose();
+					windowClosed = true;
+				}
+
 			}
-			
+
 			@Override
 			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
-	
+
 	/**
 	 * @return
 	 */
 	protected final DefaultFormBuilder builder() {
 		FormLayout layout = new FormLayout(
-	            "10px,pref, 8px, 100px, 4px, 200px:grow,10px",   
-	            "10px,pref, 6px, pref, 6px, pref, 6px, pref,pref,10px"); 
+				"10px,pref, 8px, 100px, 4px, 200px:grow,10px",
+				"10px,pref, 6px, pref, 6px, pref, 6px, pref,pref,10px");
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		return builder;
 	}
@@ -96,34 +103,39 @@ public abstract class AbstractEditor {
 	protected final JPanel buttonPanel() {
 		JButton closeBtn = new JButton();
 		closeBtn.setAction(new CancelAction());
-	    closeBtn.setIcon(Icons.IconEnum.CANCEL.getIcon(16));
+		closeBtn.setIcon(Icons.IconEnum.CANCEL.getIcon(16));
 		closeBtn.setText(Messages.getString("Global.btnCancel.title"));
-	    JButton saveBtn = new JButton();
-	    saveBtn.setAction(new OkAction());
+		JButton saveBtn = new JButton();
+		saveBtn.setAction(new OkAction());
 		saveBtn.setIcon(Icons.IconEnum.SAVE.getIcon(16));
 		saveBtn.setText(Messages.getString("Global.btnSave.title"));
-
 
 		ButtonBarBuilder buttonBar = new ButtonBarBuilder();
 		buttonBar.addButton(closeBtn);
 		buttonBar.addButton(saveBtn);
 		JPanel button_panel = new JPanel();
 		button_panel.setLayout(new BorderLayout(0, 0));
-		button_panel.add(buttonBar.build(),BorderLayout.EAST);
+		button_panel.add(buttonBar.build(), BorderLayout.EAST);
 		return button_panel;
 	}
+
 	public abstract void validate();
+
 	protected abstract void saveTask();
+
 	protected abstract void cancelTask();
+
 	protected abstract void createPanel();
+
 	public void checkTxtField(JTextField t) {
-		if (!ValidationUtils.hasMinimumLength(t.getText(),1)) {
-			t.setBackground(new Color(754909184,true));
+		if (!ValidationUtils.hasMinimumLength(t.getText(), 1)) {
+			t.setBackground(new Color(754909184, true));
 			validationResult.addError("Field must not be empty");
-		}else{
-			t.setBackground(new Color(255, 255, 255,255));
+		} else {
+			t.setBackground(new Color(255, 255, 255, 255));
 		}
 	}
+
 	protected final class OkAction extends AbstractAction {
 		/**
 		 * 
@@ -135,16 +147,17 @@ public abstract class AbstractEditor {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-            //don't close the frame on OK unless it validates    
+			// don't close the frame on OK unless it validates
 			validate();
-            validationResultModel.setResult(validationResult);
-            if (!validationResultModel.hasErrors()) {
-            		saveTask();
-            		disposeWindow();
-                
-            }
+			validationResultModel.setResult(validationResult);
+			if (!validationResultModel.hasErrors()) {
+				saveTask();
+				disposeWindow();
+
+			}
 		}
 	}
+
 	protected final class CancelAction extends AbstractAction {
 		/**
 		 * 
@@ -158,13 +171,12 @@ public abstract class AbstractEditor {
 		public void actionPerformed(ActionEvent e) {
 			cancelTask();
 			disposeWindow();
-			
+
 		}
 
-
 	}
-	
-	protected final void disposeWindow(){
+
+	protected final void disposeWindow() {
 		MasterView.setWindowClose();
 
 	}

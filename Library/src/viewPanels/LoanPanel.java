@@ -28,8 +28,6 @@ import settings.Icons;
 import viewModels.LendingTableModel;
 import views.ReturnLoanView;
 import views.ReturnMultipleLoansView;
-import views.WarningWindow;
-
 import components.IconCellRenderer;
 import components.MySearchField;
 
@@ -50,7 +48,6 @@ public class LoanPanel extends AbstractPanel{
 	private JTable lending_table;
 	private JButton btnDisplayLoan;
 	private JLabel display_number_of_rents;
-	private WarningWindow warningWindow;
 	private JCheckBox chckbxOverdue;
 	private JLabel display_overdue;
     private java.util.List<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);  
@@ -303,8 +300,7 @@ public class LoanPanel extends AbstractPanel{
 			
 		}
 	 catch (IndexOutOfBoundsException e) {
-		warningWindow = new WarningWindow("Please select a Loan!");
-		warningWindow.setVisible();
+
 	}
 
 	}

@@ -48,7 +48,6 @@ public class MasterView {
 					@Override
 					public boolean postProcessKeyEvent(KeyEvent key) {
 						if (key.getID() == KeyEvent.KEY_PRESSED) {
-							System.out.println(openWindowStack.size() + " Windows open");
 							if (openWindowStack.size() == 1) {
 								if ((key.getKeyCode() == KeyEvent.VK_TAB || (key
 										.isControlDown() && key.getKeyCode() == KeyEvent.VK_W))) {
