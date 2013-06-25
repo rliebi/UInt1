@@ -1,13 +1,11 @@
 package viewModels;
 
-import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
 import localization.Messages;
-
 import domain.Book;
 import domain.Copy.Condition;
 import domain.Library;
@@ -20,7 +18,6 @@ public class BookCopiesTableModel extends AbstractTableModel implements
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
-	private static final DecimalFormat myFormat = new DecimalFormat("000");
 	private Library lib;
 	private Book book;
 
@@ -39,7 +36,7 @@ public class BookCopiesTableModel extends AbstractTableModel implements
 		return 4;
 	}
 
-	@Override 
+	@Override
 	public int getRowCount() {
 		if (lib == null)
 			return 0;
@@ -62,6 +59,8 @@ public class BookCopiesTableModel extends AbstractTableModel implements
 		}
 		switch (column) {
 
+		case 0:
+			return lib.getCopiesOfBook(book).get(row).getInventoryNumber();
 		case 1:
 			if (lib.isCopyLent(lib.getCopiesOfBook(book).get(row))) {
 				return Messages.getString("Domain.Book.Unavailable") + " / "
@@ -79,13 +78,11 @@ public class BookCopiesTableModel extends AbstractTableModel implements
 			for (Loan l : lib.getOpenLoans()) {
 				if (l.getCopy() == lib.getCopiesOfBook(book).get(row)) {
 					return l.getCustomer().getName() + " "
-							+ l.getCustomer().getSurname() + " (" + l.getdueDatetoString() + ")";
+							+ l.getCustomer().getSurname() + " ("
+							+ l.getdueDatetoString() + ")";
 				}
 			}
 			return "";
-		case 0:
-			return myFormat.format(lib.getCopiesOfBook(book).get(row).getInventoryNumber());
-
 		default:
 			return "";
 		}
