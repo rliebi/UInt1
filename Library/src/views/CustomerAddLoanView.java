@@ -1,7 +1,6 @@
 package views;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -12,9 +11,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
-import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
@@ -26,14 +25,12 @@ import com.jgoodies.forms.builder.ButtonBarBuilder;
 import components.MySearchField;
 
 import settings.Icons;
-import viewModels.BookCopiesTableModel;
 import viewModels.CopiesTableModel;
 import viewModels.CustomerCopiesTableModel;
-import views.AbstractEditor.CancelAction;
-import views.AbstractEditor.OkAction;
 
 import domain.Customer;
 import domain.Library;
+import domain.Loan;
 
 public class CustomerAddLoanView extends AbstractViewer {
 
@@ -46,14 +43,15 @@ public class CustomerAddLoanView extends AbstractViewer {
 	private JTable loanTable;
 	private Library library;
 	private Customer customer;
-	private java.util.List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
+	private List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
 			3);
-	
+	private List<Loan> newLoanList = new ArrayList<Loan>();
+
 	/**
 	 * Create the dialog.
 	 */
 	public CustomerAddLoanView(Customer customer, Library library) {
-		
+
 		this.customer = customer;
 		this.library = library;
 		createView();
@@ -66,10 +64,12 @@ public class CustomerAddLoanView extends AbstractViewer {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWidths = new int[] { 0, 0, 0, 0 };
+		gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_contentPanel.columnWeights = new double[] { 1.0, 1.0, 0.0,
+				Double.MIN_VALUE };
+		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0,
+				Double.MIN_VALUE };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblCustomer = new JLabel("Customer:");
@@ -87,9 +87,10 @@ public class CustomerAddLoanView extends AbstractViewer {
 			gbc_lblcustomername.gridy = 0;
 			contentPanel.add(lblcustomername, gbc_lblcustomername);
 		}
-		
+
 		{
-			JButton btnAddLoan = new JButton("Add");
+			JButton btnAddLoan = new JButton(new AddAction());
+
 			GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 			gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
 			gbc_btnAdd.gridx = 2;
@@ -108,7 +109,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 			{
 				copiesTable = new JTable(new CopiesTableModel(library));
 				copiesScrollPane.setViewportView(copiesTable);
-				
+
 			}
 		}
 		{
@@ -121,14 +122,15 @@ public class CustomerAddLoanView extends AbstractViewer {
 			gbc_scrollPane.gridy = 3;
 			contentPanel.add(loanScrollPane, gbc_scrollPane);
 			{
-				loanTable = new JTable(new CustomerCopiesTableModel(library, customer));
+				loanTable = new JTable(new CustomerCopiesTableModel(library,
+						customer));
 				loanScrollPane.setViewportView(loanTable);
 			}
 		}
 		{
 			JPanel buttonPane = buttonPanel();
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			
+
 		}
 		{
 			searchfield = new MySearchField(copiesTable, 1, filters_customer);
@@ -142,6 +144,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 			searchfield.setColumns(10);
 		}
 	}
+
 	protected final JPanel buttonPanel() {
 		JButton closeBtn = new JButton();
 		closeBtn.setAction(new CancelAction());
@@ -160,6 +163,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 		button_panel.add(buttonBar.build(), BorderLayout.EAST);
 		return button_panel;
 	}
+
 	protected final class OkAction extends AbstractAction {
 		/**
 		 * 
@@ -175,6 +179,25 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 	}
 
+	protected final class AddAction extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private AddAction() {
+			super("Ok");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			newLoanList.add(library.createAndAddLoan(
+					customer,
+					library.getCopies().get(
+							copiesTable.convertRowIndexToModel(copiesTable
+									.getSelectedRow()))));
+		}
+	}
+
 	protected final class CancelAction extends AbstractAction {
 		/**
 		 * 
@@ -186,15 +209,14 @@ public class CustomerAddLoanView extends AbstractViewer {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			setInvalid();
-			
-
+			for (Loan l : newLoanList) {
+				l.unreturnCopy();
+			}
 
 		}
 
 		private void setInvalid() {
-			
-			
+
 		}
 
 	}
