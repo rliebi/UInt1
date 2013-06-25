@@ -7,8 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 import components.IconCellRenderer;
 import components.LibraryExcption;
@@ -35,7 +33,6 @@ import components.MySearchField;
 import settings.Icons;
 import viewModels.BookTableModel;
 import views.BookViewer;
-import views.MasterView;
 import domain.Book;
 import domain.Library;
 
