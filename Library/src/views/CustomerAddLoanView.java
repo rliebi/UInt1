@@ -1,13 +1,8 @@
 package views;
 
 import java.awt.BorderLayout;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -15,23 +10,22 @@ import java.util.List;
 import java.util.Stack;
 
 import javax.swing.AbstractAction;
-
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
+import javax.swing.border.EmptyBorder;
 
 import localization.Messages;
-
-import com.jgoodies.forms.builder.ButtonBarBuilder;
-
-import components.ComboBoxCellRenderer;
-import components.MyJTable;
-import components.MySearchField;
-
 import settings.Icons;
 import viewModels.CopiesTableModel;
 import viewModels.CustomerCopiesTableModel;
 
-import domain.Copy;
+import com.jgoodies.forms.builder.ButtonBarBuilder;
+import components.MyJTable;
+import components.MySearchField;
+
 import domain.Customer;
 import domain.Library;
 import domain.Loan;
@@ -239,11 +233,9 @@ public class CustomerAddLoanView extends AbstractViewer {
 
 	}
 
-	private void setModel() {
-		copiesTable
-				.getColumnModel()
-				.getColumn(1)
-				.setCellRenderer(
-						new ComboBoxCellRenderer(Copy.Condition.values()));
+	private void setModel(){
+		copiesTable.getColumnModel().getColumn(0).setMaxWidth(40);
+		copiesTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+
 	}
 }

@@ -1,5 +1,6 @@
 package viewModels;
 
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,7 +9,6 @@ import javax.swing.table.AbstractTableModel;
 import localization.Messages;
 import domain.Copy.Condition;
 import domain.Library;
-import domain.Loan;
 
 public class CopiesTableModel extends AbstractTableModel implements
 		Observer {
@@ -17,6 +17,7 @@ public class CopiesTableModel extends AbstractTableModel implements
 	 * 
 	 */
 	private static final long serialVersionUID = -5278540270938445385L;
+	private static final DecimalFormat myFormat = new DecimalFormat("000");
 	private Library lib;
 
 	public CopiesTableModel(Library lib) {
@@ -58,7 +59,7 @@ public class CopiesTableModel extends AbstractTableModel implements
 		switch (column) {
 
 		case 0:
-			return lib.getCopies().get(row).getInventoryNumber();
+			return myFormat.format(lib.getCopies().get(row).getInventoryNumber());
 		case 1:
 			if (lib.isCopyLent(lib.getCopies().get(row))) {
 				return Messages.getString("Domain.Book.Unavailable") + " / "
