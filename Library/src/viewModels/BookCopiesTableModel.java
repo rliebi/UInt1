@@ -12,7 +12,8 @@ import domain.Copy.Condition;
 import domain.Library;
 import domain.Loan;
 
-public class BookCopiesTableModel extends AbstractTableModel implements Observer {
+public class BookCopiesTableModel extends AbstractTableModel implements
+		Observer {
 
 	/**
 	 * 
@@ -36,9 +37,10 @@ public class BookCopiesTableModel extends AbstractTableModel implements Observer
 		return 4;
 	}
 
-	@Override
+	@Override 
 	public int getRowCount() {
-		if (lib == null) return 0; 
+		if (lib == null)
+			return 0;
 		return lib.getCopiesOfBook(book).size();
 	}
 
@@ -53,16 +55,18 @@ public class BookCopiesTableModel extends AbstractTableModel implements Observer
 	// this method is called to set the value of each cell
 	@Override
 	public Object getValueAt(int row, int column) {
-		if(row == -1){
+		if (row == -1) {
 			return "";
 		}
 		switch (column) {
 
 		case 1:
 			if (lib.isCopyLent(lib.getCopiesOfBook(book).get(row))) {
-				return Messages.getString("Domain.Book.Unavailable") + " / " + Messages.getString("Domain.Book.Lent");
+				return Messages.getString("Domain.Book.Unavailable") + " / "
+						+ Messages.getString("Domain.Book.Lent");
 			} else if (!lib.getCopiesOfBook(book).get(row).isInLendable()) {
-				return Messages.getString("Domain.Book.Unavailable") + " / " + Messages.getString("Domain.Book.BadCondition");
+				return Messages.getString("Domain.Book.Unavailable") + " / "
+						+ Messages.getString("Domain.Book.BadCondition");
 			} else {
 				return Messages.getString("Domain.Book.Available");
 			}
@@ -70,9 +74,10 @@ public class BookCopiesTableModel extends AbstractTableModel implements Observer
 		case 3:
 			return lib.getCopiesOfBook(book).get(row).getCondition();
 		case 2:
-			for (Loan l: lib.getOpenLoans()) {
+			for (Loan l : lib.getOpenLoans()) {
 				if (l.getCopy() == lib.getCopiesOfBook(book).get(row)) {
-					return  l.getCustomer().getName() + " " + l.getCustomer().getSurname();
+					return l.getCustomer().getName() + " "
+							+ l.getCustomer().getSurname() + " (" + l.getdueDatetoString() + ")";
 				}
 			}
 			return "";
@@ -82,7 +87,7 @@ public class BookCopiesTableModel extends AbstractTableModel implements Observer
 		default:
 			return "";
 		}
-		
+
 	}
 
 	@Override

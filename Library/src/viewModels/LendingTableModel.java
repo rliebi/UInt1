@@ -1,5 +1,6 @@
 package viewModels;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
@@ -13,6 +14,7 @@ import domain.Loan;
 public class LendingTableModel extends AbstractTableModel implements Observer{
 	private static final long serialVersionUID = -5278540270938445385L;
 	private static final SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy");
+	private static final DecimalFormat myFormat = new DecimalFormat("000");
 	
 	private Library library;
 
@@ -45,7 +47,7 @@ public class LendingTableModel extends AbstractTableModel implements Observer{
 				daysOverdue += ")";
 				return Messages.getString("Domain.Loan.Overdue") + " " + daysOverdue;}
 		case 0:
-			return entity.getCopy().getInventoryNumber();
+			return myFormat.format(entity.getCopy().getInventoryNumber());
 		case 3:
 			return entity.getCopy().getTitle();
 		case 2:
