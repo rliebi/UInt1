@@ -138,10 +138,11 @@ public class CustomerPanel extends AbstractPanel {
 		customer_table.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
 					arg0.consume();
 					openEditCustomerWindow();
 				}
+			
 			}
 		});
 		customer_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

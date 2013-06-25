@@ -64,8 +64,7 @@ public class CustomerEditor extends AbstractEditor {
 		builder.add(buttonPanel(),cc.xyw(6, 9, 1));
 		d.getContentPane().add(builder.getPanel());
 		d.setPreferredSize(builder.getPanel().getPreferredSize());
-		d.setMinimumSize(new Dimension(400,200));
-		d.setModal(true);
+		d.setMinimumSize(new Dimension(400,170));
 		d.setVisible(true);
 
 	}

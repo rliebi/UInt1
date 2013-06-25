@@ -55,7 +55,6 @@ public class MasterView extends JComponent {
 					@Override
 					public boolean postProcessKeyEvent(KeyEvent key) {
 						if (key.getID() == KeyEvent.KEY_PRESSED) {
-
 							if (openWindowStack.size() == 1) {
 								if ((key.getKeyCode() == KeyEvent.VK_TAB || (key
 										.isControlDown() && key.getKeyCode() == KeyEvent.VK_W))) {
@@ -154,6 +153,7 @@ public class MasterView extends JComponent {
 	public static void setWindowOpen(Window w) {
 		openWindowStack.add(w);
 		setWindowBehaviour(w, true);
+		
 	}
 
 	public static void setWindowClose() {
