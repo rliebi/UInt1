@@ -35,7 +35,7 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 	}
 	@Override
 	public int getColumnCount() {
-		return 5;
+		return 6;
 	}
 
 	@Override
@@ -81,6 +81,9 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 			}
 			ret = l.toString();
 			break;
+		case 5:
+			ret = bookList.get(arg0).getShelf();
+			break;
 		default:
 			ret = 0;
 		}
@@ -106,6 +109,10 @@ public class BookTableModel extends AbstractTableModel implements Observer{
 			break;
 		case 4:
 			ret = "";
+			break;
+		case 5:
+			ret = Messages.getString("Domain.Book.shelf");
+			break;
 		default:
 			ret = null;
 		}

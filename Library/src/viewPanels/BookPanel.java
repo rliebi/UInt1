@@ -253,6 +253,8 @@ public class BookPanel extends AbstractPanel {
 		book_table.getColumnModel().getColumn(3).setMaxWidth(200);
 		book_table.getColumnModel().getColumn(3).setPreferredWidth(120);
 		book_table.getColumnModel().getColumn(3).setMinWidth(120);
+		book_table.getColumnModel().getColumn(5).setMaxWidth(50);
+
 		book_table.removeColumn(book_table.getColumnModel().getColumn(4));
 	}
 
