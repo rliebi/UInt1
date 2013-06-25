@@ -49,8 +49,10 @@ public abstract class AbstractViewer extends JDialog {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-//				MasterView.setWindowClose();
-//				System.out.println("Close");
+				if (!windowClosed){
+					MasterView.setWindowClose();
+					windowClosed = true;
+				}
 
 			}
 
