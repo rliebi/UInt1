@@ -49,7 +49,6 @@ public class MasterView extends JComponent {
 		openWindowStack = new Stack<Window>();
 		initialize();
 		frame.setVisible(true);
-
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventPostProcessor(new KeyEventPostProcessor() {
 					@Override
