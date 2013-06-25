@@ -167,7 +167,7 @@ public class CopyPanel extends AbstractPanel {
 		buttonBar.addButton(closeBtn);
 		south_panel.add(buttonBar.build(), BorderLayout.EAST);
 		for (int i = 0; i < table.getRowCount(); i++) {
-			int rightNr = (int) table.getModel().getValueAt(i, 0) -1;
+			int rightNr = (Integer) table.getModel().getValueAt(i, 0) -1;
 			if (library.isCopyLendable(library.getCopies().get(rightNr))){
 				table.setRowSelectionInterval(i, i);
 				System.out.println(library.getCopies().get(rightNr).getInventoryNumber() + " is Lendable");
