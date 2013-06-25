@@ -14,13 +14,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableRowSorter;
 
 import localization.Messages;
 import settings.Icons;
 import viewModels.CopiesTableModel;
 import viewModels.CustomerCopiesTableModel;
+import viewModels.LendingTableModel;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import components.MyJTable;
@@ -41,8 +44,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 	private MyJTable loanTable;
 	private Library library;
 	private Customer customer;
-	private List<RowFilter<Object, Object>> filters_customer = new ArrayList<RowFilter<Object, Object>>(
-			3);
+	private List<RowFilter<Object, Object>> copyFilters = new ArrayList<RowFilter<Object, Object>>(1);
 	private Stack<Loan> newLoanList = new Stack<Loan>();
 	private JButton btnAddLoan;
 
@@ -141,7 +143,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 
 		}
 		{
-			searchfield = new MySearchField(copiesTable, 1, filters_customer);
+			searchfield = new MySearchField(copiesTable, 1, copyFilters);
 			GridBagConstraints gbc_txtSearchfield = new GridBagConstraints();
 			gbc_txtSearchfield.gridwidth = 2;
 			gbc_txtSearchfield.insets = new Insets(0, 0, 5, 5);
@@ -150,6 +152,27 @@ public class CustomerAddLoanView extends AbstractViewer {
 			gbc_txtSearchfield.gridy = 1;
 			contentPanel.add(searchfield, gbc_txtSearchfield);
 			searchfield.setColumns(10);
+		}
+
+		{
+			RowFilter<Object, Object> excludeUnavailable = new RowFilter<Object, Object>() {
+				public boolean include(
+						Entry<? extends Object, ? extends Object> entry) {
+					if (entry.getValue(1) != Messages.getString("Domain.Book.Available"))
+						return false;
+					return true;
+				}
+			};
+			copyFilters.add(excludeUnavailable);
+
+		}
+		{
+			@SuppressWarnings("unchecked")
+			TableRowSorter<LendingTableModel> sorter = (TableRowSorter<LendingTableModel>) copiesTable.getRowSorter();
+
+			RowFilter<Object,Object> serviceFilter = RowFilter.andFilter(copyFilters);  
+
+			sorter.setRowFilter(serviceFilter);
 		}
 		setModel();
 	}
@@ -233,7 +256,7 @@ public class CustomerAddLoanView extends AbstractViewer {
 
 	}
 
-	private void setModel(){
+	private void setModel() {
 		copiesTable.getColumnModel().getColumn(0).setMaxWidth(40);
 		copiesTable.getColumnModel().getColumn(0).setPreferredWidth(40);
 		
@@ -242,6 +265,10 @@ public class CustomerAddLoanView extends AbstractViewer {
 		
 		copiesTable.getColumnModel().getColumn(3).setMaxWidth(80);
 		copiesTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+
+		
+		copiesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		copiesTable.removeColumn(copiesTable.getColumnModel().getColumn(1));
 
 	}
 }

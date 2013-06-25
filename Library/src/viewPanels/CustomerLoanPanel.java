@@ -21,12 +21,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import localization.Messages;
-
-import domain.Customer;
-import domain.Loan;
-import domain.Library;
-import domain.Setting;
-
 import settings.Icons;
 import viewModels.CustomerCopiesTableModel;
 import views.CustomerAddLoanView;
@@ -38,6 +32,9 @@ import components.IconCellRenderer;
 import components.MyJTable;
 
 import controller.TableSelectListener;
+import domain.Customer;
+import domain.Library;
+import domain.Loan;
 
 public class CustomerLoanPanel extends JPanel {
 	/**

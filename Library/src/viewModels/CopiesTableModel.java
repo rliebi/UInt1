@@ -43,11 +43,7 @@ public class CopiesTableModel extends AbstractTableModel implements
 	}
 
 	public boolean isCellEditable(int row, int col) {
-		if (col == 3) {
-			return true;
-		} else {
-			return false;
-		}
+		return false;
 	}
 
 	// this method is called to set the value of each cell
