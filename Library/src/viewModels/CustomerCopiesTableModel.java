@@ -33,7 +33,7 @@ public class CustomerCopiesTableModel extends AbstractTableModel implements Obse
 
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -65,10 +65,12 @@ public class CustomerCopiesTableModel extends AbstractTableModel implements Obse
 				daysOverdue += ")";
 				return Messages.getString("Domain.Loan.Overdue") + " " + daysOverdue;
 			}
-		case 3:
-			return lib.getCustomerOngoingLoans(customer).get(row).getCopy().getTitle().getName();
 		case 2:
 			return lib.getCustomerOngoingLoans(customer).get(row).getPickupDate().getTime();
+		case 3:
+			return lib.getCustomerOngoingLoans(customer).get(row).getdueDatetoString();
+		case 4:
+			return lib.getCustomerOngoingLoans(customer).get(row).getCopy().getTitle().getName();
 
 
 		default:
@@ -95,6 +97,8 @@ public class CustomerCopiesTableModel extends AbstractTableModel implements Obse
 		case 2:
 			return Messages.getString("Domain.Loan.pickupDate");
 		case 3:
+			return "Due Date";
+		case 4:
 			return Messages.getString("Domain.Book.title");
 		default:
 			return null;
