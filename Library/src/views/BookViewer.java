@@ -53,10 +53,6 @@ public class BookViewer extends AbstractViewer implements Observer {
 		init();
 		updateBookLabels();
 		createWindow();
-		if (book.isInvalid()){
-			dispose();
-			throw new LibraryExcption();
-		}
 	}
 
 	/**
