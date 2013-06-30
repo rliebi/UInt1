@@ -30,7 +30,7 @@ public abstract class AbstractEditor {
 	protected JDialog d = new JDialog();
 	protected ValidationResult validationResult = new ValidationResult();
 
-	private boolean valid = true;
+	private boolean valid = false;
 
 	public AbstractEditor(Component p) {
 		super();
@@ -158,6 +158,7 @@ public abstract class AbstractEditor {
 			validate();
 			validationResultModel.setResult(validationResult);
 			if (!validationResultModel.hasErrors()) {
+				valid = true;
 				saveTask();
 				
 

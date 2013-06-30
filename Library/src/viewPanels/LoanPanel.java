@@ -34,8 +34,6 @@ import components.MySearchField;
 import domain.Library;
 import domain.Loan;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -148,15 +146,16 @@ public class LoanPanel extends AbstractPanel{
 				
 			}
 		});
-		lending_table.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
-					arg0.consume();
-					openEditLoanWindow();
-				}
-			}
-		});
+//		lending_table.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyPressed(KeyEvent arg0) {
+//				if(arg0.getKeyCode()==KeyEvent.VK_ENTER){
+//					arg0.consume();
+//					openEditLoanWindow();
+//				}
+//			}
+//		});
+
 		lending_table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		ListSelectionModel listSelectionModel = lending_table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {

@@ -17,16 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import localization.Messages;
-
-
-import domain.Customer;
-import domain.Loan;
-import domain.Library;
-
 import settings.Icons;
 import viewModels.CustomerCopiesTableModel;
+import views.CustomerAddLoanView;
 import views.ReturnLoanView;
 import views.ReturnMultipleLoansView;
 
@@ -35,7 +32,9 @@ import components.IconCellRenderer;
 import components.MyJTable;
 
 import controller.TableSelectListener;
-
+import domain.Customer;
+import domain.Library;
+import domain.Loan;
 
 public class CustomerLoanPanel extends JPanel {
 	/**
@@ -59,10 +58,12 @@ public class CustomerLoanPanel extends JPanel {
 		this.library = library2;
 		this.customer = customer;
 		this.parent = p;
-		table = new MyJTable(new CustomerCopiesTableModel(library, this.customer));
+		table = new MyJTable(new CustomerCopiesTableModel(library,
+				this.customer));
 		init();
-		
+
 	}
+
 	private void init() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
@@ -94,15 +95,27 @@ public class CustomerLoanPanel extends JPanel {
 		gbc_table_panel.gridy = 0;
 		north_panel.add(table_panel, gbc_table_panel);
 
-		
 		createtableScrollPane(table_panel).setViewportView(table);
 		setModel();
 		button_panel = new JPanel();
 		table_panel.add(button_panel, BorderLayout.NORTH);
 		ButtonBarBuilder addRemoveCopy = new ButtonBarBuilder();
-		
-		
-		
+		final JButton addLoanBtn = new JButton();
+
+		addLoanBtn.setAction(new AddLoanAction());
+		addLoanBtn.setIcon(Icons.IconEnum.ADDLOAN.getIcon(16));
+		addLoanBtn.setText(Messages.getString("CopyPanel.btnAddloan.text"));
+		table.getModel().addTableModelListener(new TableModelListener() {
+
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				setAddLoanButtonState(addLoanBtn);
+
+			}
+
+		});
+		setAddLoanButtonState(addLoanBtn);
+
 		JButton returnLoanBtn = new JButton();
 		returnLoanBtn.setAction(new ReturnAction());
 		returnLoanBtn.setIcon(Icons.IconEnum.CLOSELOAN.getIcon(16));
@@ -110,9 +123,11 @@ public class CustomerLoanPanel extends JPanel {
 				.getString("CopyPanel.btnReturnLoan.text"));
 		returnLoanBtn.setEnabled(false);
 
-		table.getSelectionModel().addListSelectionListener(new TableSelectListener(table, returnLoanBtn, returnLoanBtn.getText(), false));
-		
-		addRemoveCopy.addButton(returnLoanBtn);
+		table.getSelectionModel().addListSelectionListener(
+				new TableSelectListener(table, returnLoanBtn, returnLoanBtn
+						.getText(), false));
+
+		addRemoveCopy.addButton(returnLoanBtn, addLoanBtn);
 		button_panel.setLayout(new BorderLayout(0, 0));
 		button_panel.add(addRemoveCopy.build(), BorderLayout.EAST);
 
@@ -138,7 +153,8 @@ public class CustomerLoanPanel extends JPanel {
 	 */
 	private void setModel() {
 
-		table.getColumnModel().getColumn(0).setCellRenderer(new IconCellRenderer());
+		table.getColumnModel().getColumn(0)
+				.setCellRenderer(new IconCellRenderer());
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		table.getColumnModel().getColumn(0).setPreferredWidth(60);
 		table.getColumnModel().getColumn(1).setPreferredWidth(40);
@@ -159,7 +175,6 @@ public class CustomerLoanPanel extends JPanel {
 		return scrollPane;
 	}
 
-	
 	private final class ReturnAction extends AbstractAction {
 		/**
 		 * 
@@ -172,21 +187,22 @@ public class CustomerLoanPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (table.getSelectedRowCount()==1) {
-//				int rightNr =getSelectedCopies().get(0);
-				new ReturnLoanView(library, library.getCustomerOngoingLoans(customer).get(0)).setVisible(true);
+			if (table.getSelectedRowCount() == 1) {
+				// int rightNr =getSelectedCopies().get(0);
+				new ReturnLoanView(library, library.getCustomerOngoingLoans(
+						customer).get(0)).setVisible(true);
 			}
-			if (table.getSelectedRowCount()>1) {
+			if (table.getSelectedRowCount() > 1) {
 				List<Loan> loanList = new ArrayList<Loan>();
-				for (int i: table.getSelectedRows()) {
-					loanList.add(library.getCustomerOngoingLoans(customer).get(i));
+				for (int i : table.getSelectedRows()) {
+					loanList.add(library.getCustomerOngoingLoans(customer).get(
+							i));
 				}
 				new ReturnMultipleLoansView(library, loanList).setVisible(true);
 			}
 		}
 	}
-	
-	
+
 	private final class CloseLoanAction extends AbstractAction {
 		/**
 		 * 
@@ -204,12 +220,35 @@ public class CustomerLoanPanel extends JPanel {
 
 		}
 	}
-	protected CustomerLoanPanel getCopyPanel(){
+
+	private void setAddLoanButtonState(final JButton addLoanBtn) {
+		if (library.isCustomerTrustworthy(customer))
+			addLoanBtn.setEnabled(true);
+		else
+			addLoanBtn.setEnabled(false);
+	}
+
+	private final class AddLoanAction extends AbstractAction {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5190401524732242389L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new CustomerAddLoanView(customer, library);
+		}
+
+	}
+
+	protected CustomerLoanPanel getCopyPanel() {
 		return this;
 	}
+
 	protected Stack<Loan> getSelectedCopies() {
 		Stack<Loan> loans = new Stack<Loan>();
-		if (table.getSelectedRowCount() > 1){
+		if (table.getSelectedRowCount() > 1) {
 			int[] rows = table.getSelectedRows();
 			Loan c = null;
 			for (int i : rows) {
@@ -226,20 +265,18 @@ public class CustomerLoanPanel extends JPanel {
 
 	public CustomerLoanPanel(LayoutManager layout) {
 		super(layout);
-	
+
 	}
 
 	public CustomerLoanPanel(boolean isDoubleBuffered) {
 		super(isDoubleBuffered);
-	
+
 	}
 
 	public CustomerLoanPanel(LayoutManager layout, boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
-	
+
 	}
-
-
 
 	private void dispose() {
 		parent.dispose();

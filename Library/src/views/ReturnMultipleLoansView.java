@@ -161,15 +161,13 @@ public class ReturnMultipleLoansView extends AbstractViewer {
 							for (String i : customeroverdue) {
 								confirmationMessage += i;
 							}
-							JOptionPane.showMessageDialog(MasterView.getFrontWindow(),
-									confirmationMessage, confirmationTitle,
-									JOptionPane.NO_OPTION,
-									Icons.IconEnum.INFORMATION.getIcon(48));
+//							JOptionPane.showMessageDialog(MasterView.getFrontWindow(),
+//									confirmationMessage, confirmationTitle,
+//									JOptionPane.NO_OPTION,
+//									Icons.IconEnum.INFORMATION.getIcon(48));
 						}
 						try {
 							for (Loan selectedLoan : selectedLoanList) {
-								System.out.println(selectedLoan.getCopy()
-										.getInventoryNumber());
 								library.returnCopy(selectedLoan, date);
 							}
 						} catch (IllegalLoanOperationException e) {
@@ -180,10 +178,10 @@ public class ReturnMultipleLoansView extends AbstractViewer {
 						confirmationMessage = Messages
 								.getString("Tooltip.ValditionSuccessTitle");
 						dispose();
-						JOptionPane.showMessageDialog(null,
-								confirmationMessage, confirmationTitle,
-								JOptionPane.NO_OPTION,
-								Icons.IconEnum.OK.getIcon(48));
+////						JOptionPane.showMessageDialog(null,
+//								confirmationMessage, confirmationTitle,
+//								JOptionPane.NO_OPTION,
+//								Icons.IconEnum.OK.getIcon(48));
 					}
 				}
 

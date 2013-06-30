@@ -217,7 +217,7 @@ public class CustomerPanel extends AbstractPanel {
 		customer_table.setModel(new CustomerTableModel(library));
 		customer_table.getColumnModel().getColumn(0).setMaxWidth(90);
 		customer_table.getColumnModel().getColumn(0).setPreferredWidth(90);
-		customer_table.getColumnModel().getColumn(1).setMaxWidth(30);
+		customer_table.getColumnModel().getColumn(1).setMaxWidth(40);
 		customer_table.getColumnModel().getColumn(2).setPreferredWidth(100);
 		customer_table.getColumnModel().getColumn(3).setPreferredWidth(100);
 		customer_table.getColumnModel().getColumn(4).setPreferredWidth(100);

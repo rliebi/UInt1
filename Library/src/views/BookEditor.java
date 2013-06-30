@@ -34,7 +34,7 @@ public class BookEditor extends AbstractEditor {
 		this.author.setText(book.getAuthor());
 		this.publisher.setText(book.getPublisher());
 		this.shelf.setSelectedItem(book.getShelf());
-		d.setTitle(Messages.getString("CreateNewBook.title"));
+		d.setTitle(Messages.getString("EditBook.title"));
 
 		createPanel();
 
@@ -44,8 +44,9 @@ public class BookEditor extends AbstractEditor {
 		super(p);
 		this.book = new Book("");
 		newBook = true;
+		
 		this.library = library;
-		d.setTitle(Messages.getString("EditBook.title"));
+		d.setTitle(Messages.getString("CreateNewBook.title"));
 
 		createPanel();
 
@@ -103,8 +104,9 @@ public class BookEditor extends AbstractEditor {
 	@Override
 	protected void saveTask() {
 		saveToBook();
-		if (newBook)
+		if (newBook){
 			library.addBook(book);
+		}
 		d.dispose();
 	}
 

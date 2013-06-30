@@ -1,5 +1,6 @@
 package views;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -43,7 +44,7 @@ public class MasterView extends JComponent {
 	private static Window frontWindow;
 	private static MySearchField activeSearchField;
 	private static Stack<Window> openWindowStack;
-
+	private static JButton defaultButton;
 	private MasterView(Library library) {
 		this.library = library;
 		openWindowStack = new Stack<Window>();
@@ -72,13 +73,18 @@ public class MasterView extends JComponent {
 							}
 
 						}
-
+						if (key.getKeyCode() == KeyEvent.VK_ENTER){
+							defaultButton.doClick();
+						}
 						// Set Focus automatically to searchfield
-						if ((key.getKeyCode() >= KeyEvent.VK_A
+						if (((key.getKeyCode() >= KeyEvent.VK_A
 								&& key.getKeyCode() <= KeyEvent.VK_Z || key
 								.getKeyCode() >= KeyEvent.VK_0
-								&& key.getKeyCode() <= KeyEvent.VK_9)
-								&& activeSearchField != null) {
+								&& key.getKeyCode() <= KeyEvent.VK_9))
+								&& activeSearchField != null && !key.isAltDown()
+								&& !key.isAltGraphDown()
+								&& !key.isControlDown()
+								&& !key.isShiftDown()) {
 
 							if (!activeSearchField.hasFocus()) {
 								activeSearchField.setText(Character
@@ -150,6 +156,10 @@ public class MasterView extends JComponent {
 	}
 
 	public static void setWindowOpen(Window w) {
+		if (openWindowStack.size() > 1) {
+			
+			setWindowBehaviour(openWindowStack.peek(), false);
+		}
 		openWindowStack.add(w);
 		setWindowBehaviour(w, true);		
 	}

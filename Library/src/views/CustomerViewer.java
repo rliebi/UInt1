@@ -65,8 +65,8 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 
 	private void updateLabels() {
 		this.customerFirstName.setText(customer.getName());
-		this.customerStreet.setText(customer.getStreet());
 		this.customerLastName.setText(customer.getSurname());
+		this.customerStreet.setText(customer.getStreet());
 		try {
 			this.customerCity.setText(customer.getZip() + " "
 					+ customer.getCity());
@@ -125,20 +125,20 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 		customerStreet = new JLabel("New label");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
-
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_1.gridx = 0;
-		gbc_lblNewLabel_1.gridy = 2;
-		panel.add(customerStreet, gbc_lblNewLabel_1);
-
+		
 		customerFirstName = new JLabel("New label");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
 
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_1.gridx = 0;
+		gbc_lblNewLabel_1.gridy = 2;
+		panel.add(customerFirstName, gbc_lblNewLabel_1);
+
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_2.gridx = 0;
 		gbc_lblNewLabel_2.gridy = 3;
-		panel.add(customerFirstName, gbc_lblNewLabel_2);
+		panel.add(customerStreet, gbc_lblNewLabel_2);
 
 		customerCity = new JLabel("New label");
 		customerCity.setHorizontalAlignment(SwingConstants.LEFT);
@@ -178,6 +178,7 @@ public class CustomerViewer extends AbstractViewer implements Observer {
 		GridBagConstraints gbc_copyPanel = new GridBagConstraints();
 		gbc_copyPanel.fill = GridBagConstraints.BOTH;
 		panel_1.add(copyPanel, gbc_copyPanel);
+		
 
 	}
 

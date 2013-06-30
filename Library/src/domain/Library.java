@@ -90,7 +90,7 @@ public class Library extends Observable implements Observer {
 		Copy c = new Copy(title);
 		c.addObserver(this);
 		copies.add(c);
-//		c.fireChange(LibraryEvent.added);
+		// c.fireChange(LibraryEvent.added);
 		fireChanged();
 		return c;
 	}
@@ -101,12 +101,12 @@ public class Library extends Observable implements Observer {
 		return returnval;
 	}
 
-	
 	public void removeCopies(List<Copy> c) {
-		for (Copy copy: c) {
+		for (Copy copy : c) {
 			removeCopy(copy);
 		}
 	}
+
 	public Book findByBookTitle(String title) {
 		for (Book b : books) {
 			if (b.getName().equals(title)) {
@@ -201,7 +201,7 @@ public class Library extends Observable implements Observer {
 	private List<Copy> getCopies(boolean isLent) {
 		List<Copy> retCopies = new ArrayList<Copy>();
 		for (Copy c : copies) {
-			if (isLent == isCopyLent(c)  && c.isInLendable()) {
+			if (isLent == isCopyLent(c) && c.isInLendable()) {
 				retCopies.add(c);
 			}
 		}
@@ -234,18 +234,20 @@ public class Library extends Observable implements Observer {
 
 	public List<Loan> getOpenLoans() {
 		List<Loan> ret = new ArrayList<Loan>();
-		for(Loan l: loans) {
-			if (l.isLent()) ret.add(l);
+		for (Loan l : loans) {
+			if (l.isLent())
+				ret.add(l);
 		}
 		return ret;
 	}
 
-	public void returnCopy(Loan loan, GregorianCalendar date) throws IllegalLoanOperationException {
+	public void returnCopy(Loan loan, GregorianCalendar date)
+			throws IllegalLoanOperationException {
 		loan.returnCopy(date);
 		fireChanged();
 	}
-	
-	public boolean isCopyLendable(Copy c){
+
+	public boolean isCopyLendable(Copy c) {
 		if (isCopyLent(c)) {
 			return false;
 		} else if (!c.isInLendable()) {
@@ -253,5 +255,16 @@ public class Library extends Observable implements Observer {
 		} else {
 			return true;
 		}
+	}
+
+	public boolean isCustomerTrustworthy(Customer customer) {
+		List<Loan> list = getCustomerOngoingLoans(customer);
+		for (Loan loan : list) {
+			if (loan.isOverdue())
+				return false;
+		}
+		if (list.size() >= Setting.getMaxBorrowsPerCustomer())
+			return false;
+		return true;
 	}
 }

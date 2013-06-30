@@ -181,8 +181,7 @@ public class ReturnLoanView extends AbstractViewer {
 		contentPane.add(pnlButtons, BorderLayout.SOUTH);
 
 		final JButton btnSave = new JButton(
-				Messages.getString("Domain.Loan.OK"));
-		pnlButtons.add(btnSave);
+				Messages.getString("Global.btnSave.title"));
 		btnSave.setIcon(Icons.IconEnum.SAVE.getIcon(24));
 
 		btnSave.addActionListener(new ActionListener() {
@@ -228,6 +227,8 @@ public class ReturnLoanView extends AbstractViewer {
 		JButton btnCancel = new JButton(
 				Messages.getString("Global.btnCancel.title"));
 		pnlButtons.add(btnCancel);
+		pnlButtons.add(btnSave);
+
 		btnCancel.setIcon(Icons.IconEnum.CANCEL.getIcon(24));
 		btnCancel.addActionListener(new ActionListener() {
 
